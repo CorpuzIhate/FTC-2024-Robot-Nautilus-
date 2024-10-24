@@ -30,7 +30,6 @@ import Command_Based_TeleOp_2024_08_17.Subsystems.VacuumSubsystem;
 public class RobotContainer extends CommandOpMode {
 
 
-    private BNO055IMU imu;
 
 
     double fwdPwr;
@@ -43,7 +42,7 @@ public class RobotContainer extends CommandOpMode {
     Motor backRight;
     Motor shoulderMotor;
 
-    ServoEx targetVacuumServo;
+
     CRServo ContinousVacuumServo;
 
     private MecanumDriveBaseSubsystem mecanumDriveBaseSub;
@@ -68,7 +67,6 @@ public class RobotContainer extends CommandOpMode {
         strafePwr = -gamepad1.left_stick_x;
         rotationPwr = -gamepad1.right_stick_x;
 
-        //TODO sensor and IMU setups into their subsystem
         //TODO put constant tags into constants
         frontLeft = new Motor(hardwareMap, "front_left");
         frontRight = new Motor(hardwareMap, "front_right");
@@ -97,17 +95,6 @@ public class RobotContainer extends CommandOpMode {
 
 
 
-        BNO055IMU.Parameters myIMUparameters;
-
-        myIMUparameters = new BNO055IMU.Parameters();
-
-
-        myIMUparameters.angleUnit = myIMUparameters.angleUnit.RADIANS;
-
-        myIMUparameters.calibrationDataFile = "BNO055IMUCalibration.json";
-
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
-        imu.initialize(myIMUparameters);
 
         initSubsystems();
         runCommands();

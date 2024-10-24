@@ -1,5 +1,7 @@
 package Command_Based_TeleOp_2024_08_17.Commands;
 
+import static Command_Based_TeleOp_2024_08_17.RobotContainer.armSetpoint;
+
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.command.button.Button;
 import com.arcrobotics.ftclib.command.button.GamepadButton;
@@ -53,22 +55,11 @@ public class MoveShoulderCMD extends CommandBase {
     }
     @Override
     public void execute(){
-        if(m_moveShouldertoUpperPos.get()){
-            currentSetpoint = Constants.ShoulderSetpoints.upperArmPos;;
 
-        }
-        if(m_moveShouldertoMiddlePos.get()){
-            currentSetpoint = Constants.ShoulderSetpoints.middleArmPos;
-
-        }
-        if(m_moveShouldertoBottomPos.get()){
-            currentSetpoint = 0;
-
-        }
 
         m_dashboardTelemetry.addData("position",shoulderMotor.getCurrentPosition());
         m_dashboardTelemetry.addData("setpoint",currentSetpoint);
-        output = feedforward.calculate(shoulderMotor.getCurrentPosition(), currentSetpoint);
+        output = feedforward.calculate(shoulderMotor.getCurrentPosition(), armSetpoint);
 
         m_dashboardTelemetry.update();
         if(feedforward.atSetPoint()){

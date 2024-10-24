@@ -60,7 +60,7 @@ public class RobotContainer extends CommandOpMode {
 
     public GamepadButton moveShouldertoUpperPos;
 
-
+    public static double armSetpoint;
 
     @Override
     public void initialize() {
@@ -128,12 +128,25 @@ public class RobotContainer extends CommandOpMode {
         mecanumDriveBaseSub.setDefaultCommand(new TeleOpJoystickRobotCentricCMD(mecanumDriveBaseSub,
                 telemetryManagerSub.getTelemetryObject(), driverOP::getLeftY, driverOP::getLeftX, driverOP::getRightX));
 
+
+        moveShouldertoUpperPos.whenPressed(new InstantCommand(() -> {
+                    armSetpoint = Constants.ShoulderSetpoints.upperArmPos;
+                }));
+
+        moveShouldertoMiddlePos.whenPressed(new InstantCommand(() -> {
+                    armSetpoint = Constants.ShoulderSetpoints.middleArmPos;
+                }));
+
+        moveShouldertoBottomPos.whenPressed(new InstantCommand(() -> {
+            armSetpoint = 0;
+        }));
+
         shoulderSub.setDefaultCommand(new MoveShoulderCMD(shoulderSub, telemetryManagerSub.getTelemetryObject(),moveShouldertoBottomPos, moveShouldertoMiddlePos, moveShouldertoUpperPos));
+
 
         vacuumButton.whileHeld(new PowerVacuumCMD(vacuumSubsystem, 1,ContinousVacuumServo)).whenReleased(new PowerVacuumCMD(vacuumSubsystem, 0,ContinousVacuumServo));
 
     }
-
 
 
 

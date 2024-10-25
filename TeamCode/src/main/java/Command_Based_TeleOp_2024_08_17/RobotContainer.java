@@ -6,7 +6,6 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.PerpetualCommand;
 import com.arcrobotics.ftclib.command.button.Button;
 import com.arcrobotics.ftclib.command.button.GamepadButton;
-import com.arcrobotics.ftclib.command.button.Trigger;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.arcrobotics.ftclib.hardware.ServoEx;
@@ -16,12 +15,12 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 
-import Command_Based_TeleOp_2024_08_17.Commands.MoveShoulderCMD;
+import Command_Based_TeleOp_2024_08_17.Commands.MoveArmJointCMD;
 import Command_Based_TeleOp_2024_08_17.Commands.PowerVacuumCMD;
 import Command_Based_TeleOp_2024_08_17.Commands.TeleOpJoystickRobotCentricCMD;
 import Command_Based_TeleOp_2024_08_17.Commands.TelemetryManagerCMD;
 import Command_Based_TeleOp_2024_08_17.Subsystems.MecanumDriveBaseSubsystem;
-import Command_Based_TeleOp_2024_08_17.Subsystems.ShoulderSubsystem;
+import Command_Based_TeleOp_2024_08_17.Subsystems.armSubsystem;
 import Command_Based_TeleOp_2024_08_17.Subsystems.TelemetryManagerSubsystem;
 import Command_Based_TeleOp_2024_08_17.Subsystems.VacuumSubsystem;
 
@@ -42,6 +41,7 @@ public class RobotContainer extends CommandOpMode {
     Motor backLeft;
     Motor backRight;
     Motor shoulderMotor;
+    Motor elbowMotor;
 
     ServoEx targetVacuumServo;
     CRServo ContinousVacuumServo;
@@ -51,7 +51,7 @@ public class RobotContainer extends CommandOpMode {
     //TODO refactor Vacuum servos so that they're accessed through the Vacuum sub
 
     private  VacuumSubsystem vacuumSubsystem = new VacuumSubsystem();
-    private ShoulderSubsystem shoulderSub;
+    private armSubsystem armSub;
 
     public GamepadEx driverOP;
     public Button vacuumButton;
@@ -76,6 +76,9 @@ public class RobotContainer extends CommandOpMode {
         backRight = new Motor(hardwareMap, "back_right");
 
         shoulderMotor = new Motor(hardwareMap,"shoulder_motor");
+        shoulderMotor.setRunMode(Motor.RunMode.RawPower);
+
+        elbowMotor = new Motor(hardwareMap,"elbow_motor");
         shoulderMotor.setRunMode(Motor.RunMode.RawPower);
 
         ContinousVacuumServo = new CRServo(hardwareMap, "Vacuum_Servo");
@@ -118,7 +121,7 @@ public class RobotContainer extends CommandOpMode {
         mecanumDriveBaseSub = new MecanumDriveBaseSubsystem(
                 frontLeft, frontRight, backLeft, backRight);
         telemetryManagerSub = new TelemetryManagerSubsystem();
-        shoulderSub = new ShoulderSubsystem(shoulderMotor);
+        armSub = new armSubsystem(shoulderMotor, elbowMotor);
 
 
     }
@@ -141,7 +144,7 @@ public class RobotContainer extends CommandOpMode {
             armSetpoint = 0;
         }));
 
-        shoulderSub.setDefaultCommand(new MoveShoulderCMD(shoulderSub, telemetryManagerSub.getTelemetryObject(),moveShouldertoBottomPos, moveShouldertoMiddlePos, moveShouldertoUpperPos));
+        armSub.setDefaultCommand(new MoveArmJointCMD(armSub, telemetryManagerSub.getTelemetryObject(), armSub.getShoulderJoint()));
 
 
         vacuumButton.whileHeld(new PowerVacuumCMD(vacuumSubsystem, 1,ContinousVacuumServo)).whenReleased(new PowerVacuumCMD(vacuumSubsystem, 0,ContinousVacuumServo));

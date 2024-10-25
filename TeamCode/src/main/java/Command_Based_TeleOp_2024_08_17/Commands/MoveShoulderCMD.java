@@ -40,7 +40,7 @@ public class MoveShoulderCMD extends CommandBase {
         shoulderMotor  = m_shoulderSub.getShoulderMotor();
         feedforward = m_shoulderSub.getShoulderFeedforward();
 
-        shoulderMotor.resetEncoder();
+
         shoulderMotor.setRunMode(Motor.RunMode.RawPower);
 
         m_dashboardTelemetry.addData("kP", Constants.ShoulderPIDConstants.kP);

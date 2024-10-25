@@ -2,11 +2,9 @@ package Command_Based_TeleOp_2024_08_17;
 
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
-import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.PerpetualCommand;
 import com.arcrobotics.ftclib.command.button.Button;
 import com.arcrobotics.ftclib.command.button.GamepadButton;
-import com.arcrobotics.ftclib.command.button.Trigger;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.arcrobotics.ftclib.hardware.ServoEx;
@@ -14,6 +12,8 @@ import com.arcrobotics.ftclib.hardware.motors.CRServo;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.ColorRangeSensor;
+import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 
 
 import Command_Based_TeleOp_2024_08_17.Commands.MoveShoulderCMD;
@@ -50,6 +50,7 @@ public class RobotContainer extends CommandOpMode {
     //TODO refactor Vacuum servos so that they're accessed through the Vacuum sub
 
     private  VacuumSubsystem vacuumSubsystem = new VacuumSubsystem();
+    public ColorRangeSensor vacuumSensor;
     private ShoulderSubsystem shoulderSub;
 
     public GamepadEx driverOP;
@@ -77,6 +78,7 @@ public class RobotContainer extends CommandOpMode {
         shoulderMotor.setRunMode(Motor.RunMode.RawPower);
 
         ContinousVacuumServo = new CRServo(hardwareMap, "Vacuum_Servo");
+        vacuumSensor = hardwareMap.get(ColorRangeSensor.class, "Vaccum_Distance_Sensor");
 
         frontLeft.setRunMode(Motor.RunMode.RawPower);
         frontRight.setRunMode(Motor.RunMode.RawPower);
@@ -117,7 +119,10 @@ public class RobotContainer extends CommandOpMode {
 
         shoulderSub.setDefaultCommand(new MoveShoulderCMD(shoulderSub, telemetryManagerSub.getTelemetryObject(),moveShouldertoBottomPos, moveShouldertoMiddlePos, moveShouldertoUpperPos));
 
-        vacuumButton.whileHeld(new PowerVacuumCMD(vacuumSubsystem, 1,ContinousVacuumServo)).whenReleased(new PowerVacuumCMD(vacuumSubsystem, 0,ContinousVacuumServo));
+        vacuumButton.whileHeld(new PowerVacuumCMD(vacuumSubsystem, 1,
+                        ContinousVacuumServo,telemetryManagerSub.getTelemetryObject() ,vacuumSensor))
+                .whenReleased(new PowerVacuumCMD(vacuumSubsystem, 0,
+                        ContinousVacuumServo,telemetryManagerSub.getTelemetryObject() ,vacuumSensor));
 
     }
 

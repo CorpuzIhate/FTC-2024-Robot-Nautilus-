@@ -55,7 +55,9 @@ public class RobotContainer extends CommandOpMode {
     private ShoulderSubsystem shoulderSub;
 
     public GamepadEx driverOP;
-    public Button vacuumButton;
+    public Button vacuumIntakeButton;
+    public Button vacuumOutakeButton;
+
     public GamepadButton moveShouldertoBottomPos;
     public GamepadButton moveShouldertoMiddlePos;
 
@@ -80,7 +82,7 @@ public class RobotContainer extends CommandOpMode {
         shoulderMotor.setRunMode(Motor.RunMode.RawPower);
 
         ContinousVacuumServo = new CRServo(hardwareMap, "Vacuum_Servo");
-        vacuumSensor = hardwareMap.get(ColorRangeSensor.class, "Vaccum_Distance_Sensor");
+        vacuumSensor = hardwareMap.get(ColorRangeSensor.class, "Vacuum_Distance_Sensor");
 
         frontLeft.setRunMode(Motor.RunMode.RawPower);
         frontRight.setRunMode(Motor.RunMode.RawPower);
@@ -92,7 +94,8 @@ public class RobotContainer extends CommandOpMode {
         backLeft.setInverted(true);
         backRight.setInverted(true);
         driverOP = new GamepadEx(gamepad1);
-        vacuumButton = new GamepadButton(driverOP, GamepadKeys.Button.A);
+        vacuumIntakeButton = new GamepadButton(driverOP, GamepadKeys.Button.A);
+        vacuumOutakeButton = new GamepadButton(driverOP, GamepadKeys.Button.B);
         moveShouldertoBottomPos = new GamepadButton(driverOP, GamepadKeys.Button.X);
         moveShouldertoMiddlePos = new GamepadButton(driverOP, GamepadKeys.Button.Y);
         moveShouldertoUpperPos = new GamepadButton(driverOP, GamepadKeys.Button.DPAD_DOWN);
@@ -132,7 +135,11 @@ public class RobotContainer extends CommandOpMode {
 
         shoulderSub.setDefaultCommand(new MoveShoulderCMD(shoulderSub, telemetryManagerSub.getTelemetryObject(),moveShouldertoBottomPos, moveShouldertoMiddlePos, moveShouldertoUpperPos));
 
-        vacuumButton.whileHeld(new PowerVacuumCMD(vacuumSubsystem, 1,
+        vacuumIntakeButton.whileHeld(new PowerVacuumCMD(vacuumSubsystem, 1,
+                        ContinousVacuumServo,telemetryManagerSub.getTelemetryObject() ,vacuumSensor))
+                .whenReleased(new PowerVacuumCMD(vacuumSubsystem, 0,
+                        ContinousVacuumServo,telemetryManagerSub.getTelemetryObject() ,vacuumSensor));
+        vacuumOutakeButton.whileHeld(new PowerVacuumCMD(vacuumSubsystem, -1,
                         ContinousVacuumServo,telemetryManagerSub.getTelemetryObject() ,vacuumSensor))
                 .whenReleased(new PowerVacuumCMD(vacuumSubsystem, 0,
                         ContinousVacuumServo,telemetryManagerSub.getTelemetryObject() ,vacuumSensor));

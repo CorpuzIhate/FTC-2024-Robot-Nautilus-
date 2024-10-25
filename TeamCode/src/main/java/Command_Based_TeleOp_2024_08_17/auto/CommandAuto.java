@@ -61,12 +61,13 @@ public class CommandAuto extends CommandOpMode {
 
         telemetryManagerSub.setDefaultCommand(new PerpetualCommand(new TelemetryManagerCMD(telemetryManagerSub, Otos)));
 
+
     }
 
 
     private void initSubsystems(){
         mecanumDriveBaseSub = new MecanumDriveBaseSubsystem(frontLeft, frontRight
-                ,backRight, backLeft);
+                ,backRight, backLeft, Otos);
         TelemetryManagerSubsystem telemetryManagerSub = new TelemetryManagerSubsystem();
         VacuumSubsystem vacuumSubsystem = new VacuumSubsystem();
         ShoulderSubsystem shoulderSub = new  ShoulderSubsystem(shoulderMotor);

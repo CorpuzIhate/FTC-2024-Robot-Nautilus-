@@ -3,21 +3,25 @@ package Command_Based_TeleOp_2024_08_17.Subsystems;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
+import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 
 ;
 
 
 public class MecanumDriveBaseSubsystem extends SubsystemBase {
     private final Motor m_FL, m_FR, m_BR, m_BL;
+    private final SparkFunOTOS m_OTOS;
 
 
 
-    public MecanumDriveBaseSubsystem(Motor FL, Motor FR, Motor BR, Motor BL){
+    public MecanumDriveBaseSubsystem(Motor FL, Motor FR,
+                                     Motor BR, Motor BL,
+                                     SparkFunOTOS OTOS){
         m_FL = FL;
         m_FR = FR;
         m_BL = BL;
         m_BR = BR;
-
+        m_OTOS = OTOS;
     }
     @Override
     public void  periodic(){
@@ -62,6 +66,9 @@ public class MecanumDriveBaseSubsystem extends SubsystemBase {
         m_BL.set(backLeftSpeed);
 
 
+    }
+    public SparkFunOTOS.Pose2D getPosed2D(){
+        return m_OTOS.getPosition();
     }
 
 

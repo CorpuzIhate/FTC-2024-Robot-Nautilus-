@@ -78,7 +78,7 @@ public class RobotContainer extends CommandOpMode {
         shoulderMotor = new Motor(hardwareMap,"shoulder_motor");
         shoulderMotor.setRunMode(Motor.RunMode.RawPower);
 
-        elbowMotor = new Motor(hardwareMap,"elbow_motor");
+        //elbowMotor = new Motor(hardwareMap,"elbow_motor");
         shoulderMotor.setRunMode(Motor.RunMode.RawPower);
 
         ContinousVacuumServo = new CRServo(hardwareMap, "Vacuum_Servo");

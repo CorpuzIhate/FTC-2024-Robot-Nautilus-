@@ -15,6 +15,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 
+import Command_Based_TeleOp_2024_08_17.CommandGroups.MoveArmUpCMDG;
 import Command_Based_TeleOp_2024_08_17.Commands.MoveArmJointCMD;
 import Command_Based_TeleOp_2024_08_17.Commands.PowerVacuumCMD;
 import Command_Based_TeleOp_2024_08_17.Commands.TeleOpJoystickRobotCentricCMD;
@@ -60,7 +61,7 @@ public class RobotContainer extends CommandOpMode {
 
     public GamepadButton moveShouldertoUpperPos;
 
-    public static double armSetpoint;
+
 
     @Override
     public void initialize() {
@@ -133,21 +134,24 @@ public class RobotContainer extends CommandOpMode {
 
 
         moveShouldertoUpperPos.whenPressed(new InstantCommand(() -> {
-                    armSetpoint = Constants.ShoulderSetpoints.upperArmPos;
+            armSub.shoulderSetpoint = Constants.ShoulderSetpoints.upperShoulderPos;
+            armSub.elbowSetpoint = Constants.ElbowSetpoints.upperElbowPos;
                 }));
 
         moveShouldertoMiddlePos.whenPressed(new InstantCommand(() -> {
-                    armSetpoint = Constants.ShoulderSetpoints.middleArmPos;
+            armSub.shoulderSetpoint = Constants.ShoulderSetpoints.middleShoulderPos;
+            armSub.elbowSetpoint = Constants.ElbowSetpoints.middleElbowPos;
                 }));
 
         moveShouldertoBottomPos.whenPressed(new InstantCommand(() -> {
-            armSetpoint = 0;
+            armSub.shoulderSetpoint = 0;
+            armSub.elbowSetpoint = 0;
         }));
 
-        armSub.setDefaultCommand(new MoveArmJointCMD(armSub, telemetryManagerSub.getTelemetryObject(), armSub.getShoulderJoint()));
+        armSub.setDefaultCommand(new MoveArmJointCMD(armSub, telemetryManagerSub.getTelemetryObject(), armSub.getElbowJoint(), armSub.elbowSetpoint, false));
 
-
-        vacuumButton.whileHeld(new PowerVacuumCMD(vacuumSubsystem, 1,ContinousVacuumServo)).whenReleased(new PowerVacuumCMD(vacuumSubsystem, 0,ContinousVacuumServo));
+      //  moveShouldertoMiddlePos.whenPressed(new MoveArmUpCMDG(0,0,armSub, telemetryManagerSub.getTelemetryObject()));
+       // vacuumButton.whileHeld(new PowerVacuumCMD(vacuumSubsystem, 1,ContinousVacuumServo)).whenReleased(new PowerVacuumCMD(vacuumSubsystem, 0,ContinousVacuumServo));
 
     }
 

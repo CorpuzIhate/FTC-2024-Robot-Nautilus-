@@ -9,9 +9,12 @@ public class armJointModule {
 
     private final Motor m_jointMotor;
     private final PIDFController m_jointFeedForward;
-    armJointModule(Motor jointMotor, PIDFController jointFeedForward){
+    private final String m_tag;
+
+    armJointModule(Motor jointMotor, PIDFController jointFeedForward,String tag){
         m_jointMotor = jointMotor;
         m_jointFeedForward = jointFeedForward;
+        m_tag = tag;
     }
     public Motor getJointMotor(){
         return m_jointMotor;
@@ -19,6 +22,7 @@ public class armJointModule {
     public PIDFController getJointPIDFController(){
         return m_jointFeedForward;
     }
+    public String getTag(){ return m_tag;}
 
 
 }

@@ -24,9 +24,9 @@ public final class Constants{
         public static final double upperShoulderPos = 1700;
     };
     public static final class ElbowSetpoints{
-        public static final double middleElbowPos = 300;
+        public static final double middleElbowPos = 1000;
 
-        public static final double upperElbowPos = 500;
+        public static final double upperElbowPos = 1700;
     };
 
 

@@ -22,7 +22,7 @@ public class MoveArmJointCMD extends CommandBase {
     private  PIDFController feedforward;
     private  double output;
     private boolean shoulderisAtpoint;
-    private double currentSetpoint = 0;
+;
 
 
     public MoveArmJointCMD(armSubsystem armSub, Telemetry dashboardTelemetry,
@@ -41,6 +41,7 @@ public class MoveArmJointCMD extends CommandBase {
         feedforward = m_joint.getJointPIDFController();
 
 
+
         jointMotor.setRunMode(Motor.RunMode.RawPower);
 
         m_dashboardTelemetry.addData( m_joint.getTag() + " kP", feedforward.getP());
@@ -50,6 +51,7 @@ public class MoveArmJointCMD extends CommandBase {
 
         m_dashboardTelemetry.addData(m_joint.getTag() + " position", jointMotor.getCurrentPosition());
         m_dashboardTelemetry.update();
+        m_dashboardTelemetry.addData(m_joint.getTag() + " setpoint",m_jointSetPoint);
 //hi
     }
     @Override
@@ -57,8 +59,9 @@ public class MoveArmJointCMD extends CommandBase {
 
 
         m_dashboardTelemetry.addData(m_joint.getTag() + " position", jointMotor.getCurrentPosition());
-        m_dashboardTelemetry.addData(m_joint.getTag() + " setpoint",currentSetpoint);
-        output = feedforward.calculate(jointMotor.getCurrentPosition(), m_jointSetPoint);
+        m_dashboardTelemetry.addData(m_joint.getTag() + " setpoint",m_jointSetPoint);
+
+        output = feedforward.calculate(jointMotor.getCurrentPosition(), m_armSub.elbowSetpoint);
 
         m_dashboardTelemetry.update();
         if(feedforward.atSetPoint()){
@@ -76,9 +79,9 @@ public class MoveArmJointCMD extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        if(m_useIsFinished && feedforward.atSetPoint()){
-            return true;
-        }
+//        if(m_useIsFinished && feedforward.atSetPoint()){
+//            return true;
+//        }
         return false;
 
     }

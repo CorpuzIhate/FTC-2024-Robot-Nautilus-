@@ -79,8 +79,8 @@ public class RobotContainer extends CommandOpMode {
         shoulderMotor = new Motor(hardwareMap,"shoulder_motor");
         shoulderMotor.setRunMode(Motor.RunMode.RawPower);
 
-        //elbowMotor = new Motor(hardwareMap,"elbow_motor");
-        shoulderMotor.setRunMode(Motor.RunMode.RawPower);
+        elbowMotor = new Motor(hardwareMap,"elbow_motor");
+        elbowMotor.setRunMode(Motor.RunMode.RawPower);
 
         ContinousVacuumServo = new CRServo(hardwareMap, "Vacuum_Servo");
 
@@ -95,6 +95,7 @@ public class RobotContainer extends CommandOpMode {
         backRight.setInverted(true);
         driverOP = new GamepadEx(gamepad1);
         vacuumButton = new GamepadButton(driverOP, GamepadKeys.Button.A);
+
         moveShouldertoBottomPos = new GamepadButton(driverOP, GamepadKeys.Button.X);
         moveShouldertoMiddlePos = new GamepadButton(driverOP, GamepadKeys.Button.Y);
         moveShouldertoUpperPos = new GamepadButton(driverOP, GamepadKeys.Button.DPAD_DOWN);
@@ -122,6 +123,7 @@ public class RobotContainer extends CommandOpMode {
         mecanumDriveBaseSub = new MecanumDriveBaseSubsystem(
                 frontLeft, frontRight, backLeft, backRight);
         telemetryManagerSub = new TelemetryManagerSubsystem();
+
         armSub = new armSubsystem(shoulderMotor, elbowMotor);
 
 
@@ -136,6 +138,7 @@ public class RobotContainer extends CommandOpMode {
         moveShouldertoUpperPos.whenPressed(new InstantCommand(() -> {
             armSub.shoulderSetpoint = Constants.ShoulderSetpoints.upperShoulderPos;
             armSub.elbowSetpoint = Constants.ElbowSetpoints.upperElbowPos;
+            telemetryManagerSub.getTelemetryObject().addData("top?", true);
                 }));
 
         moveShouldertoMiddlePos.whenPressed(new InstantCommand(() -> {

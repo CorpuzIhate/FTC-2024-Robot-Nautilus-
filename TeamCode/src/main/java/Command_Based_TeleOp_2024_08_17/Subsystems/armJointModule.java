@@ -10,6 +10,7 @@ public class armJointModule {
     private final Motor m_jointMotor;
     private final PIDFController m_jointFeedForward;
     private final String m_tag;
+    private double m_setpoint = 0;
 
     armJointModule(Motor jointMotor, PIDFController jointFeedForward,String tag){
         m_jointMotor = jointMotor;
@@ -19,10 +20,15 @@ public class armJointModule {
     public Motor getJointMotor(){
         return m_jointMotor;
     }
+
     public PIDFController getJointPIDFController(){
         return m_jointFeedForward;
     }
     public String getTag(){ return m_tag;}
+
+    public void setSetpoint(double setpoint){ m_setpoint = setpoint;}
+
+    public  double getSetpoint(){return m_setpoint;}
 
 
 }

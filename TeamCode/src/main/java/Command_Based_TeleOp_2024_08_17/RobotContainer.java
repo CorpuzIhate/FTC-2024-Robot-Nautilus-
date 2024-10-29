@@ -136,19 +136,22 @@ public class RobotContainer extends CommandOpMode {
 
 
         moveShouldertoUpperPos.whenPressed(new InstantCommand(() -> {
-            armSub.shoulderSetpoint = Constants.ShoulderSetpoints.upperShoulderPos;
-            armSub.elbowSetpoint = Constants.ElbowSetpoints.upperElbowPos;
-            telemetryManagerSub.getTelemetryObject().addData("top?", true);
+
+            armSub.getShoulderJoint().setSetpoint(Constants.ShoulderSetpoints.upperShoulderPos);
+            armSub.getElbowJoint().setSetpoint(Constants.ElbowSetpoints.upperElbowPos);
+
                 }));
 
         moveShouldertoMiddlePos.whenPressed(new InstantCommand(() -> {
-            armSub.shoulderSetpoint = Constants.ShoulderSetpoints.middleShoulderPos;
-            armSub.elbowSetpoint = Constants.ElbowSetpoints.middleElbowPos;
+
+            armSub.getShoulderJoint().setSetpoint(Constants.ShoulderSetpoints.middleShoulderPos);
+            armSub.getElbowJoint().setSetpoint(Constants.ElbowSetpoints.middleElbowPos);
                 }));
 
         moveShouldertoBottomPos.whenPressed(new InstantCommand(() -> {
-            armSub.shoulderSetpoint = 0;
-            armSub.elbowSetpoint = 0;
+
+            armSub.getShoulderJoint().setSetpoint(0);
+            armSub.getElbowJoint().setSetpoint(0);
         }));
 
         armSub.setDefaultCommand(new MoveArmJointCMD(armSub, telemetryManagerSub.getTelemetryObject(), armSub.getElbowJoint(), armSub.elbowSetpoint, false));

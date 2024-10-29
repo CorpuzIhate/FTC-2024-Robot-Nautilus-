@@ -15,8 +15,8 @@ public class MoveArmUpCMDG extends SequentialCommandGroup {
                          armSubsystem armSub, Telemetry dashboardTelemetry){
 
         addCommands(
-                new MoveArmJointCMD(armSub,dashboardTelemetry,armSub.getShoulderJoint() , 100, true),
-                new MoveArmJointCMD(armSub,dashboardTelemetry,armSub.getShoulderJoint()  ,200, true)
+                new MoveArmJointCMD(armSub,dashboardTelemetry,armSub.getShoulderJoint() , true),
+                new MoveArmJointCMD(armSub,dashboardTelemetry,armSub.getShoulderJoint() , true)
         );
     }
 

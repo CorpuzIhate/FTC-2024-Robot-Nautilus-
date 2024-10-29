@@ -15,7 +15,7 @@ public class MoveArmJointCMD extends CommandBase {
     private final armSubsystem m_armSub;
     private final Telemetry m_dashboardTelemetry;
     private final armJointModule m_joint;
-    private final double m_jointSetPoint;
+
     private final boolean m_useIsFinished;
 
     private  Motor jointMotor;
@@ -26,11 +26,11 @@ public class MoveArmJointCMD extends CommandBase {
 
 
     public MoveArmJointCMD(armSubsystem armSub, Telemetry dashboardTelemetry,
-                           armJointModule joint, double jointSetPoint, boolean useIsFinished) {
+                           armJointModule joint, boolean useIsFinished) {
         m_armSub = armSub;
         m_dashboardTelemetry = dashboardTelemetry;
         m_joint = joint;
-        m_jointSetPoint = jointSetPoint;
+
         m_useIsFinished = useIsFinished;
         addRequirements(m_armSub);
     }
@@ -51,7 +51,7 @@ public class MoveArmJointCMD extends CommandBase {
 
         m_dashboardTelemetry.addData(m_joint.getTag() + " position", jointMotor.getCurrentPosition());
         m_dashboardTelemetry.update();
-        m_dashboardTelemetry.addData(m_joint.getTag() + " setpoint",m_jointSetPoint);
+        m_dashboardTelemetry.addData(m_joint.getTag() + " setpoint",m_joint.getSetpoint());
 //hi
     }
     @Override
@@ -59,9 +59,9 @@ public class MoveArmJointCMD extends CommandBase {
 
 
         m_dashboardTelemetry.addData(m_joint.getTag() + " position", jointMotor.getCurrentPosition());
-        m_dashboardTelemetry.addData(m_joint.getTag() + " setpoint",m_jointSetPoint);
+        m_dashboardTelemetry.addData(m_joint.getTag() + " setpoint",m_joint.getSetpoint());
 
-        output = feedforward.calculate(jointMotor.getCurrentPosition(), m_armSub.elbowSetpoint);
+        output = feedforward.calculate(jointMotor.getCurrentPosition(), m_joint.getSetpoint());
 
         m_dashboardTelemetry.update();
         if(feedforward.atSetPoint()){

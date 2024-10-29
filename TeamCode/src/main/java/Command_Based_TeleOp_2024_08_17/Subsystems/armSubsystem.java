@@ -18,6 +18,7 @@ public class armSubsystem extends SubsystemBase {
                 Constants.ShoulderPIDConstants.kI,
                 Constants.ShoulderPIDConstants.kD,
                 Constants.ShoulderPIDConstants.kF);
+
         m_shoulderJointModule =
                 new armJointModule(shoulder_Motor,m_ShoulderfeedForward, "shoulder)");
 
@@ -26,6 +27,7 @@ public class armSubsystem extends SubsystemBase {
                 Constants.ElbowPIDConstants.kI,
                 Constants.ElbowPIDConstants.kD,
                 Constants.ElbowPIDConstants.kF);
+
         m_elbowJoint = new armJointModule(elbow_Motor,m_ElbowForward, "elbow");
     }
     public armJointModule getElbowJoint(){
@@ -34,11 +36,8 @@ public class armSubsystem extends SubsystemBase {
     public armJointModule getShoulderJoint(){
       return m_shoulderJointModule;
     }
-    public void changeSetpoint(double m_shoulderSetPoint, double m_elbowSetpoint){
-        shoulderSetpoint = m_shoulderSetPoint;
-        elbowSetpoint = m_elbowSetpoint;
 
-    }
+
 
 
 }

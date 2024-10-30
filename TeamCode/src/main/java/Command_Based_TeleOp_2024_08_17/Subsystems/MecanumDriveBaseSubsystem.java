@@ -26,10 +26,13 @@ public class MecanumDriveBaseSubsystem extends SubsystemBase {
     public void setMotorSpeeds(double forwardPower, double strafePower,
                                   double rotationPower){
 
-        forwardPower *= -1;
+        forwardPower *= 1;
         strafePower *= -1;
         rotationPower *= -1;
-        
+
+        forwardPower = smoothJoystickInputs(forwardPower);
+        strafePower = smoothJoystickInputs(strafePower);
+        rotationPower = smoothJoystickInputs(rotationPower);
 
         double frontLeftSpeed = forwardPower - strafePower - rotationPower;
         double backLeftSpeed = forwardPower + strafePower - rotationPower;
@@ -62,6 +65,16 @@ public class MecanumDriveBaseSubsystem extends SubsystemBase {
         m_BL.set(backLeftSpeed);
 
 
+    }
+    public double smoothJoystickInputs(double input){
+        double exp = 2.2;
+        if(input >= 0  && input <= 1 ){
+            return Math.pow(input,exp);
+        }
+        if( input <= 0 && input <= -1 ){
+            return Math.pow(-input,exp) * -1;
+        }
+        return 0;
     }
 
 

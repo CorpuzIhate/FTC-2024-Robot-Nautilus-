@@ -154,9 +154,11 @@ public class RobotContainer extends CommandOpMode {
             armSub.getElbowJoint().setSetpoint(0);
         }));
 
-        armSub.setDefaultCommand(new MoveArmJointCMD(armSub, telemetryManagerSub.getTelemetryObject(), armSub.getElbowJoint(), armSub.elbowSetpoint, false));
+//        armSub.setDefaultCommand(new MoveArmJointCMD(armSub, telemetryManagerSub.getTelemetryObject(), armSub.getElbowJoint(),false).
+//                alongWith(
+//                new MoveArmJointCMD(armSub, telemetryManagerSub.getTelemetryObject(), armSub.getShoulderJoint(), false)));
 
-      //  moveShouldertoMiddlePos.whenPressed(new MoveArmUpCMDG(0,0,armSub, telemetryManagerSub.getTelemetryObject()));
+      moveShouldertoMiddlePos.whenPressed(new MoveArmUpCMDG(0,0,armSub, telemetryManagerSub.getTelemetryObject()));
        // vacuumButton.whileHeld(new PowerVacuumCMD(vacuumSubsystem, 1,ContinousVacuumServo)).whenReleased(new PowerVacuumCMD(vacuumSubsystem, 0,ContinousVacuumServo));
 
     }

@@ -52,6 +52,7 @@ public class MoveArmJointCMD extends CommandBase {
         m_dashboardTelemetry.addData(m_joint.getTag() + " position", jointMotor.getCurrentPosition());
         m_dashboardTelemetry.update();
         m_dashboardTelemetry.addData(m_joint.getTag() + " setpoint",m_joint.getSetpoint());
+
 //hi
     }
     @Override
@@ -79,9 +80,9 @@ public class MoveArmJointCMD extends CommandBase {
 
     @Override
     public boolean isFinished() {
-//        if(m_useIsFinished && feedforward.atSetPoint()){
-//            return true;
-//        }
+        if(m_useIsFinished && feedforward.getSetPoint() ==  m_joint.getSetpoint() ){
+            return true;
+        }
         return false;
 
     }

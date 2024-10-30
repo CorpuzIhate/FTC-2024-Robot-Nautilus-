@@ -97,6 +97,7 @@ public class RobotContainer extends CommandOpMode {
         backRight.setInverted(true);
         driverOP = new GamepadEx(gamepad1);
         vacuumButton = new GamepadButton(driverOP, GamepadKeys.Button.A);
+
         moveShouldertoBottomPos = new GamepadButton(driverOP, GamepadKeys.Button.X);
         moveShouldertoMiddlePos = new GamepadButton(driverOP, GamepadKeys.Button.Y);
         moveShouldertoUpperPos = new GamepadButton(driverOP, GamepadKeys.Button.DPAD_DOWN);

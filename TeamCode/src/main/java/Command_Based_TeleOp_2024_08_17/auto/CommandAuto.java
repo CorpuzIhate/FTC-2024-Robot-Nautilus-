@@ -42,7 +42,7 @@ public class CommandAuto extends CommandOpMode {
         backLeft = new Motor(hardwareMap, "back_left");
         backRight = new Motor(hardwareMap, "back_right");
 
-        shoulderMotor = new Motor(hardwareMap,"shoulder_motor");
+
         shoulderMotor.setRunMode(Motor.RunMode.RawPower);
 
         ContinousVacuumServo = new CRServo(hardwareMap, "Vacuum_Servo");

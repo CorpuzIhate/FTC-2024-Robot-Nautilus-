@@ -71,8 +71,7 @@ public class RobotContainer extends CommandOpMode {
         backLeft = new Motor(hardwareMap, "back_left");
         backRight = new Motor(hardwareMap, "back_right");
 
-        mecanumDriveBaseSub = new MecanumDriveBaseSubsystem(frontLeft, frontRight
-                ,backRight, backLeft);
+
 
         shoulderMotor = new Motor(hardwareMap,"shoulder_motor");
         shoulderMotor.setRunMode(Motor.RunMode.RawPower);
@@ -107,6 +106,8 @@ public class RobotContainer extends CommandOpMode {
         Otos = hardwareMap.get(SparkFunOTOS.class, "sensor_otos");
         configureOtos();
 
+        mecanumDriveBaseSub = new MecanumDriveBaseSubsystem(frontLeft, frontRight
+                ,backRight, backLeft, Otos);
         telemetryManagerSub.setDefaultCommand(new PerpetualCommand(new TelemetryManagerCMD(telemetryManagerSub, Otos)));
 
 

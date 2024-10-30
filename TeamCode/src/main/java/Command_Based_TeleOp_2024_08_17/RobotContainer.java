@@ -6,6 +6,7 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.PerpetualCommand;
 import com.arcrobotics.ftclib.command.button.Button;
 import com.arcrobotics.ftclib.command.button.GamepadButton;
+import com.arcrobotics.ftclib.controller.PIDFController;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.arcrobotics.ftclib.hardware.ServoEx;
@@ -15,15 +16,13 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 
-import Command_Based_TeleOp_2024_08_17.CommandGroups.MoveArmUpCMDG;
 import Command_Based_TeleOp_2024_08_17.Commands.MoveArmJointCMD;
-import Command_Based_TeleOp_2024_08_17.Commands.PowerVacuumCMD;
 import Command_Based_TeleOp_2024_08_17.Commands.TeleOpJoystickRobotCentricCMD;
 import Command_Based_TeleOp_2024_08_17.Commands.TelemetryManagerCMD;
 import Command_Based_TeleOp_2024_08_17.Subsystems.MecanumDriveBaseSubsystem;
-import Command_Based_TeleOp_2024_08_17.Subsystems.armSubsystem;
 import Command_Based_TeleOp_2024_08_17.Subsystems.TelemetryManagerSubsystem;
 import Command_Based_TeleOp_2024_08_17.Subsystems.VacuumSubsystem;
+import Command_Based_TeleOp_2024_08_17.Subsystems.armJointSubsystem;
 
 
 @TeleOp(name = "Command Base Test")
@@ -52,7 +51,8 @@ public class RobotContainer extends CommandOpMode {
     //TODO refactor Vacuum servos so that they're accessed through the Vacuum sub
 
     private  VacuumSubsystem vacuumSubsystem = new VacuumSubsystem();
-    private armSubsystem armSub;
+    private armJointSubsystem elbowSub;
+    private armJointSubsystem shoulderSub;
 
     public GamepadEx driverOP;
     public Button vacuumButton;
@@ -124,7 +124,29 @@ public class RobotContainer extends CommandOpMode {
                 frontLeft, frontRight, backLeft, backRight);
         telemetryManagerSub = new TelemetryManagerSubsystem();
 
-        armSub = new armSubsystem(shoulderMotor, elbowMotor);
+        shoulderSub = new armJointSubsystem(
+                shoulderMotor,
+                new PIDFController(
+                        Constants.ShoulderPIDConstants.kP,
+                        Constants.ShoulderPIDConstants.kI,
+                        Constants.ShoulderPIDConstants.kD,
+                        Constants.ShoulderPIDConstants.kF),
+                "shoulder"
+        );
+
+        elbowSub = new armJointSubsystem(
+                elbowMotor,
+                new PIDFController(
+                Constants.ElbowPIDConstants.kP,
+                Constants.ElbowPIDConstants.kI,
+                Constants.ElbowPIDConstants.kD,
+                Constants.ElbowPIDConstants.kF),
+                "elbow"
+
+
+        );
+
+
 
 
     }
@@ -137,28 +159,35 @@ public class RobotContainer extends CommandOpMode {
 
         moveShouldertoUpperPos.whenPressed(new InstantCommand(() -> {
 
-            armSub.getShoulderJoint().setSetpoint(Constants.ShoulderSetpoints.upperShoulderPos);
-            armSub.getElbowJoint().setSetpoint(Constants.ElbowSetpoints.upperElbowPos);
+            shoulderSub.setSetpoint(Constants.ShoulderSetpoints.upperShoulderPos);
+            elbowSub.setSetpoint(Constants.ElbowSetpoints.upperElbowPos);
 
                 }));
 
         moveShouldertoMiddlePos.whenPressed(new InstantCommand(() -> {
 
-            armSub.getShoulderJoint().setSetpoint(Constants.ShoulderSetpoints.middleShoulderPos);
-            armSub.getElbowJoint().setSetpoint(Constants.ElbowSetpoints.middleElbowPos);
+            shoulderSub.setSetpoint(Constants.ShoulderSetpoints.middleShoulderPos);
+            elbowSub.setSetpoint(Constants.ElbowSetpoints.middleElbowPos);
                 }));
 
         moveShouldertoBottomPos.whenPressed(new InstantCommand(() -> {
 
-            armSub.getShoulderJoint().setSetpoint(0);
-            armSub.getElbowJoint().setSetpoint(0);
+            shoulderSub.setSetpoint(0);
+            elbowSub.setSetpoint(0);
         }));
 
-//        armSub.setDefaultCommand(new MoveArmJointCMD(armSub, telemetryManagerSub.getTelemetryObject(), armSub.getElbowJoint(),false).
-//                alongWith(
-//                new MoveArmJointCMD(armSub, telemetryManagerSub.getTelemetryObject(), armSub.getShoulderJoint(), false)));
 
-      moveShouldertoMiddlePos.whenPressed(new MoveArmUpCMDG(0,0,armSub, telemetryManagerSub.getTelemetryObject()));
+        shoulderSub.setDefaultCommand(new MoveArmJointCMD(
+                telemetryManagerSub.getTelemetryObject(),
+                shoulderSub,
+                false
+        ));
+        elbowSub.setDefaultCommand(new MoveArmJointCMD(
+                telemetryManagerSub.getTelemetryObject(),
+                elbowSub,
+                false
+        ));
+   //   moveShouldertoMiddlePos.whenPressed(new MoveArmUpCMDG(0,0,shoulderSub, telemetryManagerSub.getTelemetryObject()));
        // vacuumButton.whileHeld(new PowerVacuumCMD(vacuumSubsystem, 1,ContinousVacuumServo)).whenReleased(new PowerVacuumCMD(vacuumSubsystem, 0,ContinousVacuumServo));
 
     }

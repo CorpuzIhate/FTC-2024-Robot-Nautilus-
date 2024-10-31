@@ -49,9 +49,6 @@ public class TeleOpJoystickRobotCentricCMD extends CommandBase {
         m_MecanumSub.setMotorSpeeds(m_forwardPower.getAsDouble(), m_strafePower.getAsDouble(),
                 m_rotationPower.getAsDouble());
 
-        m_dashboardTelemetry.addData("m_forwardPower (COMMAND)", m_forwardPower);
-        m_dashboardTelemetry.addData("m_strafePower (COMMAND)", m_strafePower);
-        m_dashboardTelemetry.addData("m_rotationPower (COMMAND)", m_rotationPower);
 
     }
     @Override

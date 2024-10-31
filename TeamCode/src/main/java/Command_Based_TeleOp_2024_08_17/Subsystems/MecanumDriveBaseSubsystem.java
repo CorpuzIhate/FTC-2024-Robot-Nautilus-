@@ -71,7 +71,7 @@ public class MecanumDriveBaseSubsystem extends SubsystemBase {
         if(input >= 0  && input <= 1 ){
             return Math.pow(input,exp);
         }
-        if( input <= 0 && input <= -1 ){
+        if( input <= 0 && input >= -1 ){
             return Math.pow(-input,exp) * -1;
         }
         return 0;

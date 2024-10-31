@@ -5,6 +5,7 @@ import com.arcrobotics.ftclib.controller.PIDFController;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
+import Command_Based_TeleOp_2024_08_17.Constants;
 import Command_Based_TeleOp_2024_08_17.Subsystems.MecanumDriveBaseSubsystem;
 
 public class MoveRobotHCMD extends CommandBase {
@@ -23,6 +24,13 @@ public class MoveRobotHCMD extends CommandBase {
     public MoveRobotHCMD(double hPosSetpoint,
                          MecanumDriveBaseSubsystem mecanumDriveBaseSubsystem,
                          Telemetry dashboardTelemetry){
+        hPosController = new PIDFController(
+                Constants.AutoConstants.turnkP,
+                Constants.AutoConstants.turnkI,
+                Constants.AutoConstants.turnkD,
+                Constants.AutoConstants.turnkF
+
+        );
 
         m_hPosSetpoint = hPosSetpoint;
         m_MecanumDriveBaseSubsystem =  mecanumDriveBaseSubsystem;
@@ -32,13 +40,15 @@ public class MoveRobotHCMD extends CommandBase {
     @Override
     public  void  initialize(){
         hPos = m_MecanumDriveBaseSubsystem.getPosed2D().h;
+        hOutput = hPosController.calculate(hPos,m_hPosSetpoint);
+        m_dashboardTelemetry.addData("went throguht intial cmd", true);
     }
 
     @Override
     public  void  execute(){
 
 
-            hPos = m_MecanumDriveBaseSubsystem.getPosed2D().x;
+            hPos = m_MecanumDriveBaseSubsystem.getPosed2D().h;
             UpdateAutoTelemetry(hPosController);
 
             hOutput = hPosController.calculate(hPos,m_hPosSetpoint);
@@ -51,7 +61,9 @@ public class MoveRobotHCMD extends CommandBase {
         if(hPosController.atSetPoint()){
             return true;
         }
-        return  false;
+        else {
+            return false;
+        }
     }
     public void UpdateAutoTelemetry( PIDFController hController){
 

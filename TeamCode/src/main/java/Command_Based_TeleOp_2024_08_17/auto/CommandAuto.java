@@ -2,6 +2,7 @@ package Command_Based_TeleOp_2024_08_17.auto;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.PerpetualCommand;
+import com.arcrobotics.ftclib.command.RunCommand;
 import com.arcrobotics.ftclib.hardware.motors.CRServo;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
@@ -11,6 +12,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
+import Command_Based_TeleOp_2024_08_17.AutoCommands.MoveRobotHCMD;
 import Command_Based_TeleOp_2024_08_17.Commands.TelemetryManagerCMD;
 import Command_Based_TeleOp_2024_08_17.Subsystems.MecanumDriveBaseSubsystem;
 import Command_Based_TeleOp_2024_08_17.Subsystems.ShoulderSubsystem;
@@ -43,7 +45,7 @@ public class CommandAuto extends CommandOpMode {
         backRight = new Motor(hardwareMap, "back_right");
 
 
-        shoulderMotor.setRunMode(Motor.RunMode.RawPower);
+
 
         ContinousVacuumServo = new CRServo(hardwareMap, "Vacuum_Servo");
         ContinousVacuumServo.setRunMode(Motor.RunMode.RawPower);
@@ -58,17 +60,19 @@ public class CommandAuto extends CommandOpMode {
         Otos = hardwareMap.get(SparkFunOTOS.class, "sensor_otos");
         configureOtos();
 
-
+        initSubsystems();
         telemetryManagerSub.setDefaultCommand(new PerpetualCommand(new TelemetryManagerCMD(telemetryManagerSub, Otos)));
 
-
+        schedule(new MoveRobotHCMD(96,
+                mecanumDriveBaseSub,
+                telemetryManagerSub.getTelemetryObject()));
     }
 
 
     private void initSubsystems(){
         mecanumDriveBaseSub = new MecanumDriveBaseSubsystem(frontLeft, frontRight
                 ,backRight, backLeft, Otos);
-        TelemetryManagerSubsystem telemetryManagerSub = new TelemetryManagerSubsystem();
+        telemetryManagerSub = new TelemetryManagerSubsystem();
         VacuumSubsystem vacuumSubsystem = new VacuumSubsystem();
         ShoulderSubsystem shoulderSub = new  ShoulderSubsystem(shoulderMotor);
     }

@@ -5,6 +5,7 @@ import com.arcrobotics.ftclib.controller.PIDFController;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
+import Command_Based_TeleOp_2024_08_17.Constants;
 import Command_Based_TeleOp_2024_08_17.Subsystems.MecanumDriveBaseSubsystem;
 
 public class MoveRobotXYCMD extends CommandBase {
@@ -28,6 +29,23 @@ public class MoveRobotXYCMD extends CommandBase {
         m_yPosSetpoint = yPosSetpoint;
         m_MecanumDriveBaseSubsystem =  mecanumDriveBaseSubsystem;
         m_dashboardTelemetry = dashboardTelemetry;
+
+        xPosController = new PIDFController(
+                Constants.AutoConstants.movekP,
+                Constants.AutoConstants.movekI,
+                Constants.AutoConstants.movekD,
+                Constants.AutoConstants.movekF
+
+        );
+
+        yPosController = new PIDFController(
+                Constants.AutoConstants.movekP,
+                Constants.AutoConstants.movekI,
+                Constants.AutoConstants.movekD,
+                Constants.AutoConstants.movekF
+
+        );
+
     }
 
     @Override

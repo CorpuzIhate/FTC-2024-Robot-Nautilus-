@@ -18,6 +18,9 @@ import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+
 import Command_Based_TeleOp_2024_08_17.Commands.MoveArmJointCMD;
 import Command_Based_TeleOp_2024_08_17.Commands.PowerVacuumCMD;
 import Command_Based_TeleOp_2024_08_17.Commands.TeleOpJoystickRobotCentricCMD;
@@ -53,7 +56,7 @@ public class RobotContainer extends CommandOpMode {
     private TelemetryManagerSubsystem telemetryManagerSub;
     //TODO refactor Vacuum servos so that they're accessed through the Vacuum sub
 
-    private  VacuumSubsystem vacuumSubsystem = new VacuumSubsystem();
+    private VacuumSubsystem vacuumSubsystem = new VacuumSubsystem();
 
     private armJointSubsystem elbowSub;
     private armJointSubsystem shoulderSub;
@@ -68,10 +71,7 @@ public class RobotContainer extends CommandOpMode {
 
     public SparkFunOTOS Otos;
 
-    private MecanumDriveBaseSubsystem mecanumDriveBaseSub;
 
-    private final TelemetryManagerSubsystem telemetryManagerSub = new TelemetryManagerSubsystem();
-    private  final VacuumSubsystem vacuumSubsystem = new VacuumSubsystem();
 
     @Override
     public void initialize() {
@@ -85,11 +85,11 @@ public class RobotContainer extends CommandOpMode {
         backLeft = new Motor(hardwareMap, "back_left");
         backRight = new Motor(hardwareMap, "back_right");
 
-        shoulderMotor = new Motor(hardwareMap,"shoulder_motor");
+        shoulderMotor = new Motor(hardwareMap, "shoulder_motor");
         shoulderMotor.setRunMode(Motor.RunMode.RawPower);
 
 
-        elbowMotor = new Motor(hardwareMap,"elbow_motor");
+        elbowMotor = new Motor(hardwareMap, "elbow_motor");
         elbowMotor.setRunMode(Motor.RunMode.RawPower);
 
         ContinousVacuumServo = new CRServo(hardwareMap, "Vacuum_Servo");
@@ -117,7 +117,6 @@ public class RobotContainer extends CommandOpMode {
         myIMUparameters = new BNO055IMU.Parameters();
 
 
-
         Otos = hardwareMap.get(SparkFunOTOS.class, "sensor_otos");
         configureOtos();
         initSubsystems();
@@ -125,7 +124,8 @@ public class RobotContainer extends CommandOpMode {
 
 
     }
-    private void initSubsystems(){
+
+    private void initSubsystems() {
         mecanumDriveBaseSub = new MecanumDriveBaseSubsystem(
                 frontLeft, frontRight, backLeft, backRight, Otos);
         telemetryManagerSub = new TelemetryManagerSubsystem();
@@ -153,8 +153,9 @@ public class RobotContainer extends CommandOpMode {
 
 
     }
-    private void runCommands(){
-        telemetryManagerSub.setDefaultCommand(new PerpetualCommand(new TelemetryManagerCMD(telemetryManagerSub)));
+
+    private void runCommands() {
+        telemetryManagerSub.setDefaultCommand(new PerpetualCommand(new TelemetryManagerCMD(telemetryManagerSub, Otos)));
 
         mecanumDriveBaseSub.setDefaultCommand(new TeleOpJoystickRobotCentricCMD(mecanumDriveBaseSub,
                 telemetryManagerSub.getTelemetryObject(), driverOP::getLeftY, driverOP::getRightX, driverOP::getLeftX));
@@ -195,15 +196,15 @@ public class RobotContainer extends CommandOpMode {
 
         //shoulderSub.setDefaultCommand(new MoveShoulderCMD(shoulderSub, shoulderMotor,telemetryManagerSub.getTelemetryObject() ));
 //
-        vacuumIntakeButton.whileHeld(new PowerVacuumCMD(vacuumSubsystem, -1,ContinousVacuumServo))
-                .whenReleased(new PowerVacuumCMD(vacuumSubsystem, 0,ContinousVacuumServo));
-        vacuumOutakeButton.whileHeld(new PowerVacuumCMD(vacuumSubsystem, 1,ContinousVacuumServo))
-               .whenReleased(new PowerVacuumCMD(vacuumSubsystem, 0,ContinousVacuumServo));
+//        vacuumIntakeButton.whileHeld(new PowerVacuumCMD(vacuumSubsystem, -1, ContinousVacuumServo))
+//                .whenReleased(new PowerVacuumCMD(vacuumSubsystem, 0, ContinousVacuumServo));
+//        vacuumOutakeButton.whileHeld(new PowerVacuumCMD(vacuumSubsystem, 1, ContinousVacuumServo))
+//                .whenReleased(new PowerVacuumCMD(vacuumSubsystem, 0, ContinousVacuumServo));
 
     }
 
 
-    private void configureOtos(){
+    private void configureOtos() {
         // Set the desired units for linear and angular measurements. Can be either
         // meters or inches for linear, and radians or degrees for angular. If not
         // set, the default is inches and degrees. Note that this setting is not

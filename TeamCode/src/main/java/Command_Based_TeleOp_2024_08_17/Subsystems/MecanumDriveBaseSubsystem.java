@@ -93,9 +93,13 @@ public class MecanumDriveBaseSubsystem extends SubsystemBase {
 
 
         Vector2d direction = new Vector2d(
-                Math.cos(a + Math.atan(f.getX() / f.getY())) * Math.signum(f.getX()) ,
-                Math.sin(a + Math.atan(f.getX() / f.getY())) * Math.signum(f.getY())
+                Math.cos(a + Math.atan(f.getX() / f.getY())),
+                Math.sin(a + Math.atan(f.getX() / f.getY()))
         );
+
+        if(f.getX() < 0 && f.getY() < 0){
+            direction.scale(-1);
+        }
 
         r =  direction.scale(f.magnitude());
         return  r;

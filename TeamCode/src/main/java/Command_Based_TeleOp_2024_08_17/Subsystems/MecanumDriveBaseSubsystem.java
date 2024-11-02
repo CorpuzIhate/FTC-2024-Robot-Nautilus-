@@ -2,6 +2,7 @@ package Command_Based_TeleOp_2024_08_17.Subsystems;
 
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
+import com.arcrobotics.ftclib.geometry.Vector2d;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 
@@ -11,6 +12,8 @@ import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 public class MecanumDriveBaseSubsystem extends SubsystemBase {
     private final Motor m_FL, m_FR, m_BR, m_BL;
     private final SparkFunOTOS m_OTOS;
+
+
 
 
 
@@ -85,6 +88,18 @@ public class MecanumDriveBaseSubsystem extends SubsystemBase {
     }
 
 
+    public Vector2d fieldVelocityToRobotVelocity(Vector2d f, double a ){
+        Vector2d r;
+
+
+        Vector2d direction = new Vector2d(
+                Math.cos(a + Math.atan(f.getX() / f.getY())) * Math.signum(f.getX()) ,
+                Math.sin(a + Math.atan(f.getX() / f.getY())) * Math.signum(f.getY())
+        );
+
+        r =  direction.scale(f.magnitude());
+        return  r;
+    }
 
 
 

@@ -1,18 +1,17 @@
 package Command_Based_TeleOp_2024_08_17.auto;
 
+import android.accounts.OnAccountsUpdateListener;
+
 public class CircularPIDController {
     private final double m_kP;
     private double setPoint;
     private double error;
     private double output;
 
-    private double distance_1;
-    private double distance_2;
 
+    private double clockwiseDistanceToSetpoint;
+    private double counterClockwiseDistanceToSetpoint;
 
-    private double possibleSetPoint_1;
-    private double possibleSetPoint_2;
-    private double distance_REALSetpoint;
 
     public CircularPIDController(double kP) {
         m_kP = kP;
@@ -21,20 +20,23 @@ public class CircularPIDController {
     public double Calculate(double setpoint,
                             double currentAngle) {
         double output;
-        possibleSetPoint_1 = setPoint - (2 * Math.PI);
-        possibleSetPoint_2 = setPoint + (2 * Math.PI);
 
-        distance_REALSetpoint = setpoint - currentAngle;
-        distance_1 = currentAngle - possibleSetPoint_1;
-        distance_2 = possibleSetPoint_2 - currentAngle;
+        counterClockwiseDistanceToSetpoint = Math.abs(currentAngle- setpoint);
+        clockwiseDistanceToSetpoint = (2 * Math.PI) - counterClockwiseDistanceToSetpoint;
 
-        //compare the distances between the 3 setpoints
-        //find the one with lowest distance (error)
-        double error = Math.min(Math.min(distance_REALSetpoint, distance_1), distance_2);
 
+        //compare the clockwise and counter clockwise angles.
+        if( counterClockwiseDistanceToSetpoint <= clockwiseDistanceToSetpoint){
+            error = counterClockwiseDistanceToSetpoint; // if the counterclockwise angle
+            //is shorter, set the error to that
+        }
+        else{
+            // if the clockwise angle
+            //is shorter, set the error to that
+            error = clockwiseDistanceToSetpoint * -1;
+        }
         output = error * m_kP;
         return output;
-
-        }
+    };
 }
 

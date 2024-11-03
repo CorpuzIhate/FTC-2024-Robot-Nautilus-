@@ -6,15 +6,18 @@ import com.arcrobotics.ftclib.geometry.Vector2d;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 
-;
+;import Command_Based_TeleOp_2024_08_17.Constants;
 
 
 public class MecanumDriveBaseSubsystem extends SubsystemBase {
     private final Motor m_FL, m_FR, m_BR, m_BL;
     private final SparkFunOTOS m_OTOS;
 
-
-
+    private Vector2d r_f;
+    private SparkFunOTOS.Pose2D soosPosReading;
+    private Vector2d s;
+    private double r;
+    private Vector2d r_i;
 
 
     public MecanumDriveBaseSubsystem(Motor FL, Motor FR,
@@ -84,7 +87,25 @@ public class MecanumDriveBaseSubsystem extends SubsystemBase {
         return 0;
     }
     public SparkFunOTOS.Pose2D getPosed2D(){
-        return m_OTOS.getPosition();
+
+        soosPosReading = m_OTOS.getPosition();
+        //vector from origin to SOOS
+        s =
+                new Vector2d(
+                         Constants.OdemetryConstants.distanceFromOriginX,
+                        soosPosReading.y + Constants.OdemetryConstants.distanceFromOriginY);
+       //vector from origin to soos
+        r_f = new Vector2d(soosPosReading.x,soosPosReading.y);
+
+        //move soos heading by heading offset
+        r = soosPosReading.h + Constants.OdemetryConstants.soosAngleOffset;
+
+        //vector from soos to center of robot
+        r_i = r_f.minus(s.rotateBy(r));
+
+       return new SparkFunOTOS.Pose2D(r_i.getX(), r_i.getY(),soosPosReading.h);
+
+
     }
 
 

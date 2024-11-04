@@ -38,6 +38,7 @@ public class MoveRobotXYCMD extends CommandBase {
 
         );
 
+        xPosController.setTolerance(0.5);
         yPosController = new PIDFController(
                 Constants.AutoConstants.movekP,
                 Constants.AutoConstants.movekI,
@@ -46,6 +47,7 @@ public class MoveRobotXYCMD extends CommandBase {
 
         );
 
+        yPosController.setTolerance(0.5);
     }
 
     @Override
@@ -60,7 +62,7 @@ public class MoveRobotXYCMD extends CommandBase {
 
             xPos = m_MecanumDriveBaseSubsystem.getPosed2D().x;
             yPos = m_MecanumDriveBaseSubsystem.getPosed2D().y;
-            UpdateAutoTelemetry(m_xPosSetpoint, m_yPosSetpoint);
+            UpdateAutoTelemetry(m_xPosSetpoint, m_yPosSetpoint,xPosController, yPosController );
 
             xOutput = xPosController.calculate(xPos,m_xPosSetpoint);
             yOutput = yPosController.calculate(yPos,m_yPosSetpoint);
@@ -70,11 +72,13 @@ public class MoveRobotXYCMD extends CommandBase {
     @Override
     public boolean isFinished(){
         if(xPosController.atSetPoint()  && yPosController.atSetPoint() ){
+            m_dashboardTelemetry.addData("finished?",true);
+            m_MecanumDriveBaseSubsystem.setMotorSpeeds(0,0, 0);
             return true;
         }
         return  false;
     }
-    public void UpdateAutoTelemetry(double xPosSetpoint, double yPosSetpoint ){
+    public void UpdateAutoTelemetry(double xPosSetpoint, double yPosSetpoint , PIDFController xpidfController,PIDFController ypidfController){
         m_dashboardTelemetry.addData("xPosSetpoint", xPosSetpoint);
         m_dashboardTelemetry.addData("yPosSetpoint", yPosSetpoint);
 
@@ -82,8 +86,11 @@ public class MoveRobotXYCMD extends CommandBase {
         m_dashboardTelemetry.addData("pos x", m_MecanumDriveBaseSubsystem.getPosed2D().x);
         m_dashboardTelemetry.addData("pos y", m_MecanumDriveBaseSubsystem.getPosed2D().y);
         m_dashboardTelemetry.addData("pos h", m_MecanumDriveBaseSubsystem.getPosed2D().h);
+        m_dashboardTelemetry.addData("Xerror",xpidfController.getPositionError());
+        m_dashboardTelemetry.addData("XatSetpoint",xpidfController.atSetPoint());
 
-
+        m_dashboardTelemetry.addData("Yerror",ypidfController.getPositionError());
+        m_dashboardTelemetry.addData("YatSetpoint",ypidfController.atSetPoint());
 
         m_dashboardTelemetry.update();
 

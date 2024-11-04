@@ -16,7 +16,8 @@ public final class Constants{
         public static final double turnkI = 0;
         public static final double turnkD = 0;
         public static final double turnkF = 0;
-        public static final double movekP = 0.01;
+
+        public static final double movekP = 0.06;
         public static final double movekI = 0;
         public static final double movekD = 0;
         public static final double movekF = 0;

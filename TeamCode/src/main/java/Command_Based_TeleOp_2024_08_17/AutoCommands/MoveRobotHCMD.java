@@ -53,12 +53,13 @@ public class MoveRobotHCMD extends CommandBase {
 
             hOutput = hPosController.calculate(hPos,m_hPosSetpoint);
 
-            m_MecanumDriveBaseSubsystem.setMotorSpeeds(0,0, hOutput);
+            m_MecanumDriveBaseSubsystem.setMotorSpeeds(0,0, -hOutput);
 
     }
     @Override
     public boolean isFinished(){
         if(hPosController.atSetPoint()){
+            m_MecanumDriveBaseSubsystem.setMotorSpeeds(0,0,0);
             return true;
         }
         else {

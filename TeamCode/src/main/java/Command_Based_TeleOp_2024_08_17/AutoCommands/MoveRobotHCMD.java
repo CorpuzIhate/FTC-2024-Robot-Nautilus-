@@ -7,6 +7,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import Command_Based_TeleOp_2024_08_17.Constants;
 import Command_Based_TeleOp_2024_08_17.Subsystems.MecanumDriveBaseSubsystem;
+import Command_Based_TeleOp_2024_08_17.auto.CircularPIDController;
 
 public class MoveRobotHCMD extends CommandBase {
     private final double m_hPosSetpoint;
@@ -19,18 +20,15 @@ public class MoveRobotHCMD extends CommandBase {
 
     double hPos;
 
-    private  PIDFController hPosController;
+    private  CircularPIDController hPosController;
 
     public MoveRobotHCMD(double hPosSetpoint,
                          MecanumDriveBaseSubsystem mecanumDriveBaseSubsystem,
                          Telemetry dashboardTelemetry){
-        hPosController = new PIDFController(
-                Constants.AutoConstants.turnkP,
-                Constants.AutoConstants.turnkI,
-                Constants.AutoConstants.turnkD,
-                Constants.AutoConstants.turnkF
+        hPosController = new CircularPIDController(
+                Constants.AutoConstants.turnkP);
 
-        );
+
 
         m_hPosSetpoint = hPosSetpoint;
         m_MecanumDriveBaseSubsystem =  mecanumDriveBaseSubsystem;
@@ -49,9 +47,10 @@ public class MoveRobotHCMD extends CommandBase {
 
 
             hPos = m_MecanumDriveBaseSubsystem.getPosed2D().h;
-            UpdateAutoTelemetry(hPosController);
+
 
             hOutput = hPosController.calculate(hPos,m_hPosSetpoint);
+            UpdateAutoTelemetry(hPosController);
 
             m_MecanumDriveBaseSubsystem.setMotorSpeeds(0,0, -hOutput);
 
@@ -59,6 +58,7 @@ public class MoveRobotHCMD extends CommandBase {
     @Override
     public boolean isFinished(){
         if(hPosController.atSetPoint()){
+
             m_MecanumDriveBaseSubsystem.setMotorSpeeds(0,0,0);
             return true;
         }
@@ -66,17 +66,16 @@ public class MoveRobotHCMD extends CommandBase {
             return false;
         }
     }
-    public void UpdateAutoTelemetry( PIDFController hController){
+    public void UpdateAutoTelemetry( CircularPIDController hController){
 
-        m_dashboardTelemetry.addData("hPosSetpoint", hController.getSetPoint());
 
 
         m_dashboardTelemetry.addData("pos h", m_MecanumDriveBaseSubsystem.getPosed2D().h);
 
-        m_dashboardTelemetry.addData("Turning P", hController.getP());
-        m_dashboardTelemetry.addData("Turning I", hController.getI());
-        m_dashboardTelemetry.addData("Turning D", hController.getD());
-        m_dashboardTelemetry.addData("Turning F", hController.getF());
+        m_dashboardTelemetry.addData("error", hPosController.getError());
+        m_dashboardTelemetry.addData("counterClockwiseAngleShorter", hPosController.isCounterClockwiseAngleShorter());
+        m_dashboardTelemetry.addData("atSetpoint?", hPosController.atSetPoint());
+
 
 
         m_dashboardTelemetry.update();

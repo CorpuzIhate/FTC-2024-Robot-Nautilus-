@@ -69,10 +69,10 @@ public class CommandAuto extends CommandOpMode {
 //                mecanumDriveBaseSub,
 //                telemetryManagerSub.getTelemetryObject()));
         schedule(new SequentialCommandGroup(
-                new MoveRobotXYCMD(24,24,
-                        mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
-                new MoveRobotXYCMD(0,0,
-                        mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
+//                new MoveRobotXYCMD(24,24,
+//                        mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
+//                new MoveRobotXYCMD(0,0,
+//                        mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
                 new MoveRobotHCMD(96,
                         mecanumDriveBaseSub,
                         telemetryManagerSub.getTelemetryObject())

@@ -8,6 +8,8 @@ public class CircularPIDController {
     private double error;
     private double output;
 
+    private double errorTolerance = 0.05;
+
 
     private double clockwiseDistanceToSetpoint;
     private double counterClockwiseDistanceToSetpoint;
@@ -17,7 +19,7 @@ public class CircularPIDController {
         m_kP = kP;
     }
 
-    public double Calculate(double setpoint,
+    public double calculate(double setpoint,
                             double currentAngle) {
         double output;
 
@@ -38,5 +40,17 @@ public class CircularPIDController {
         output = error * m_kP;
         return output;
     };
+    public double getError(){
+        return error;
+    }
+    public Boolean atSetPoint(){
+        return Math.abs(error) <= setPoint + errorTolerance;
+    }
+
+    public Boolean isCounterClockwiseAngleShorter(){
+        return   counterClockwiseDistanceToSetpoint <= clockwiseDistanceToSetpoint;
+
+    }
+
 }
 

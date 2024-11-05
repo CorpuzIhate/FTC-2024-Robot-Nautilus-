@@ -73,7 +73,7 @@ public class CommandAuto extends CommandOpMode {
 //                        mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
 //                new MoveRobotXYCMD(0,0,
 //                        mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
-                new MoveRobotHCMD(96,
+                new MoveRobotHCMD(270,
                         mecanumDriveBaseSub,
                         telemetryManagerSub.getTelemetryObject())
 

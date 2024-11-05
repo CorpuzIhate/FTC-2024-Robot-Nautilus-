@@ -33,10 +33,11 @@ public class PIDAuto extends LinearOpMode {
 
     public static double setPointX = 0;
     public static double setPointY = 0;
+    public static double setPointH = 0;
 
     private  PIDFController xPosController;
     private  PIDFController yPosController;
-    private  PIDFController hPosController;
+    private  CircularPIDController hPosController;
 
     private DcMotor frontLeft = null;
     private DcMotor frontRight = null;
@@ -79,7 +80,7 @@ public class PIDAuto extends LinearOpMode {
 
         xPosController = new PIDFController(KMoveP, KMoveI,KMoveD, KMoveF);
         yPosController = new PIDFController(KMoveP, KMoveI,KMoveD, KMoveF);
-        hPosController = new PIDFController(KTurnP, KTurnI,KTurnD, KTurnF);
+        hPosController = new CircularPIDController(KTurnP);
 
         Otos = hardwareMap.get(SparkFunOTOS.class, "sensor_otos");
         dashboardTelemetry.addData("hPosSetpoint", 0);
@@ -93,8 +94,8 @@ public class PIDAuto extends LinearOpMode {
         dashboardTelemetry.addData("angular scaler",Otos.getAngularScalar());
         dashboardTelemetry.addData("linear scaler",Otos.getLinearScalar());
         waitForStart();
-        //turnRobot(96); // 90 degrees
-        moveRobot(setPointX,setPointY);
+        turnRobot(setPointH); // 90 degrees
+//        moveRobot(setPointX,setPointY);
 
     }
 
@@ -270,20 +271,20 @@ public class PIDAuto extends LinearOpMode {
 
 
     }
-    public void UpdateAutoTelemetry(double xPosSetpoint, double yPosSetpoint, PIDFController hController){
+    public void UpdateAutoTelemetry(double xPosSetpoint, double yPosSetpoint, CircularPIDController hController){
         dashboardTelemetry.addData("xPosSetpoint", xPosSetpoint);
         dashboardTelemetry.addData("yPosSetpoint", yPosSetpoint);
-        dashboardTelemetry.addData("hPosSetpoint", hController.getSetPoint());
+
+        dashboardTelemetry.addData("error", hPosController.getError());
+        dashboardTelemetry.addData("isCounterClockwiseAngleShorter", hPosController.isCounterClockwiseAngleShorter());
+        dashboardTelemetry.addData("ouput", hPosController.getOutput());
 
 
         dashboardTelemetry.addData("pos x", Otos.getPosition().x);
         dashboardTelemetry.addData("pos y", Otos.getPosition().y);
         dashboardTelemetry.addData("pos h", Otos.getPosition().h);
 
-        dashboardTelemetry.addData("Turning P", hController.getP());
-        dashboardTelemetry.addData("Turning I", hController.getI());
-        dashboardTelemetry.addData("Turning D", hController.getD());
-        dashboardTelemetry.addData("Turning F", hController.getF());
+
 
 
         dashboardTelemetry.update();

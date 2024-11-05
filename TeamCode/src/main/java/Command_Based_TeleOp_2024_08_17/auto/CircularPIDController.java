@@ -19,12 +19,11 @@ public class CircularPIDController {
         m_kP = kP;
     }
 
-    public double calculate(double setpoint,
-                            double currentAngle) {
+    public double calculate(double currentAngle,double setpoint) {
         double output;
 
         counterClockwiseDistanceToSetpoint = Math.abs(currentAngle- setpoint);
-        clockwiseDistanceToSetpoint = (2 * Math.PI) - counterClockwiseDistanceToSetpoint;
+        clockwiseDistanceToSetpoint = 360 - counterClockwiseDistanceToSetpoint;
 
 
         //compare the clockwise and counter clockwise angles.
@@ -50,6 +49,9 @@ public class CircularPIDController {
     public Boolean isCounterClockwiseAngleShorter(){
         return   counterClockwiseDistanceToSetpoint <= clockwiseDistanceToSetpoint;
 
+    }
+    public double getOutput(){
+        return output;
     }
 
 }

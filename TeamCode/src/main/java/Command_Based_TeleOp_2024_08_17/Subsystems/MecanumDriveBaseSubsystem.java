@@ -2,10 +2,13 @@ package Command_Based_TeleOp_2024_08_17.Subsystems;
 
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
+import com.arcrobotics.ftclib.geometry.Vector2d;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 
 ;
+
+import Command_Based_TeleOp_2024_08_17.Constants;
 
 
 public class MecanumDriveBaseSubsystem extends SubsystemBase {
@@ -68,10 +71,53 @@ public class MecanumDriveBaseSubsystem extends SubsystemBase {
 
     }
     public SparkFunOTOS.Pose2D getPosed2D(){
+
         return m_OTOS.getPosition();
+
+    }
+    public SparkFunOTOS.Pose2D convertSoosCentricPosToRobotCentricPos(SparkFunOTOS.Pose2D soosPos){
+        //vector from origin to SOOS
+
+        Vector2d s;
+        Vector2d r_f;
+        double r;
+        Vector2d r_i;
+
+
+        s =
+                new Vector2d(
+                        Constants.OdemetryConstants.distanceFromOriginX_INCHES,
+                        soosPos.y + Constants.OdemetryConstants.distanceFromOriginY_INCHES);
+        //vector from origin to soos
+        r_f = new Vector2d(soosPos.x,soosPos.y);
+
+        //move soos heading by heading offset
+        r = soosPos.h + Constants.OdemetryConstants.soosAngleOffset_radians;
+
+        //vector from soos to center of robot
+        r_i = r_f.minus(s.rotateBy(r));
+
+        return new SparkFunOTOS.Pose2D(r_i.getX(), r_i.getY(),soosPos.h);
     }
 
 
+    public Vector2d fieldVelocityToRobotVelocity(Vector2d desiredFieldPos, double angle_radians ){
+
+        Vector2d r;
+
+
+        Vector2d direction = new Vector2d(
+                Math.cos(angle_radians + Math.atan(desiredFieldPos.getX() / desiredFieldPos.getY())),
+                Math.sin(angle_radians + Math.atan(desiredFieldPos.getX() / desiredFieldPos.getY()))
+        );
+
+        if(desiredFieldPos.getX() < 0 && desiredFieldPos.getY() < 0){
+            direction.scale(-1);
+        }
+
+        r =  direction.scale(desiredFieldPos.magnitude());
+        return  r;
+    }
 
 
 

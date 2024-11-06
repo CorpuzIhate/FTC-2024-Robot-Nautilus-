@@ -3,6 +3,7 @@ package Command_Based_TeleOp_2024_08_17.auto;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.controller.PIDFController;
+import com.arcrobotics.ftclib.geometry.Vector2d;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -13,6 +14,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+
+import Command_Based_TeleOp_2024_08_17.Constants;
 
 @Config
 @Autonomous
@@ -34,6 +37,20 @@ public class PIDAuto extends LinearOpMode {
     public static double setPointX = 0;
     public static double setPointY = 0;
     public static double setPointH = 0;
+
+    public static double fieldx = 0;
+    public static double fieldy = 0;
+    public static double fieldh = 0;
+
+    public static double robotRelativex = 0;
+    public static double robotRelativey = 0;
+    public static Vector2d robotRelative = new Vector2d(0,0);
+
+    public static double fieldx = 0;
+    public static double fieldy = 0;
+    public static double fieldh = 0;
+
+
 
     private  PIDFController xPosController;
     private  PIDFController yPosController;
@@ -73,10 +90,10 @@ public class PIDAuto extends LinearOpMode {
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         backRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        dashboardTelemetry.addData("p", KMoveP);
-        dashboardTelemetry.addData("I", KMoveI);
-        dashboardTelemetry.addData("D",KMoveD);
-        dashboardTelemetry.addData("F", KMoveF);
+//        dashboardTelemetry.addData("p", KMoveP);
+//        dashboardTelemetry.addData("I", KMoveI);
+//        dashboardTelemetry.addData("D",KMoveD);
+//        dashboardTelemetry.addData("F", KMoveF);
 
         xPosController = new PIDFController(KMoveP, KMoveI,KMoveD, KMoveF);
         yPosController = new PIDFController(KMoveP, KMoveI,KMoveD, KMoveF);
@@ -85,17 +102,29 @@ public class PIDAuto extends LinearOpMode {
         Otos = hardwareMap.get(SparkFunOTOS.class, "sensor_otos");
         dashboardTelemetry.addData("hPosSetpoint", 0);
 
-        dashboardTelemetry.addData("Turning P",0);
-        dashboardTelemetry.addData("Turning I", 0);
-        dashboardTelemetry.addData("Turning D", 0);
-        dashboardTelemetry.addData("Turning F", 0);
+//        dashboardTelemetry.addData("Turning P",0);
+//        dashboardTelemetry.addData("Turning I", 0);
+//        dashboardTelemetry.addData("Turning D", 0);
+//        dashboardTelemetry.addData("Turning F", 0);
         configureOtos();
 
-        dashboardTelemetry.addData("angular scaler",Otos.getAngularScalar());
-        dashboardTelemetry.addData("linear scaler",Otos.getLinearScalar());
+//        dashboardTelemetry.addData("angular scaler",Otos.getAngularScalar());
+//        dashboardTelemetry.addData("linear scaler",Otos.getLinearScalar());
         waitForStart();
-        turnRobot(setPointH); // 90 degrees
-//        moveRobot(setPointX,setPointY);
+//        turnRobot(setPointH); // 90 degrees
+////        moveRobot(setPointX,setPointY);
+        while (opModeIsActive()){
+
+
+            robotRelative = fieldVelocityToRobotVelocity(new Vector2d(fieldx,fieldy), fieldh) ;
+            dashboardTelemetry.addData("Field Centric test X", robotRelativex );
+            dashboardTelemetry.addData("Field Centric test y", robotRelativey );
+
+
+            dashboardTelemetry.addData("pos x", convertSoosCentricPosToRobotCentricPos(Otos.getPosition()).x);
+            dashboardTelemetry.addData("pos y", convertSoosCentricPosToRobotCentricPos(Otos.getPosition()).y );
+            dashboardTelemetry.addData("pos y", convertSoosCentricPosToRobotCentricPos(Otos.getPosition()).h );
+        };
 
     }
 
@@ -231,6 +260,8 @@ public class PIDAuto extends LinearOpMode {
 
 
 
+
+
     public void setMotorSpeeds(double forwardPower, double strafePower,
                                double rotationPower){
 
@@ -289,5 +320,47 @@ public class PIDAuto extends LinearOpMode {
 
         dashboardTelemetry.update();
 
+    }
+    public SparkFunOTOS.Pose2D convertSoosCentricPosToRobotCentricPos(SparkFunOTOS.Pose2D soosPos){
+        //vector from origin to SOOS
+
+        Vector2d s;
+        Vector2d r_f;
+        double r;
+        Vector2d r_i;
+
+
+        s =
+                new Vector2d(
+                        Constants.OdemetryConstants.distanceFromOriginX_INCHES,
+                        Constants.OdemetryConstants.distanceFromOriginY_INCHES);
+        //vector from origin to soos
+        r_f = new Vector2d(soosPos.x,soosPos.y);
+
+        //move soos heading by heading offset
+        r = soosPos.h + Constants.OdemetryConstants.soosAngleOffset_radians;
+
+        //vector from soos to center of robot
+        r_i = r_f.minus(s.rotateBy(r));
+
+        return new SparkFunOTOS.Pose2D(r_i.getX(), r_i.getY(),soosPos.h);
+    }
+
+    public Vector2d fieldVelocityToRobotVelocity(Vector2d desiredFieldPos, double angle_radians ){
+
+        Vector2d r;
+
+
+        Vector2d direction = new Vector2d(
+                Math.cos(angle_radians + Math.atan(desiredFieldPos.getX() / desiredFieldPos.getY())),
+                Math.sin(angle_radians + Math.atan(desiredFieldPos.getX() / desiredFieldPos.getY()))
+        );
+
+        if(desiredFieldPos.getX() < 0 && desiredFieldPos.getY() < 0){
+            direction.scale(-1);
+        }
+
+        r =  direction.scale(desiredFieldPos.magnitude());
+        return  r;
     }
 }

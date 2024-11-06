@@ -332,8 +332,8 @@ public class PIDAuto extends LinearOpMode {
 
         s =
                 new Vector2d(
-                        Constants.OdemetryConstants.distanceFromOriginX_INCHES,
-                        Constants.OdemetryConstants.distanceFromOriginY_INCHES);
+                        Constants.OdemetryConstants.distanceFromOriginX_INCHES + soosPos.x,
+                        Constants.OdemetryConstants.distanceFromOriginY_INCHES + soosPos.y);
         //vector from origin to soos
         r_f = new Vector2d(soosPos.x,soosPos.y);
 
@@ -341,6 +341,7 @@ public class PIDAuto extends LinearOpMode {
         r = soosPos.h + Constants.OdemetryConstants.soosAngleOffset_radians;
 
         //vector from soos to center of robot
+        //unit is likely in degrees because rotateBy() converts the input to radians at the star.
         r_i = r_f.minus(s.rotateBy(r));
 
         return new SparkFunOTOS.Pose2D(r_i.getX(), r_i.getY(),soosPos.h);

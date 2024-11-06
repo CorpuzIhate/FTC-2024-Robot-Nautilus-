@@ -46,10 +46,6 @@ public class PIDAuto extends LinearOpMode {
     public static double robotRelativey = 0;
     public static Vector2d robotRelative = new Vector2d(0,0);
 
-    public static double fieldx = 0;
-    public static double fieldy = 0;
-    public static double fieldh = 0;
-
 
 
     private  PIDFController xPosController;

@@ -24,15 +24,13 @@ public class MecanumDriveBaseSubsystem extends SubsystemBase {
 
     }
     public void setMotorSpeeds(double forwardPower, double strafePower,
-                                  double rotationPower){
+                                  double rotationPower ){
 
         forwardPower *= 1;
         strafePower *= -1;
         rotationPower *= -1;
 
-        forwardPower = smoothJoystickInputs(forwardPower);
-        strafePower = smoothJoystickInputs(strafePower);
-        rotationPower = smoothJoystickInputs(rotationPower);
+
 
         double frontLeftSpeed = forwardPower - strafePower - rotationPower;
         double backLeftSpeed = forwardPower + strafePower - rotationPower;

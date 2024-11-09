@@ -87,12 +87,12 @@ public class MecanumDriveBaseSubsystem extends SubsystemBase {
         s =
                 new Vector2d(
                         Constants.OdemetryConstants.distanceFromOriginX_INCHES,
-                        soosPos.y + Constants.OdemetryConstants.distanceFromOriginY_INCHES);
+                        Constants.OdemetryConstants.distanceFromOriginY_INCHES);
         //vector from origin to soos
         r_f = new Vector2d(soosPos.x,soosPos.y);
 
         //move soos heading by heading offset
-        r = soosPos.h + Constants.OdemetryConstants.soosAngleOffset_radians;
+        r = soosPos.h;
 
         //vector from soos to center of robot
         r_i = r_f.minus(s.rotateBy(r));

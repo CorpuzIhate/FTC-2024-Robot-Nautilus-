@@ -119,7 +119,7 @@ public class PIDAuto extends LinearOpMode {
 
             dashboardTelemetry.addData("pos x", convertSoosCentricPosToRobotCentricPos(Otos.getPosition()).x);
             dashboardTelemetry.addData("pos y", convertSoosCentricPosToRobotCentricPos(Otos.getPosition()).y );
-            dashboardTelemetry.addData("pos y", convertSoosCentricPosToRobotCentricPos(Otos.getPosition()).h );
+            dashboardTelemetry.addData("pos h", convertSoosCentricPosToRobotCentricPos(Otos.getPosition()).h );
         };
 
     }

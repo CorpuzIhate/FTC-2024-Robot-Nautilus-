@@ -76,47 +76,54 @@ public class MecanumDriveBaseSubsystem extends SubsystemBase {
 
     }
     public SparkFunOTOS.Pose2D convertSoosCentricPosToRobotCentricPos(SparkFunOTOS.Pose2D soosPos){
+
         //vector from origin to SOOS
 
-        Vector2d s;
-        Vector2d r_f;
-        double r;
-        Vector2d r_i;
+
+        Vector2d soosToOrigin;
+        Vector2d originToSoos;
+        double soosHeading;
+        Vector2d soosToCenterOfRobot;
 
 
-        s =
+        soosToOrigin =
                 new Vector2d(
                         Constants.OdemetryConstants.distanceFromOriginX_INCHES,
                         Constants.OdemetryConstants.distanceFromOriginY_INCHES);
         //vector from origin to soos
-        r_f = new Vector2d(soosPos.x,soosPos.y);
+        originToSoos = new Vector2d(soosPos.x,soosPos.y);
 
-        //move soos heading by heading offset
-        r = soosPos.h;
+        soosHeading = soosPos.h;
 
         //vector from soos to center of robot
-        r_i = r_f.minus(s.rotateBy(r));
 
-        return new SparkFunOTOS.Pose2D(r_i.getX(), r_i.getY(),soosPos.h);
+        //we rotate the vector from Soos to Origin  by the Soos and subtract it by the vector
+        //from origin to soos
+        soosToCenterOfRobot = originToSoos.minus(soosToOrigin.rotateBy(soosHeading));
+
+        return new SparkFunOTOS.Pose2D(soosToCenterOfRobot.getX(), soosToCenterOfRobot.getY(),soosPos.h);
     }
 
 
     public Vector2d fieldVelocityToRobotVelocity(Vector2d desiredFieldPos, double angle_radians ){
 
-        Vector2d r;
+        Vector2d desiredRelativePos;
 
-
+        // we get the angle of desiredFieldPos and rotate it by our heading.
+        //we added cos and sin to get the new x and y components of the desiredFieldPos
         Vector2d direction = new Vector2d(
                 Math.cos(angle_radians + Math.atan(desiredFieldPos.getX() / desiredFieldPos.getY())),
                 Math.sin(angle_radians + Math.atan(desiredFieldPos.getX() / desiredFieldPos.getY()))
         );
-
+        // if both the components of is negative, we multiple the direction
+        //by -1 because if both inputs of atan are negative
+        // it becomes positive
         if(desiredFieldPos.getX() < 0 && desiredFieldPos.getY() < 0){
             direction.scale(-1);
         }
 
-        r =  direction.scale(desiredFieldPos.magnitude());
-        return  r;
+        desiredRelativePos =  direction.scale(desiredFieldPos.magnitude());
+        return  desiredRelativePos;
     }
 
 

@@ -42,9 +42,13 @@ public class PIDAuto extends LinearOpMode {
     public static double fieldy = 0;
     public static double fieldh = 0;
 
-    public static double robotRelativex = 0;
-    public static double robotRelativey = 0;
+    public static double fieldx_2 = 0;
+    public static double fieldy_2 = 0;
+    public static double fieldh_2 = 0;
+
+
     public static Vector2d robotRelative = new Vector2d(0,0);
+    public static Vector2d robotRelative_2 = new Vector2d(0,0);
 
 
 
@@ -113,8 +117,14 @@ public class PIDAuto extends LinearOpMode {
 
 
             robotRelative = fieldVelocityToRobotVelocity(new Vector2d(fieldx,fieldy), fieldh) ;
-            dashboardTelemetry.addData("Field Centric test X", robotRelativex );
-            dashboardTelemetry.addData("Field Centric test y", robotRelativey );
+            robotRelative_2 = fieldVelocityToRobotVelocity_V2(new Vector2d(fieldx_2, fieldy_2),
+                    fieldh_2);
+
+            dashboardTelemetry.addData("Field Centric test X", robotRelative.getX() );
+            dashboardTelemetry.addData("Field Centric test y", robotRelative.getY() );
+
+            dashboardTelemetry.addData("Field Centric test X_2", robotRelative_2.getX() );
+            dashboardTelemetry.addData("Field Centric test y+2", robotRelative_2.getY() );
 
 
             dashboardTelemetry.addData("pos x", convertSoosCentricPosToRobotCentricPos(Otos.getPosition()).x);
@@ -359,5 +369,20 @@ public class PIDAuto extends LinearOpMode {
 
         r =  direction.scale(desiredFieldPos.magnitude());
         return  r;
+    }
+    public Vector2d fieldVelocityToRobotVelocity_V2(Vector2d desiredFieldVelocity, double angle_radians ){
+
+        Vector2d desiredRelativeVelocity;
+
+        double desiredRelativeVelocity_x = desiredFieldVelocity.getX() * Math.cos(angle_radians) +
+                desiredFieldVelocity.getY() * Math.sin(angle_radians);
+
+        double desiredRelativeVelocity_y = desiredFieldVelocity.getY() * Math.cos(angle_radians) -
+                desiredFieldVelocity.getX() * Math.sin(angle_radians);
+
+
+        desiredRelativeVelocity = new Vector2d(desiredRelativeVelocity_x, desiredRelativeVelocity_y);
+        return  desiredFieldVelocity;
+
     }
 }

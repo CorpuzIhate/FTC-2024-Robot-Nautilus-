@@ -105,27 +105,42 @@ public class MecanumDriveBaseSubsystem extends SubsystemBase {
     }
 
 
-    public Vector2d fieldVelocityToRobotVelocity(Vector2d desiredFieldPos, double angle_radians ){
+    public Vector2d fieldVelocityToRobotVelocity(Vector2d desiredFieldVelocity, double angle_radians ){
 
-        Vector2d desiredRelativePos;
+        Vector2d desiredRelativeVelocity;
 
         // we get the angle of desiredFieldPos and rotate it by our heading.
         //we added cos and sin to get the new x and y components of the desiredFieldPos
         Vector2d direction = new Vector2d(
-                Math.cos(angle_radians + Math.atan(desiredFieldPos.getX() / desiredFieldPos.getY())),
-                Math.sin(angle_radians + Math.atan(desiredFieldPos.getX() / desiredFieldPos.getY()))
+                Math.cos(angle_radians + Math.atan(desiredFieldVelocity.getX() / desiredFieldVelocity.getY())),
+                Math.sin(angle_radians + Math.atan(desiredFieldVelocity.getX() / desiredFieldVelocity.getY()))
         );
         // if both the components of is negative, we multiple the direction
         //by -1 because if both inputs of atan are negative
         // it becomes positive
-        if(desiredFieldPos.getX() < 0 && desiredFieldPos.getY() < 0){
+        if(desiredFieldVelocity.getX() < 0 && desiredFieldVelocity.getY() < 0){
             direction.scale(-1);
         }
 
-        desiredRelativePos =  direction.scale(desiredFieldPos.magnitude());
-        return  desiredRelativePos;
+        desiredRelativeVelocity =  direction.scale(desiredFieldVelocity.magnitude());
+        return  desiredRelativeVelocity;
     }
 
+    public Vector2d fieldVelocityToRobotVelocity_V2(Vector2d desiredFieldVelocity, double angle_radians ){
+
+        Vector2d desiredRelativeVelocity;
+
+        double desiredRelativeVelocity_x = desiredFieldVelocity.getX() * Math.cos(angle_radians) +
+                desiredFieldVelocity.getY() * Math.sin(angle_radians);
+
+        double desiredRelativeVelocity_y = desiredFieldVelocity.getY() * Math.cos(angle_radians) -
+                desiredFieldVelocity.getX() * Math.sin(angle_radians);
+
+
+        desiredRelativeVelocity = new Vector2d(desiredRelativeVelocity_x, desiredRelativeVelocity_y);
+        return  desiredFieldVelocity;
+
+    }
 
 
 

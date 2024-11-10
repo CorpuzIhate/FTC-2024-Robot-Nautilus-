@@ -126,19 +126,19 @@ public class MecanumDriveBaseSubsystem extends SubsystemBase {
         return  desiredRelativeVelocity;
     }
 
-    public Vector2d fieldVelocityToRobotVelocity_V2(Vector2d desiredFieldVelocity, double angle_radians ){
+    public Vector2d fieldVelocityToRobotVelocity_V2(Vector2d desiredFieldVelocity, double robot_heading_radians ){
 
-        Vector2d desiredRelativeVelocity;
+        Vector2d desiredRobotRelativeVelocity;
 
-        double desiredRelativeVelocity_x = desiredFieldVelocity.getX() * Math.cos(angle_radians) +
-                desiredFieldVelocity.getY() * Math.sin(angle_radians);
+        double desiredRobotRelativeVelocity_x = desiredFieldVelocity.getX() * Math.cos(robot_heading_radians) +
+                desiredFieldVelocity.getY() * Math.sin(robot_heading_radians);
 
-        double desiredRelativeVelocity_y = desiredFieldVelocity.getY() * Math.cos(angle_radians) -
-                desiredFieldVelocity.getX() * Math.sin(angle_radians);
+        double desiredRobotRelativeVelocity_y = desiredFieldVelocity.getY() * Math.cos(robot_heading_radians) -
+                desiredFieldVelocity.getX() * Math.sin(robot_heading_radians);
 
 
-        desiredRelativeVelocity = new Vector2d(desiredRelativeVelocity_x, desiredRelativeVelocity_y);
-        return  desiredFieldVelocity;
+        desiredRobotRelativeVelocity = new Vector2d(desiredRobotRelativeVelocity_x, desiredRobotRelativeVelocity_y);
+        return  desiredRobotRelativeVelocity;
 
     }
 

@@ -65,7 +65,7 @@ public class MecanumDriveBaseSubsystem extends SubsystemBase {
 
     }
     public double smoothJoystickInputs(double input){
-        double exp = 2.2;
+        double exp = 1.3;
         if(input >= 0  && input <= 1 ){
             return Math.pow(input,exp);
         }

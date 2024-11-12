@@ -103,12 +103,12 @@ public class RobotContainer extends CommandOpMode {
         driverOP = new GamepadEx(gamepad1);
         vacuumIntakeButton = new GamepadButton(driverOP, GamepadKeys.Button.A);
         vacuumOutakeButton = new GamepadButton(driverOP, GamepadKeys.Button.B);
-        moveShouldertoBottomPos = new GamepadButton(driverOP, GamepadKeys.Button.X);
-        moveShouldertoMiddlePos = new GamepadButton(driverOP, GamepadKeys.Button.Y);
+        moveShouldertoBottomPos = new GamepadButton(driverOP, GamepadKeys.Button.DPAD_DOWN);
+        moveShouldertoMiddlePos = new GamepadButton(driverOP, GamepadKeys.Button.DPAD_LEFT);
 
-        moveShouldertoUpperPos = new GamepadButton(driverOP, GamepadKeys.Button.DPAD_DOWN);
-        moveShouldertoIntakePos_1 = new GamepadButton(driverOP, GamepadKeys.Button.DPAD_UP);
-        moveShouldertoIntakePos_2 = new GamepadButton(driverOP, GamepadKeys.Button.DPAD_LEFT);
+        moveShouldertoUpperPos = new GamepadButton(driverOP, GamepadKeys.Button.DPAD_UP);
+        moveShouldertoIntakePos_1 = new GamepadButton(driverOP, GamepadKeys.Button.LEFT_BUMPER);
+        moveShouldertoIntakePos_2 = new GamepadButton(driverOP, GamepadKeys.Button.RIGHT_BUMPER);
 
 
 

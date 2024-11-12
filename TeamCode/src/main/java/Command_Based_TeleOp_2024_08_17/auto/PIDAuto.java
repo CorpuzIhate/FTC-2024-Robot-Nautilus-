@@ -18,7 +18,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import Command_Based_TeleOp_2024_08_17.Constants;
 
 @Config
-@Autonomous
+@Autonomous(name = "PID AUTO")
 public class PIDAuto extends LinearOpMode {
     public static double KMoveP = 0.06;
     public static double KMoveI = 0;
@@ -124,12 +124,13 @@ public class PIDAuto extends LinearOpMode {
             dashboardTelemetry.addData("Field Centric test y", robotRelative.getY() );
 
             dashboardTelemetry.addData("Field Centric test X_2", robotRelative_2.getX() );
-            dashboardTelemetry.addData("Field Centric test y+2", robotRelative_2.getY() );
+            dashboardTelemetry.addData("Field Centric test y_2", robotRelative_2.getY() );
 
 
             dashboardTelemetry.addData("pos x", convertSoosCentricPosToRobotCentricPos(Otos.getPosition()).x);
             dashboardTelemetry.addData("pos y", convertSoosCentricPosToRobotCentricPos(Otos.getPosition()).y );
             dashboardTelemetry.addData("pos h", convertSoosCentricPosToRobotCentricPos(Otos.getPosition()).h );
+            dashboardTelemetry.update();
         };
 
     }

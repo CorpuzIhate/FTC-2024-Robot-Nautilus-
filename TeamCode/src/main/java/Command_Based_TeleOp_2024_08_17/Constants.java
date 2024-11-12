@@ -5,7 +5,6 @@ import com.acmerobotics.dashboard.config.Config;
 @Config
 public final class Constants{
     public static final class OdemetryConstants{
-        public  static final double distanceFromSoosToCenter_INCHES = 2;
         public  static final double soosAngleOffset_radians = 2;
         //relative to robot
 
@@ -13,8 +12,8 @@ public final class Constants{
         public static double soosX;
         public static double soosY;
 
-        public static double distanceFromOriginX_INCHES = 0;
-        public static double distanceFromOriginY_INCHES = 0;
+        public static double distanceFromOriginX_INCHES = -4.0135;
+        public static double distanceFromOriginY_INCHES = 5.1875;
     }
     public static final class ShoulderPIDConstants{
         public static final double kP = 0.6;

@@ -19,14 +19,14 @@ public final class Constants{
 
     }
     public static final class ShoulderSetpoints{
-        public static final double middleShoulderPos = 500;
+        public static final double middleShoulderPos = 200;
 
-        public static final double upperShoulderPos = 1700;
+        public static final double upperShoulderPos = -200;
     };
     public static final class ElbowSetpoints{
-        public static final double middleElbowPos = 1000;
+        public static final double middleElbowPos = 200;
 
-        public static final double upperElbowPos = 2300;
+        public static final double upperElbowPos = -200;
     };
 
 

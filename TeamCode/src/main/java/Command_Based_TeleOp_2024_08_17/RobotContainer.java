@@ -7,17 +7,17 @@ import com.arcrobotics.ftclib.command.PerpetualCommand;
 import com.arcrobotics.ftclib.command.button.Button;
 import com.arcrobotics.ftclib.command.button.GamepadButton;
 import com.arcrobotics.ftclib.controller.PIDFController;
-import com.arcrobotics.ftclib.controller.PIDFController;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
-import com.arcrobotics.ftclib.hardware.ServoEx;
 import com.arcrobotics.ftclib.hardware.motors.CRServo;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.ColorRangeSensor;
 
 
 import Command_Based_TeleOp_2024_08_17.Commands.MoveArmJointCMD;
+import Command_Based_TeleOp_2024_08_17.Commands.PowerVacuumCMD;
 import Command_Based_TeleOp_2024_08_17.Commands.TeleOpJoystickRobotCentricCMD;
 import Command_Based_TeleOp_2024_08_17.Commands.TelemetryManagerCMD;
 import Command_Based_TeleOp_2024_08_17.Subsystems.MecanumDriveBaseSubsystem;
@@ -49,16 +49,20 @@ public class RobotContainer extends CommandOpMode {
 
     private MecanumDriveBaseSubsystem mecanumDriveBaseSub;
     private TelemetryManagerSubsystem telemetryManagerSub;
-    //TODO refactor Vacuum servos so that they're accessed through the Vacuum sub
-
-    private  VacuumSubsystem vacuumSubsystem = new VacuumSubsystem();
 
     private armJointSubsystem elbowSub;
     private armJointSubsystem shoulderSub;
 
+    //TODO refactor Vacuum servos so that they're accessed through the Vacuum sub
+    private  VacuumSubsystem vacuumSubsystem = new VacuumSubsystem();
+    public ColorRangeSensor vacuumSensor;
+
     public GamepadEx driverOP;
-    public Button vacuumButton;
+    public Button vacuumIntakeButton;
+    public Button vacuumOutakeButton;
     public GamepadButton moveShouldertoBottomPos;
+    public GamepadButton moveShouldertoIntakePos_1;
+    public GamepadButton moveShouldertoIntakePos_2;
     public GamepadButton moveShouldertoMiddlePos;
 
     public GamepadButton moveShouldertoUpperPos;
@@ -85,6 +89,7 @@ public class RobotContainer extends CommandOpMode {
         elbowMotor.setRunMode(Motor.RunMode.RawPower);
 
         ContinousVacuumServo = new CRServo(hardwareMap, "Vacuum_Servo");
+        vacuumSensor = hardwareMap.get(ColorRangeSensor.class, "Vaccum_Distance_Sensor");
 
         frontLeft.setRunMode(Motor.RunMode.RawPower);
         frontRight.setRunMode(Motor.RunMode.RawPower);
@@ -96,12 +101,14 @@ public class RobotContainer extends CommandOpMode {
         backLeft.setInverted(true);
         backRight.setInverted(true);
         driverOP = new GamepadEx(gamepad1);
-        vacuumButton = new GamepadButton(driverOP, GamepadKeys.Button.A);
-
+        vacuumIntakeButton = new GamepadButton(driverOP, GamepadKeys.Button.A);
+        vacuumOutakeButton = new GamepadButton(driverOP, GamepadKeys.Button.B);
         moveShouldertoBottomPos = new GamepadButton(driverOP, GamepadKeys.Button.X);
         moveShouldertoMiddlePos = new GamepadButton(driverOP, GamepadKeys.Button.Y);
-        moveShouldertoUpperPos = new GamepadButton(driverOP, GamepadKeys.Button.DPAD_DOWN);
 
+        moveShouldertoUpperPos = new GamepadButton(driverOP, GamepadKeys.Button.DPAD_DOWN);
+        moveShouldertoIntakePos_1 = new GamepadButton(driverOP, GamepadKeys.Button.DPAD_UP);
+        moveShouldertoIntakePos_2 = new GamepadButton(driverOP, GamepadKeys.Button.DPAD_LEFT);
 
 
 
@@ -166,8 +173,16 @@ public class RobotContainer extends CommandOpMode {
             shoulderSub.setSetpoint(0);
             elbowSub.setSetpoint(0);
         }));
+        moveShouldertoIntakePos_1.whenPressed(new InstantCommand(() -> {
 
+            shoulderSub.setSetpoint(Constants.ShoulderSetpoints.intakeShoulderPos_1);
+            elbowSub.setSetpoint(Constants.ElbowSetpoints.intakeElbowPos_1);
+        }));
+        moveShouldertoIntakePos_2.whenPressed(new InstantCommand(() -> {
 
+            shoulderSub.setSetpoint(Constants.ShoulderSetpoints.intakeShoulderPos_2);
+            elbowSub.setSetpoint(Constants.ElbowSetpoints.intakeElbowPos_2);
+        }));
         shoulderSub.setDefaultCommand(new MoveArmJointCMD(
                 telemetryManagerSub.getTelemetryObject(),
                 shoulderSub,
@@ -178,8 +193,17 @@ public class RobotContainer extends CommandOpMode {
                 elbowSub,
                 false
         ));
-   //   moveShouldertoMiddlePos.whenPressed(new MoveArmUpCMDG(0,0,shoulderSub, telemetryManagerSub.getTelemetryObject()));
-       // vacuumButton.whileHeld(new PowerVacuumCMD(vacuumSubsystem, 1,ContinousVacuumServo)).whenReleased(new PowerVacuumCMD(vacuumSubsystem, 0,ContinousVacuumServo));
+//testing
+
+        vacuumIntakeButton.whileHeld(new PowerVacuumCMD(vacuumSubsystem, 1,
+                        ContinousVacuumServo,telemetryManagerSub.getTelemetryObject() ,vacuumSensor))
+                .whenReleased(new PowerVacuumCMD(vacuumSubsystem, 0,
+                        ContinousVacuumServo,telemetryManagerSub.getTelemetryObject() ,vacuumSensor));
+
+        vacuumOutakeButton.whileHeld(new PowerVacuumCMD(vacuumSubsystem, -1,
+                        ContinousVacuumServo,telemetryManagerSub.getTelemetryObject() ,vacuumSensor))
+                .whenReleased(new PowerVacuumCMD(vacuumSubsystem, 0,
+                        ContinousVacuumServo,telemetryManagerSub.getTelemetryObject() ,vacuumSensor));
 
     }
 

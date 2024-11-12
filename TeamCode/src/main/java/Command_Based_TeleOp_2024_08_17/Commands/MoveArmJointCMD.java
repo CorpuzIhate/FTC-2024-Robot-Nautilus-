@@ -70,7 +70,7 @@ public class MoveArmJointCMD extends CommandBase {
 
         }
 
-            jointMotor.set(output); // error might happen here cuz
+           jointMotor.set(output); // error might happen here cuz
             // we just pass the shoulderMotor object through the subsystem
 
 

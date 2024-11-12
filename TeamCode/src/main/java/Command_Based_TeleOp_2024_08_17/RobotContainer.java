@@ -60,12 +60,12 @@ public class RobotContainer extends CommandOpMode {
     public GamepadEx driverOP;
     public Button vacuumIntakeButton;
     public Button vacuumOutakeButton;
-    public GamepadButton moveShouldertoBottomPos;
+    public GamepadButton moveArmFoldUpPos;
     public GamepadButton moveShouldertoIntakePos_1;
-    public GamepadButton moveShouldertoIntakePos_2;
-    public GamepadButton moveShouldertoMiddlePos;
+    public GamepadButton moveGroundPickUpPos;
+    public GamepadButton moveLowBasketPos;
 
-    public GamepadButton moveShouldertoUpperPos;
+    public GamepadButton moveHighBasketPos;
 
 
 
@@ -101,14 +101,14 @@ public class RobotContainer extends CommandOpMode {
         backLeft.setInverted(true);
         backRight.setInverted(true);
         driverOP = new GamepadEx(gamepad1);
-        vacuumIntakeButton = new GamepadButton(driverOP, GamepadKeys.Button.A);
-        vacuumOutakeButton = new GamepadButton(driverOP, GamepadKeys.Button.B);
-        moveShouldertoBottomPos = new GamepadButton(driverOP, GamepadKeys.Button.DPAD_DOWN);
-        moveShouldertoMiddlePos = new GamepadButton(driverOP, GamepadKeys.Button.DPAD_LEFT);
+        vacuumIntakeButton = new GamepadButton(driverOP, GamepadKeys.Button.LEFT_BUMPER);
+        vacuumOutakeButton = new GamepadButton(driverOP, GamepadKeys.Button.RIGHT_BUMPER);
+        moveArmFoldUpPos = new GamepadButton(driverOP, GamepadKeys.Button.A);
+        moveLowBasketPos = new GamepadButton(driverOP, GamepadKeys.Button.X);
 
-        moveShouldertoUpperPos = new GamepadButton(driverOP, GamepadKeys.Button.DPAD_UP);
-        moveShouldertoIntakePos_1 = new GamepadButton(driverOP, GamepadKeys.Button.LEFT_BUMPER);
-        moveShouldertoIntakePos_2 = new GamepadButton(driverOP, GamepadKeys.Button.RIGHT_BUMPER);
+        moveHighBasketPos = new GamepadButton(driverOP, GamepadKeys.Button.Y);
+        //moveShouldertoIntakePos_1 = new GamepadButton(driverOP, GamepadKeys.Button.);
+        moveGroundPickUpPos = new GamepadButton(driverOP, GamepadKeys.Button.B);
 
 
 
@@ -155,20 +155,20 @@ public class RobotContainer extends CommandOpMode {
                 telemetryManagerSub.getTelemetryObject(), driverOP::getLeftY, driverOP::getRightX, driverOP::getLeftX));
 
 
-        moveShouldertoUpperPos.whenPressed(new InstantCommand(() -> {
+        moveHighBasketPos.whenPressed(new InstantCommand(() -> {
 
             shoulderSub.setSetpoint(Constants.ShoulderSetpoints.upperShoulderPos);
             elbowSub.setSetpoint(Constants.ElbowSetpoints.upperElbowPos);
 
                 }));
 
-        moveShouldertoMiddlePos.whenPressed(new InstantCommand(() -> {
+        moveLowBasketPos.whenPressed(new InstantCommand(() -> {
 
             shoulderSub.setSetpoint(Constants.ShoulderSetpoints.middleShoulderPos);
             elbowSub.setSetpoint(Constants.ElbowSetpoints.middleElbowPos);
                 }));
 
-        moveShouldertoBottomPos.whenPressed(new InstantCommand(() -> {
+        moveArmFoldUpPos.whenPressed(new InstantCommand(() -> {
 
             shoulderSub.setSetpoint(0);
             elbowSub.setSetpoint(0);
@@ -178,7 +178,7 @@ public class RobotContainer extends CommandOpMode {
             shoulderSub.setSetpoint(Constants.ShoulderSetpoints.intakeShoulderPos_1);
             elbowSub.setSetpoint(Constants.ElbowSetpoints.intakeElbowPos_1);
         }));
-        moveShouldertoIntakePos_2.whenPressed(new InstantCommand(() -> {
+        moveGroundPickUpPos.whenPressed(new InstantCommand(() -> {
 
             shoulderSub.setSetpoint(Constants.ShoulderSetpoints.intakeShoulderPos_2);
             elbowSub.setSetpoint(Constants.ElbowSetpoints.intakeElbowPos_2);

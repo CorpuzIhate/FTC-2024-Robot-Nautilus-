@@ -4,6 +4,7 @@ package Command_Based_TeleOp_2024_08_17.Commands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.controller.PIDFController;
+import com.arcrobotics.ftclib.controller.wpilibcontroller.SimpleMotorFeedforward;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -17,7 +18,8 @@ public class MoveArmJointCMD extends CommandBase {
     private final boolean m_useIsFinished;
 
     private  Motor jointMotor;
-    private  PIDFController feedforward;
+    private  PIDFController jointPID;
+    private SimpleMotorFeedforward jointFeedForward;
     private  double output;
     private boolean shoulderisAtpoint;
 ;
@@ -29,6 +31,8 @@ public class MoveArmJointCMD extends CommandBase {
         m_dashboardTelemetry = dashboardTelemetry;
         m_jointSub = jointSub;
 
+
+
         m_useIsFinished = useIsFinished;
         addRequirements(jointSub);
     }
@@ -36,16 +40,16 @@ public class MoveArmJointCMD extends CommandBase {
     @Override
     public void initialize(){
         jointMotor = m_jointSub.getJointMotor();
-        feedforward = m_jointSub.getJointPIDFController();
-
+        jointPID = m_jointSub.getJointPIDFController();
+        jointFeedForward = new SimpleMotorFeedforward(0,0,0);
 
 
         jointMotor.setRunMode(Motor.RunMode.RawPower);
 
-        m_dashboardTelemetry.addData( m_jointSub.getTag() + " kP", feedforward.getP());
-        m_dashboardTelemetry.addData(m_jointSub.getTag() + " kI",feedforward.getI());
-        m_dashboardTelemetry.addData(m_jointSub.getTag() + " kD",feedforward.getD());
-        m_dashboardTelemetry.addData(m_jointSub.getTag() + " kF",feedforward.getF());
+        m_dashboardTelemetry.addData( m_jointSub.getTag() + " kP", jointPID.getP());
+        m_dashboardTelemetry.addData(m_jointSub.getTag() + " kI", jointPID.getI());
+        m_dashboardTelemetry.addData(m_jointSub.getTag() + " kD", jointPID.getD());
+        m_dashboardTelemetry.addData(m_jointSub.getTag() + " kF", jointPID.getF());
 
         m_dashboardTelemetry.addData(m_jointSub.getTag() + " position", jointMotor.getCurrentPosition());
         m_dashboardTelemetry.update();
@@ -60,10 +64,14 @@ public class MoveArmJointCMD extends CommandBase {
         m_dashboardTelemetry.addData(m_jointSub.getTag() + " position", jointMotor.getCurrentPosition());
         m_dashboardTelemetry.addData(m_jointSub.getTag() + " setpoint", m_jointSub.getSetpoint());
 
-        output = feedforward.calculate(jointMotor.getCurrentPosition(), m_jointSub.getSetpoint());
+        output = jointPID.calculate(jointMotor.getCurrentPosition(), m_jointSub.getSetpoint());
+        if(output < 0 && m_jointSub.getTag() == "shoulder")
+        {
+            output *= 0.7;
+        }
 
         m_dashboardTelemetry.update();
-        if(feedforward.atSetPoint()){
+        if(jointPID.atSetPoint()){
 
             m_dashboardTelemetry.addData(m_jointSub.getTag() + " atPoint","yes");
 
@@ -78,7 +86,7 @@ public class MoveArmJointCMD extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        if(m_useIsFinished && feedforward.getSetPoint() ==  m_jointSub.getSetpoint() ){
+        if(m_useIsFinished && jointPID.getSetPoint() ==  m_jointSub.getSetpoint() ){
             return true;
         }
         return false;

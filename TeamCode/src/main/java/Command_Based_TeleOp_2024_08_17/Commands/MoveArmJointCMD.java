@@ -65,10 +65,7 @@ public class MoveArmJointCMD extends CommandBase {
         m_dashboardTelemetry.addData(m_jointSub.getTag() + " setpoint", m_jointSub.getSetpoint());
 
         output = jointPID.calculate(jointMotor.getCurrentPosition(), m_jointSub.getSetpoint());
-        if(output < 0 && m_jointSub.getTag() == "shoulder")
-        {
-            output *= 0.7;
-        }
+
 
         m_dashboardTelemetry.update();
         if(jointPID.atSetPoint()){
@@ -77,9 +74,10 @@ public class MoveArmJointCMD extends CommandBase {
 
 
         }
-
+            //output =
+        m_dashboardTelemetry.addData(m_jointSub.getTag() + " output", m_jointSub.limitJointSpeed(output));
            jointMotor.set(output); // error might happen here cuz
-            // we just pass the shoulderMotor object through the subsystem
+            // we just pass the shoulderMotor object through the subsystem hi
 
 
     }

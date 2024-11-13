@@ -61,7 +61,7 @@ public class RobotContainer extends CommandOpMode {
     public Button vacuumIntakeButton;
     public Button vacuumOutakeButton;
     public GamepadButton moveArmFoldUpPos;
-    public GamepadButton moveShouldertoIntakePos_1;
+    public GamepadButton moveArmClearancePos;
     public GamepadButton moveGroundPickUpPos;
     public GamepadButton moveLowBasketPos;
 
@@ -84,11 +84,11 @@ public class RobotContainer extends CommandOpMode {
         shoulderMotor = new Motor(hardwareMap,"shoulder_motor");
         shoulderMotor.setRunMode(Motor.RunMode.RawPower);
 
-
+//philip was here :)
 
         elbowMotor = new Motor(hardwareMap,"elbow_motor");
         elbowMotor.setRunMode(Motor.RunMode.RawPower);
-
+        elbowMotor.setInverted(true);
 
         ContinousVacuumServo = new CRServo(hardwareMap, "Vacuum_Servo");
         vacuumSensor = hardwareMap.get(ColorRangeSensor.class, "Vaccum_Distance_Sensor");
@@ -106,10 +106,10 @@ public class RobotContainer extends CommandOpMode {
         vacuumIntakeButton = new GamepadButton(driverOP, GamepadKeys.Button.LEFT_BUMPER);
         vacuumOutakeButton = new GamepadButton(driverOP, GamepadKeys.Button.RIGHT_BUMPER);
         moveArmFoldUpPos = new GamepadButton(driverOP, GamepadKeys.Button.A);
-        moveLowBasketPos = new GamepadButton(driverOP, GamepadKeys.Button.X);
+        moveLowBasketPos = new GamepadButton(driverOP, GamepadKeys.Button.DPAD_DOWN);
 
         moveHighBasketPos = new GamepadButton(driverOP, GamepadKeys.Button.Y);
-        moveShouldertoIntakePos_1 = new GamepadButton(driverOP, GamepadKeys.Button.DPAD_DOWN);
+        moveArmClearancePos = new GamepadButton(driverOP, GamepadKeys.Button.X);
         moveGroundPickUpPos = new GamepadButton(driverOP, GamepadKeys.Button.B);
 
 
@@ -134,8 +134,9 @@ public class RobotContainer extends CommandOpMode {
                         Constants.ShoulderPIDConstants.kD,
                         Constants.ShoulderPIDConstants.kF),
                 "shoulder",
-                1,
-                1
+                0.5,
+                0.5,
+                300
         );
 
         elbowSub = new armJointSubsystem(
@@ -146,8 +147,9 @@ public class RobotContainer extends CommandOpMode {
                 Constants.ElbowPIDConstants.kD,
                 Constants.ElbowPIDConstants.kF),
                 "elbow",
-                0.9,
-                0.5
+                0.5,
+                0.5,
+                100
 
 
         );
@@ -176,13 +178,13 @@ public class RobotContainer extends CommandOpMode {
 
         moveArmFoldUpPos.whenPressed(new InstantCommand(() -> {
 
-            shoulderSub.setSetpoint(0);
-            elbowSub.setSetpoint(0);
+            shoulderSub.setSetpoint(300);
+            elbowSub.setSetpoint(100);
         }));
-        moveShouldertoIntakePos_1.whenPressed(new InstantCommand(() -> {
+        moveArmClearancePos.whenPressed(new InstantCommand(() -> {
 
-            shoulderSub.setSetpoint(Constants.ShoulderSetpoints.intakeShoulderPos_1);
-            elbowSub.setSetpoint(Constants.ElbowSetpoints.intakeElbowPos_1);
+            shoulderSub.setSetpoint(Constants.ShoulderSetpoints.shoulderClearancePos);
+            elbowSub.setSetpoint(Constants.ElbowSetpoints.elbowClearancePos);
         }));
         moveGroundPickUpPos.whenPressed(new InstantCommand(() -> {
 

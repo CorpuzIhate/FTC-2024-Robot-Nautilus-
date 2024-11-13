@@ -18,24 +18,22 @@ public class armJointSubsystem extends SubsystemBase {
 
     public armJointSubsystem(Motor jointMotor, PIDFController jointFeedForward, String tag,
                              double maxExtensionJointSpeed ,
-                             double maxRetractionJointSpeed){
+                             double maxRetractionJointSpeed_PositiveInput,
+                             double startingPos){
         m_jointMotor = jointMotor;
         m_jointFeedForward = jointFeedForward;
         m_tag = tag;
-
+        m_setpoint = startingPos;
         m_maxExtensionJointSpeed = maxExtensionJointSpeed;
-        m_maxRetractionJointSpeed = maxRetractionJointSpeed;
+        m_maxRetractionJointSpeed = maxRetractionJointSpeed_PositiveInput;
 
-        if(m_tag == "shoulder"){
-            jointMotor.encoder.setDirection(Motor.Direction.REVERSE);
-            jointMotor.setInverted(true);
-        }
 
 
 
     }
     public double limitJointSpeed(double currentJointOutput){
         double cappedOutput = currentJointOutput;
+
         if(currentJointOutput > 0) { //if we're extending outwards, meaning the joint is moving away from
             //the original position,
 
@@ -43,14 +41,12 @@ public class armJointSubsystem extends SubsystemBase {
                 cappedOutput = m_maxExtensionJointSpeed ;
             }
 
-
-
         }
-        else{
+        else if (currentJointOutput < 0){
             //if we're retracting, meaning the joint is moving towards the
             //original position
             if (currentJointOutput <= m_maxRetractionJointSpeed){
-                cappedOutput = m_maxRetractionJointSpeed;
+                cappedOutput = -m_maxRetractionJointSpeed;
             }
 
         }

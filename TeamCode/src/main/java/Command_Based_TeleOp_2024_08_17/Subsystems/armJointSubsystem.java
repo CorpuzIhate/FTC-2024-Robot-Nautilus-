@@ -28,6 +28,7 @@ public class armJointSubsystem extends SubsystemBase {
 
         if(m_tag == "shoulder"){
             jointMotor.encoder.setDirection(Motor.Direction.REVERSE);
+            jointMotor.setInverted(true);
         }
 
 

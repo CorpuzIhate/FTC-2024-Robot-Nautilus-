@@ -40,7 +40,7 @@ public class armJointSubsystem extends SubsystemBase {
             //the original position,
 
             if (currentJointOutput >= m_maxExtensionJointSpeed){
-                cappedOutput = m_maxExtensionJointSpeed;
+                cappedOutput = m_maxExtensionJointSpeed ;
             }
 
 

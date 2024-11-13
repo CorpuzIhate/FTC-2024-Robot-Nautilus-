@@ -9,12 +9,20 @@ public class armJointSubsystem extends SubsystemBase {
     private final Motor m_jointMotor;
     private final PIDFController m_jointFeedForward;
     private final String m_tag;
+
     private double m_setpoint = 0;
 
     public armJointSubsystem(Motor jointMotor, PIDFController jointFeedForward, String tag){
         m_jointMotor = jointMotor;
         m_jointFeedForward = jointFeedForward;
         m_tag = tag;
+
+        if(m_tag == "shoulder"){
+            jointMotor.encoder.setDirection(Motor.Direction.REVERSE);
+        }
+
+
+
     }
     public Motor getJointMotor(){
         return m_jointMotor;

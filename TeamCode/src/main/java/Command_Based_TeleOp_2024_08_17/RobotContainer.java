@@ -85,8 +85,10 @@ public class RobotContainer extends CommandOpMode {
         shoulderMotor.setRunMode(Motor.RunMode.RawPower);
 
 
+
         elbowMotor = new Motor(hardwareMap,"elbow_motor");
         elbowMotor.setRunMode(Motor.RunMode.RawPower);
+
 
         ContinousVacuumServo = new CRServo(hardwareMap, "Vacuum_Servo");
         vacuumSensor = hardwareMap.get(ColorRangeSensor.class, "Vaccum_Distance_Sensor");
@@ -107,7 +109,7 @@ public class RobotContainer extends CommandOpMode {
         moveLowBasketPos = new GamepadButton(driverOP, GamepadKeys.Button.X);
 
         moveHighBasketPos = new GamepadButton(driverOP, GamepadKeys.Button.Y);
-        //moveShouldertoIntakePos_1 = new GamepadButton(driverOP, GamepadKeys.Button.);
+        moveShouldertoIntakePos_1 = new GamepadButton(driverOP, GamepadKeys.Button.DPAD_DOWN);
         moveGroundPickUpPos = new GamepadButton(driverOP, GamepadKeys.Button.B);
 
 
@@ -157,8 +159,8 @@ public class RobotContainer extends CommandOpMode {
 
         moveHighBasketPos.whenPressed(new InstantCommand(() -> {
 
-            shoulderSub.setSetpoint(Constants.ShoulderSetpoints.upperShoulderPos);
-            elbowSub.setSetpoint(Constants.ElbowSetpoints.upperElbowPos);
+            shoulderSub.setSetpoint(Constants.ShoulderSetpoints.highBasketShoulderPos);
+            elbowSub.setSetpoint(Constants.ElbowSetpoints.highBasketElbowPos);
 
                 }));
 
@@ -180,8 +182,8 @@ public class RobotContainer extends CommandOpMode {
         }));
         moveGroundPickUpPos.whenPressed(new InstantCommand(() -> {
 
-            shoulderSub.setSetpoint(Constants.ShoulderSetpoints.intakeShoulderPos_2);
-            elbowSub.setSetpoint(Constants.ElbowSetpoints.intakeElbowPos_2);
+            shoulderSub.setSetpoint(Constants.ShoulderSetpoints.shoulderPickUpPos);
+            elbowSub.setSetpoint(Constants.ElbowSetpoints.elbowPickUpPos);
         }));
         shoulderSub.setDefaultCommand(new MoveArmJointCMD(
                 telemetryManagerSub.getTelemetryObject(),

@@ -19,18 +19,18 @@ public final class Constants{
 
     }
     public static final class ShoulderSetpoints{
-        public static final double intakeShoulderPos_1 = -2000;
-        public static final double intakeShoulderPos_2 = -3200;
-        public static final double middleShoulderPos = -2600;
+        public static final double intakeShoulderPos_1 = 2000;
+        public static final double shoulderPickUpPos = 3000;
+        public static final double middleShoulderPos = 2600;
 
-        public static final double upperShoulderPos = -3200;// hard stop
-    };
+        public static final double highBasketShoulderPos = 3200;// hard stop
+    }
     public static final class ElbowSetpoints{
-        public static final double intakeElbowPos_1 = 1000;
-        public static final double intakeElbowPos_2 = 1000;
+        public static final double intakeElbowPos_1 = 800;
+        public static final double elbowPickUpPos = 800;
         public static final double middleElbowPos = 1700;
 
-        public static final double upperElbowPos = 3300;
+        public static final double highBasketElbowPos = 3300;
     };
 
 

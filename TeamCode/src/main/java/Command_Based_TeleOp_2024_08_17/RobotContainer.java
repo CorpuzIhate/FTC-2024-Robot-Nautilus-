@@ -133,7 +133,9 @@ public class RobotContainer extends CommandOpMode {
                         Constants.ShoulderPIDConstants.kI,
                         Constants.ShoulderPIDConstants.kD,
                         Constants.ShoulderPIDConstants.kF),
-                "shoulder"
+                "shoulder",
+                1,
+                1
         );
 
         elbowSub = new armJointSubsystem(
@@ -143,7 +145,9 @@ public class RobotContainer extends CommandOpMode {
                 Constants.ElbowPIDConstants.kI,
                 Constants.ElbowPIDConstants.kD,
                 Constants.ElbowPIDConstants.kF),
-                "elbow"
+                "elbow",
+                0.9,
+                0.5
 
 
         );

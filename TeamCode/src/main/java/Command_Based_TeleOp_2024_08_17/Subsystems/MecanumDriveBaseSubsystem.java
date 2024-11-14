@@ -80,28 +80,33 @@ public class MecanumDriveBaseSubsystem extends SubsystemBase {
         //vector from origin to SOOS
 
 
-        Vector2d soosToOrigin;
-        Vector2d originToSoos;
-        double soosHeading;
-        Vector2d soosToCenterOfRobot;
+        Vector2d centerOfRobotToSoos;
+        Vector2d fieldOriginToSoos;
+        Vector2d fieldOriginToRobotCenter;
+
+        double soosHeading_radians;
 
 
-        soosToOrigin =
+
+
+        centerOfRobotToSoos =
                 new Vector2d(
                         Constants.OdemetryConstants.distanceFromOriginX_INCHES,
                         Constants.OdemetryConstants.distanceFromOriginY_INCHES);
         //vector from origin to soos
-        originToSoos = new Vector2d(soosPos.x,soosPos.y);
+        fieldOriginToSoos = new Vector2d(soosPos.x,soosPos.y);
 
-        soosHeading = soosPos.h;
+
+        //soos heading is in degrees
+        soosHeading_radians = Math.toRadians(soosPos.h);
 
         //vector from soos to center of robot
 
         //we rotate the vector from Soos to Origin  by the Soos and subtract it by the vector
         //from origin to soos
-        soosToCenterOfRobot = originToSoos.minus(soosToOrigin.rotateBy(soosHeading));
+        fieldOriginToRobotCenter = fieldOriginToSoos.minus(centerOfRobotToSoos.rotateBy(soosHeading_radians));
 
-        return new SparkFunOTOS.Pose2D(soosToCenterOfRobot.getX(), soosToCenterOfRobot.getY(),soosPos.h);
+        return new SparkFunOTOS.Pose2D(fieldOriginToRobotCenter.getX(), fieldOriginToRobotCenter.getY(),soosHeading_radians);
     }
 
 

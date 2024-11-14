@@ -14,6 +14,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 import Command_Based_TeleOp_2024_08_17.AutoCommands.MoveRobotHCMD;
+import Command_Based_TeleOp_2024_08_17.AutoCommands.MoveRobotToFieldPosCMD;
 import Command_Based_TeleOp_2024_08_17.AutoCommands.MoveRobotXYCMD;
 import Command_Based_TeleOp_2024_08_17.Commands.TelemetryManagerCMD;
 import Command_Based_TeleOp_2024_08_17.Subsystems.MecanumDriveBaseSubsystem;
@@ -68,16 +69,18 @@ public class CommandAuto extends CommandOpMode {
 //        schedule(new MoveRobotHCMD(96,
 //                mecanumDriveBaseSub,
 //                telemetryManagerSub.getTelemetryObject()));
-        schedule(new SequentialCommandGroup(
+//        schedule(new SequentialCommandGroup(
 //                new MoveRobotXYCMD(24,24,
 //                        mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
 //                new MoveRobotXYCMD(0,0,
 //                        mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
-                new MoveRobotHCMD(270,
-                        mecanumDriveBaseSub,
-                        telemetryManagerSub.getTelemetryObject())
+//                new MoveRobotHCMD(270,
+//                        mecanumDriveBaseSub,
+//                        telemetryManagerSub.getTelemetryObject())
+        schedule(new MoveRobotToFieldPosCMD(6,0,0,
+                mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()));
 
-        ));
+
 
 
     }
@@ -162,6 +165,7 @@ public class CommandAuto extends CommandOpMode {
         SparkFunOTOS.Version hwVersion = new SparkFunOTOS.Version();
         SparkFunOTOS.Version fwVersion = new SparkFunOTOS.Version();
         Otos.getVersionInfo(hwVersion, fwVersion);
+
 
     }
 

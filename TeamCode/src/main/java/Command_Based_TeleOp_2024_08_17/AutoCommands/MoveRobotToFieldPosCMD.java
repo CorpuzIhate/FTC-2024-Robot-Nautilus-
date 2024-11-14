@@ -1,15 +1,11 @@
 package Command_Based_TeleOp_2024_08_17.AutoCommands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
-import com.arcrobotics.ftclib.controller.PIDController;
 import com.arcrobotics.ftclib.controller.PIDFController;
-import com.arcrobotics.ftclib.geometry.Pose2d;
 import com.arcrobotics.ftclib.geometry.Vector2d;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-
-import java.util.Vector;
 
 import Command_Based_TeleOp_2024_08_17.Constants;
 import Command_Based_TeleOp_2024_08_17.Subsystems.MecanumDriveBaseSubsystem;
@@ -24,8 +20,8 @@ public class MoveRobotToFieldPosCMD extends CommandBase {
     private final Telemetry m_dashboardTelemetry;
     private final MecanumDriveBaseSubsystem m_MecanumDriveBaseSubsystem;
 
-    private SparkFunOTOS.Pose2D soosPos;
-    private SparkFunOTOS.Pose2D fieldPos;
+    private SparkFunOTOS.Pose2D soosPos_Inches_Inches_Degrees;
+    private SparkFunOTOS.Pose2D fieldPos_Inches_Inches_Radians;
     private Vector2d fieldOutputs;
     private Vector2d relativeOutput;
 
@@ -38,21 +34,33 @@ public class MoveRobotToFieldPosCMD extends CommandBase {
     private  double yOutput;
 
     private  CircularPIDController hPosController;
-    private PIDFController xPosController;
-    private  PIDFController yPosController;
+    private PIDFController xPosController =
+            new PIDFController(
+                    Constants.AutoConstants.movekP,
+                    Constants.AutoConstants.movekI,
+                    Constants.AutoConstants.movekD,
+                    Constants.AutoConstants.movekF
+            );
+    private  PIDFController yPosController =
+            new PIDFController(
+                    Constants.AutoConstants.movekP,
+                    Constants.AutoConstants.movekI,
+                    Constants.AutoConstants.movekD,
+                    Constants.AutoConstants.movekF
+            );
 
-    public MoveRobotToFieldPosCMD(double xPosSetpoint,
-                                  double yPosSetpoint,
-                                  double hPosSetpoint,
+    public MoveRobotToFieldPosCMD(double xPosSetpoint_Inches,
+                                  double yPosSetpoint_Inches,
+                                  double hPosSetpoint_Degrees,
                                   MecanumDriveBaseSubsystem mecanumDriveBaseSubsystem,
                                   Telemetry dashboardTelemetry){
         hPosController = new CircularPIDController(
                 Constants.AutoConstants.turnkP);
 
 
-        m_xPosSetpoint = xPosSetpoint;
-        m_yPosSetpoint = yPosSetpoint;
-        m_hPosSetpoint = hPosSetpoint;
+        m_xPosSetpoint = xPosSetpoint_Inches;
+        m_yPosSetpoint = yPosSetpoint_Inches;
+        m_hPosSetpoint = hPosSetpoint_Degrees;
 
         m_MecanumDriveBaseSubsystem =  mecanumDriveBaseSubsystem;
         m_dashboardTelemetry = dashboardTelemetry;
@@ -60,7 +68,7 @@ public class MoveRobotToFieldPosCMD extends CommandBase {
 
     @Override
     public  void  initialize(){
-        soosPos = m_MecanumDriveBaseSubsystem.getPosed2D();
+        soosPos_Inches_Inches_Degrees = m_MecanumDriveBaseSubsystem.getPosed2D();
 
 
     }
@@ -68,25 +76,25 @@ public class MoveRobotToFieldPosCMD extends CommandBase {
     @Override
     public  void  execute(){
 
-        soosPos = m_MecanumDriveBaseSubsystem.getPosed2D();
+        soosPos_Inches_Inches_Degrees = m_MecanumDriveBaseSubsystem.getPosed2D();
 
-        fieldPos = m_MecanumDriveBaseSubsystem.convertSoosCentricPosToRobotCentricPos(soosPos);
+        fieldPos_Inches_Inches_Radians = m_MecanumDriveBaseSubsystem.convertSoosCentricPosToRobotCentricPos(soosPos_Inches_Inches_Degrees);
 
 
-        fieldXOutput = xPosController.calculate(fieldPos.x , m_xPosSetpoint);
-        fieldYOutput = yPosController.calculate(fieldPos.y, m_yPosSetpoint);
+        fieldXOutput = xPosController.calculate(fieldPos_Inches_Inches_Radians.x , m_xPosSetpoint);
+        fieldYOutput = yPosController.calculate(fieldPos_Inches_Inches_Radians.y, m_yPosSetpoint);
 
         fieldOutputs = new Vector2d(fieldXOutput,fieldYOutput);
         relativeOutput = m_MecanumDriveBaseSubsystem.fieldVelocityToRobotVelocity(
                 fieldOutputs,
-                fieldPos.h
+                fieldPos_Inches_Inches_Radians.h
         );
 
 
 
 
 
-        hOutput = hPosController.calculate(fieldPos.h, m_hPosSetpoint);
+        hOutput = hPosController.calculate(fieldPos_Inches_Inches_Radians.h, m_hPosSetpoint);
         xOutput = relativeOutput.getX();
         yOutput = relativeOutput.getY();
 

@@ -2,8 +2,6 @@ package Command_Based_TeleOp_2024_08_17.Commands;
 
 
 import com.arcrobotics.ftclib.command.CommandBase;
-import com.arcrobotics.ftclib.drivebase.MecanumDrive;
-import com.arcrobotics.ftclib.hardware.motors.Motor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -54,7 +52,6 @@ public class TeleOpJoystickRobotCentricCMD extends CommandBase {
                 m_MecanumSub.smoothJoystickInputs(m_strafePower.getAsDouble());
         double smoothRotationPower =
                 m_MecanumSub.smoothJoystickInputs(m_rotationPower.getAsDouble());
-
 
         m_MecanumSub.setMotorSpeeds(smoothForwardPower,smoothStrafePower,smoothRotationPower);
 

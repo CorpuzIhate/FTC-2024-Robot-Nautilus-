@@ -18,7 +18,7 @@ import Command_Based_TeleOp_2024_08_17.AutoCommands.MoveRobotToFieldPosCMD;
 import Command_Based_TeleOp_2024_08_17.AutoCommands.MoveRobotXYCMD;
 import Command_Based_TeleOp_2024_08_17.Commands.TelemetryManagerCMD;
 import Command_Based_TeleOp_2024_08_17.Subsystems.MecanumDriveBaseSubsystem;
-import Command_Based_TeleOp_2024_08_17.Subsystems.ShoulderSubsystem;
+
 import Command_Based_TeleOp_2024_08_17.Subsystems.TelemetryManagerSubsystem;
 import Command_Based_TeleOp_2024_08_17.Subsystems.VacuumSubsystem;
 @Autonomous
@@ -37,7 +37,7 @@ public class CommandAuto extends CommandOpMode {
     private MecanumDriveBaseSubsystem mecanumDriveBaseSub;
     private TelemetryManagerSubsystem telemetryManagerSub;
     private VacuumSubsystem vacuumSubsystem;
-    private ShoulderSubsystem shoulderSub;
+
 
 
     @Override
@@ -91,7 +91,7 @@ public class CommandAuto extends CommandOpMode {
                 ,backRight, backLeft, Otos);
         telemetryManagerSub = new TelemetryManagerSubsystem();
         VacuumSubsystem vacuumSubsystem = new VacuumSubsystem();
-        ShoulderSubsystem shoulderSub = new  ShoulderSubsystem(shoulderMotor);
+
     }
 
     private void configureOtos(){

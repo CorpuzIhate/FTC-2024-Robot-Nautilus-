@@ -32,13 +32,11 @@ public class MecanumDriveBaseSubsystem extends SubsystemBase {
     }
     public void setMotorSpeeds(double forwardPower, double strafePower,
                                   double rotationPower){
-//TODO Move this stuff outside of the function
-// because its currently set to the config from the main branch
-// however the autos were build for a different confi
+//note when you change this. It will affect both AUTO and TELE-OP
         forwardPower *= 1;
         strafePower *= -1;
         rotationPower *= -1;
-        
+
 
         double frontLeftSpeed = forwardPower - strafePower - rotationPower;
         double backLeftSpeed = forwardPower + strafePower - rotationPower;
@@ -160,6 +158,8 @@ public class MecanumDriveBaseSubsystem extends SubsystemBase {
         return  desiredRobotRelativeVelocity;
 
     }
+
+
 
 
 

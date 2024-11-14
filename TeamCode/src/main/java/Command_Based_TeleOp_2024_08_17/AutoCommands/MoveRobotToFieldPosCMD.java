@@ -99,7 +99,8 @@ public class MoveRobotToFieldPosCMD extends CommandBase {
         yOutput = robotRelativeOutput.getY();
 
 
-
+        xOutput *= -1; // this because its multiplied by -1 in the setMotorSpeeds() for Tele-op
+        //and this code built for a setMotorSpeeds() that doesn't do any thing to it
         m_MecanumDriveBaseSubsystem.setMotorSpeeds(xOutput,yOutput,hOutput);
     }
     @Override

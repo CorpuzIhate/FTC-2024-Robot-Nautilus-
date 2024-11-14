@@ -77,6 +77,8 @@ public class MecanumDriveBaseSubsystem extends SubsystemBase {
     }
     public SparkFunOTOS.Pose2D convertSoosCentricPosToRobotCentricPos(SparkFunOTOS.Pose2D soosPos){
 
+
+        //origin is (0,0) and is wherever the robot starts on initialization
         //vector from origin to SOOS
 
 

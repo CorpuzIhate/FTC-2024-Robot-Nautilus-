@@ -22,11 +22,11 @@ public class MoveRobotToFieldPosCMD extends CommandBase {
 
     private SparkFunOTOS.Pose2D soosPos_Inches_Inches_Degrees;
     private SparkFunOTOS.Pose2D fieldPos_Inches_Inches_Radians;
-    private Vector2d desiredFieldOutputs;
+    private Vector2d desiredFieldSpeeds;
     private Vector2d robotRelativeOutput;
 
     private double desiredFieldXSpeed;
-    private double desiredFieldYOutput;
+    private double desiredFieldYSPeed;
 
 
     private  double hOutput;
@@ -82,11 +82,11 @@ public class MoveRobotToFieldPosCMD extends CommandBase {
 
 
         desiredFieldXSpeed = xPosController.calculate(fieldPos_Inches_Inches_Radians.x , m_xPosSetpoint);
-        desiredFieldYOutput = yPosController.calculate(fieldPos_Inches_Inches_Radians.y, m_yPosSetpoint);
+        desiredFieldYSPeed = yPosController.calculate(fieldPos_Inches_Inches_Radians.y, m_yPosSetpoint);
 
-        desiredFieldOutputs = new Vector2d(desiredFieldXSpeed, desiredFieldYOutput);
+        desiredFieldSpeeds = new Vector2d(desiredFieldXSpeed, desiredFieldYSPeed);
         robotRelativeOutput = m_MecanumDriveBaseSubsystem.fieldVelocityToRobotVelocity(
-                desiredFieldOutputs,
+                desiredFieldSpeeds,
                 fieldPos_Inches_Inches_Radians.h
         );
 

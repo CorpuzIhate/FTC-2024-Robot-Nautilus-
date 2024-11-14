@@ -30,7 +30,7 @@ import Command_Based_TeleOp_2024_08_17.Subsystems.armJointSubsystem;
 public class RobotContainer extends CommandOpMode {
 
 
-    private BNO055IMU imu;
+
 
 
     double fwdPwr;

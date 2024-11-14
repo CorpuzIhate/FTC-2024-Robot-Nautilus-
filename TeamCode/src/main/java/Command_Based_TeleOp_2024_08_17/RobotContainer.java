@@ -31,7 +31,7 @@ public class RobotContainer extends CommandOpMode {
 
 
 
-
+    boolean isArmClearance;
 
     double fwdPwr;
     double strafePwr;
@@ -162,6 +162,10 @@ public class RobotContainer extends CommandOpMode {
         mecanumDriveBaseSub.setDefaultCommand(new TeleOpJoystickRobotCentricCMD(mecanumDriveBaseSub,
                 telemetryManagerSub.getTelemetryObject(), driverOP::getLeftY, driverOP::getRightX, driverOP::getLeftX));
 
+        shoulderSub.setDefaultCommand(new MoveArmJointCMD(telemetryManagerSub.getTelemetryObject(),
+                shoulderSub));
+        elbowSub.setDefaultCommand(new MoveArmJointCMD(telemetryManagerSub.getTelemetryObject(),
+                elbowSub));
 
         moveHighBasketPos.whenPressed(new InstantCommand(() -> {
 
@@ -182,14 +186,17 @@ public class RobotContainer extends CommandOpMode {
             elbowSub.setSetpoint(100);
         }));
         moveArmClearancePos.whenPressed(new InstantCommand(() -> {
-
+            isArmClearance = true;
             shoulderSub.setSetpoint(Constants.ShoulderSetpoints.shoulderClearancePos);
             elbowSub.setSetpoint(Constants.ElbowSetpoints.elbowClearancePos);
         }));
-        moveGroundPickUpPos.whenPressed(new InstantCommand(() -> {
 
-            shoulderSub.setSetpoint(Constants.ShoulderSetpoints.shoulderPickUpPos);
-            elbowSub.setSetpoint(Constants.ElbowSetpoints.elbowPickUpPos);
+        moveGroundPickUpPos.whenPressed(new InstantCommand(() -> {
+            if(isArmClearance) {
+                isArmClearance = false;
+                shoulderSub.setSetpoint(Constants.ShoulderSetpoints.shoulderPickUpPos);
+                elbowSub.setSetpoint(Constants.ElbowSetpoints.elbowPickUpPos);
+            }
         }));
         shoulderSub.setDefaultCommand(new MoveArmJointCMD(
                 telemetryManagerSub.getTelemetryObject(),

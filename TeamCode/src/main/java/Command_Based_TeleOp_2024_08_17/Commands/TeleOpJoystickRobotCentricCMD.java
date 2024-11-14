@@ -53,7 +53,7 @@ public class TeleOpJoystickRobotCentricCMD extends CommandBase {
         double smoothStrafePower =
                 m_MecanumSub.smoothJoystickInputs(m_strafePower.getAsDouble());
         double smoothRotationPower =
-                m_MecanumSub.smoothJoystickInputs(m_rotationPower.getAsDouble());
+                m_MecanumSub.smoothJoystickInputs(m_rotationPower.getAsDouble()) * 0.7;
 
 
         m_MecanumSub.setMotorSpeeds(smoothForwardPower,smoothStrafePower,smoothRotationPower);

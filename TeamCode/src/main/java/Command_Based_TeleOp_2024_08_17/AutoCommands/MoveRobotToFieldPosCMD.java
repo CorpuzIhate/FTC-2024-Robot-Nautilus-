@@ -57,7 +57,8 @@ public class MoveRobotToFieldPosCMD extends CommandBase {
         hPosController = new CircularPIDController(
                 Constants.AutoConstants.turnkP);
 
-
+        xPosController.setTolerance(0.05);
+        yPosController.setTolerance(0.05);
         m_xPosSetpoint = xPosSetpoint_Inches;
         m_yPosSetpoint = yPosSetpoint_Inches;
         m_hPosSetpoint = hPosSetpoint_Degrees;
@@ -100,7 +101,7 @@ public class MoveRobotToFieldPosCMD extends CommandBase {
 
 
 
-        m_MecanumDriveBaseSubsystem.setMotorSpeeds(xOutput,yOutput,hOutput);
+        m_MecanumDriveBaseSubsystem.setMotorSpeeds(-xOutput,yOutput,hOutput);
     }
     @Override
     public boolean isFinished(){

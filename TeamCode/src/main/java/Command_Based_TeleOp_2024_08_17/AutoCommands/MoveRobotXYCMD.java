@@ -72,7 +72,8 @@ public class MoveRobotXYCMD extends CommandBase {
     @Override
     public boolean isFinished(){
         if(xPosController.atSetPoint()  && yPosController.atSetPoint() ){
-            m_dashboardTelemetry.addData("finished?",true);
+           //
+            // m_dashboardTelemetry.addData("finished?",true);
             m_MecanumDriveBaseSubsystem.setMotorSpeeds(0,0, 0);
             return true;
         }
@@ -86,11 +87,11 @@ public class MoveRobotXYCMD extends CommandBase {
         m_dashboardTelemetry.addData("pos x", m_MecanumDriveBaseSubsystem.getPosed2D().x);
         m_dashboardTelemetry.addData("pos y", m_MecanumDriveBaseSubsystem.getPosed2D().y);
         m_dashboardTelemetry.addData("pos h", m_MecanumDriveBaseSubsystem.getPosed2D().h);
-        m_dashboardTelemetry.addData("Xerror",xpidfController.getPositionError());
-        m_dashboardTelemetry.addData("XatSetpoint",xpidfController.atSetPoint());
+//        m_dashboardTelemetry.addData("Xerror",xpidfController.getPositionError());
+      //  m_dashboardTelemetry.addData("XatSetpoint",xpidfController.atSetPoint());
 
-        m_dashboardTelemetry.addData("Yerror",ypidfController.getPositionError());
-        m_dashboardTelemetry.addData("YatSetpoint",ypidfController.atSetPoint());
+ //       m_dashboardTelemetry.addData("Yerror",ypidfController.getPositionError());
+     //   m_dashboardTelemetry.addData("YatSetpoint",ypidfController.atSetPoint());
 
         m_dashboardTelemetry.update();
 

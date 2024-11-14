@@ -117,14 +117,10 @@ public class PIDAuto extends LinearOpMode {
 
 
             robotRelative = fieldVelocityToRobotVelocity(new Vector2d(fieldx,fieldy), fieldh) ;
-            robotRelative_2 = fieldVelocityToRobotVelocity_V2(new Vector2d(fieldx_2, fieldy_2),
-                    fieldh_2);
+
 
             dashboardTelemetry.addData("Field Centric test X", robotRelative.getX() );
             dashboardTelemetry.addData("Field Centric test y", robotRelative.getY() );
-
-            dashboardTelemetry.addData("Field Centric test X_2", robotRelative_2.getX() );
-            dashboardTelemetry.addData("Field Centric test y_2", robotRelative_2.getY() );
 
 
             dashboardTelemetry.addData("pos x", convertSoosCentricPosToRobotCentricPos(Otos.getPosition()).x);
@@ -215,9 +211,7 @@ public class PIDAuto extends LinearOpMode {
         SparkFunOTOS.Version fwVersion = new SparkFunOTOS.Version();
         Otos.getVersionInfo(hwVersion, fwVersion);
 
-        dashboardTelemetry.addData("offsetsX", Otos.getOffset().x);
-        dashboardTelemetry.addData("offsetsY", Otos.getOffset().y);
-        dashboardTelemetry.addData("offsetsH", Otos.getOffset().h);
+
 
     }
 

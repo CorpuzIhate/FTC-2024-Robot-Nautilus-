@@ -2,20 +2,15 @@ package Command_Based_TeleOp_2024_08_17.auto;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.PerpetualCommand;
-import com.arcrobotics.ftclib.command.RunCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.hardware.motors.CRServo;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-import Command_Based_TeleOp_2024_08_17.AutoCommands.MoveRobotHCMD;
-import Command_Based_TeleOp_2024_08_17.AutoCommands.MoveRobotToFieldPosCMD;
-import Command_Based_TeleOp_2024_08_17.AutoCommands.MoveRobotXYCMD;
 import Command_Based_TeleOp_2024_08_17.Commands.TelemetryManagerCMD;
 import Command_Based_TeleOp_2024_08_17.Subsystems.MecanumDriveBaseSubsystem;
 import Command_Based_TeleOp_2024_08_17.Subsystems.ShoulderSubsystem;
@@ -69,21 +64,27 @@ public class CommandAuto extends CommandOpMode {
 //        schedule(new MoveRobotHCMD(96,
 //                mecanumDriveBaseSub,
 //                telemetryManagerSub.getTelemetryObject()));
-//        schedule(new SequentialCommandGroup(
-//                new MoveRobotXYCMD(24,24,
-//                        mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
+        schedule(new SequentialCommandGroup(
+
+                new MoveRobotXYCMD(0,10,
+                        mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
+                new MoveRobotXYCMD(-24,0,
+                        mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject())));
+//
 //                new MoveRobotXYCMD(0,0,
 //                        mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
+
 //                new MoveRobotHCMD(270,
 //                        mecanumDriveBaseSub,
-//                        telemetryManagerSub.getTelemetryObject())
-        schedule(new MoveRobotToFieldPosCMD(6,0,0,
-                mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()));
-
-
-
+//                        telemetryManagerSub.getTelemetryObject() )
+//        ));
 
     }
+//        schedule(new MoveRobotToFieldPosCMD(6,0,0,
+//                mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()));
+
+
+
 
 
     private void initSubsystems(){

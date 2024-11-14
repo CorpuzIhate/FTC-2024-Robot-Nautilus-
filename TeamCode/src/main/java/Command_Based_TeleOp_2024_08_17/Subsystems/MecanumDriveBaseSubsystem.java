@@ -12,7 +12,7 @@ import Command_Based_TeleOp_2024_08_17.Constants;
 
 
 public class MecanumDriveBaseSubsystem extends SubsystemBase {
-    private final Motor m_FL, m_FR, m_BR, m_BL;
+    public final Motor m_FL, m_FR, m_BR, m_BL;
     private final SparkFunOTOS m_OTOS;
 
 
@@ -34,7 +34,7 @@ public class MecanumDriveBaseSubsystem extends SubsystemBase {
                                   double rotationPower){
 
         forwardPower *= -1;
-        strafePower *= -1;
+        strafePower *= 1;
         rotationPower *= -1;
         
 

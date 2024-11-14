@@ -31,6 +31,8 @@ package Command_Based_TeleOp_2024_08_17.auto;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 
+import com.arcrobotics.ftclib.hardware.motors.CRServo;
+import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -68,7 +70,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
  */
 
 @Autonomous(name="Robot: Auto Drive By Encoder", group="Robot")
-@Disabled
+
 public class RobotAutoDriveByEncoder_Linear extends LinearOpMode {
 
     /* Declare OpMode members. */
@@ -78,7 +80,7 @@ public class RobotAutoDriveByEncoder_Linear extends LinearOpMode {
     private DcMotor frontRight = null;
     private DcMotor backLeft = null;
     private DcMotor backRight = null;
-
+    private CRServo ContinousVacuumServo;
     private final ElapsedTime runtime = new ElapsedTime();
 
     // Calculate the COUNTS_PER_INCH for your specific drive train.
@@ -111,6 +113,10 @@ public class RobotAutoDriveByEncoder_Linear extends LinearOpMode {
         frontRight = hardwareMap.get(DcMotor.class, "front_right");
         backLeft = hardwareMap.get(DcMotor.class, "back_left");
         backRight = hardwareMap.get(DcMotor.class, "back_right");
+
+        ContinousVacuumServo = new CRServo(hardwareMap, "Vacuum_Servo");
+
+        ContinousVacuumServo.setRunMode(Motor.RunMode.RawPower);
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // When run, this OpMode should start both motors driving forward. So adjust these two lines based on your first test drive.
@@ -145,8 +151,13 @@ public class RobotAutoDriveByEncoder_Linear extends LinearOpMode {
 
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
-        encoderDrive(DRIVE_SPEED,  24,  24, 5);  // S1: Forward 47 Inches with 5 Sec timeout
-        encoderDrive(TURN_SPEED,   24, -24, 5);  // S2: Turn Right 12 Inches with 4 Sec timeout
+        powerVacuum(1,4);
+        encoderDrive(DRIVE_SPEED,  12,  12, 5);
+        encoderDrive(TURN_SPEED,   78, -78, 5);
+        encoderDrive(TURN_SPEED,   -22, 22, 5);
+        encoderDrive(DRIVE_SPEED,  12,  12, 5);
+        encoderDrive(TURN_SPEED,   24, -24, 5);
+        encoderDrive(DRIVE_SPEED,  -12,  -12, 5);
 //        encoderDrive(DRIVE_SPEED, -24, -24, 4.0);  // S3: Reverse 24 Inches with 4 Sec timeout
 
         dashboardTelemetry.addData("Path", "Complete");
@@ -207,15 +218,10 @@ public class RobotAutoDriveByEncoder_Linear extends LinearOpMode {
             backLeft.setPower(Math.abs(speed));
 //
             //responsible for powering motors
-            frontRight.setPower(Math.abs(speed)); //speed isnt 0.25
+            frontRight.setPower(Math.abs(speed));
             backRight.setPower(Math.abs(speed));
-            // keep looping while we are still active, and there is time left, and both motors are running.
-            //TODO if something goes wrong read this again
-            // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
-            // its target position, the motion will stop.  This is "safer" in the event that the robot will
-            // always end the motion as soon as possible.
-            // However, if you require that BOTH motors have finished their moves before the robot continues
-            // onto the next step, use (isBusy() || isBusy()) in the loop test.
+
+
             while (opModeIsActive() &&
                    (runtime.seconds() < timeoutS) &&
                    ( (frontRight.isBusy() || frontLeft.isBusy()) || (backLeft.isBusy() || backRight.isBusy())  )  ) {
@@ -250,5 +256,14 @@ public class RobotAutoDriveByEncoder_Linear extends LinearOpMode {
 
 
 
+    }
+    public void powerVacuum(double power, double time){
+        runtime.reset();
+        ContinousVacuumServo.set(power);
+        while(runtime.seconds() < time){
+            dashboardTelemetry.addData("Vacuum State ", "Powered");
+        }
+        ContinousVacuumServo.set(0);
+        dashboardTelemetry.addData("Vacuum State ", "unPowered");
     }
 }

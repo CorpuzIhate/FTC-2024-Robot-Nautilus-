@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
+import Command_Based_TeleOp_2024_08_17.AutoCommands.MoveRobotEncoderXYCMD;
 import Command_Based_TeleOp_2024_08_17.Commands.TelemetryManagerCMD;
 import Command_Based_TeleOp_2024_08_17.Subsystems.MecanumDriveBaseSubsystem;
 import Command_Based_TeleOp_2024_08_17.Subsystems.ShoulderSubsystem;
@@ -65,12 +66,19 @@ public class CommandAuto extends CommandOpMode {
 //                mecanumDriveBaseSub,
 //                telemetryManagerSub.getTelemetryObject()));
         schedule(new SequentialCommandGroup(
+                  new MoveRobotEncoderXYCMD( 24,
+                          24,
+                          3,
+                          0.5,
+                          mecanumDriveBaseSub,
+                          telemetryManagerSub.getTelemetryObject()
+                  )));
 
-                new MoveRobotXYCMD(0,10,
-                        mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
-                new MoveRobotXYCMD(-24,0,
-                        mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject())));
-//
+//                new MoveRobotXYCMD(0,10,
+//                        mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
+//                new MoveRobotXYCMD(-24,0,
+//                        mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject())));
+////
 //                new MoveRobotXYCMD(0,0,
 //                        mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
 

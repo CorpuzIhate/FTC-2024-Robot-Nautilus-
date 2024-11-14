@@ -24,12 +24,9 @@ public final class Constants{
         public static final double middleShoulderPos = 1700;
 
         public static final double highBasketShoulderPos = 3300;// hard stop
+        public static final double shoulderClimbInit = 0;
 
-//        public static final double intakeElbowPos_1 = 800;
-//        public static final double elbowPickUpPos = 800;
-//        public static final double middleElbowPos = 1700;
-//
-//        public static final double highBasketElbowPos = 3300;
+
     }
     public static final class ElbowSetpoints{
         public static final double elbowClearancePos = 2600;
@@ -38,11 +35,7 @@ public final class Constants{
 
         public static final double highBasketElbowPos = 3200;
 
-//        public static final double intakeShoulderPos_1 = 2000;
-//        public static final double shoulderPickUpPos = 3000;
-//        public static final double middleShoulderPos = 2600;
-//
-//        public static final double highBasketShoulderPos = 3200;// hard stop
+        public  static final double elbowClimbInit = 0 ;
 
     };
 

@@ -15,8 +15,6 @@ public class MoveArmJointCMD extends CommandBase {
     private final Telemetry m_dashboardTelemetry;
     private final armJointSubsystem m_jointSub;
 
-    private final boolean m_useIsFinished;
-
     private  Motor jointMotor;
     private  PIDFController jointPID;
     private SimpleMotorFeedforward jointFeedForward;
@@ -26,14 +24,12 @@ public class MoveArmJointCMD extends CommandBase {
 
 
     public MoveArmJointCMD(Telemetry dashboardTelemetry,
-                           armJointSubsystem jointSub, boolean useIsFinished) {
+                           armJointSubsystem jointSub) {
 
         m_dashboardTelemetry = dashboardTelemetry;
         m_jointSub = jointSub;
 
 
-
-        m_useIsFinished = useIsFinished;
         addRequirements(jointSub);
     }
 
@@ -84,9 +80,7 @@ public class MoveArmJointCMD extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        if(m_useIsFinished && jointPID.getSetPoint() ==  m_jointSub.getSetpoint() ){
-            return true;
-        }
+
         return false;
 
     }

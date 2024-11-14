@@ -193,13 +193,11 @@ public class RobotContainer extends CommandOpMode {
         }));
         shoulderSub.setDefaultCommand(new MoveArmJointCMD(
                 telemetryManagerSub.getTelemetryObject(),
-                shoulderSub,
-                false
+                shoulderSub
         ));
         elbowSub.setDefaultCommand(new MoveArmJointCMD(
                 telemetryManagerSub.getTelemetryObject(),
-                elbowSub,
-                false
+                elbowSub
         ));
 //testing
 

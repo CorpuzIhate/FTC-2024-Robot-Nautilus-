@@ -20,7 +20,7 @@ public final class Constants{
     }
     public static final class ShoulderSetpoints{
         public static final double shoulderClearancePos = 800;
-        public static final double shoulderPickUpPos = 270;
+        public static final double shoulderPickUpPos = 400;
         public static final double middleShoulderPos = 1700;
 
         public static final double highBasketShoulderPos = 3300;// hard stop
@@ -29,7 +29,7 @@ public final class Constants{
 
     }
     public static final class ElbowSetpoints{
-        public static final double elbowClearancePos = 2600;
+        public static final double elbowClearancePos = 2400;
         public static final double elbowPickUpPos = 2300;
         public static final double middleElbowPos = 2900;
 

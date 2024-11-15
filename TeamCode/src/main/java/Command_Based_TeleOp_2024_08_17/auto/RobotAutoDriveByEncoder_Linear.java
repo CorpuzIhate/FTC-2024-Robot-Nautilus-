@@ -31,6 +31,7 @@ package Command_Based_TeleOp_2024_08_17.auto;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.hardware.motors.CRServo;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -70,11 +71,11 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
  */
 
 @Autonomous(name="Robot: Auto Drive By Encoder", group="Robot")
-
+@Config
 public class RobotAutoDriveByEncoder_Linear extends LinearOpMode {
 
     /* Declare OpMode members. */
-
+    public static double  htick = 0;
 
     private DcMotor frontLeft = null;
     private DcMotor frontRight = null;
@@ -151,13 +152,13 @@ public class RobotAutoDriveByEncoder_Linear extends LinearOpMode {
 
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
-        powerVacuum(1,4);
-        encoderDrive(DRIVE_SPEED,  12,  12, 5);
-        encoderDrive(TURN_SPEED,   78, -78, 5);
-        encoderDrive(TURN_SPEED,   -22, 22, 5);
-        encoderDrive(DRIVE_SPEED,  12,  12, 5);
-        encoderDrive(TURN_SPEED,   24, -24, 5);
-        encoderDrive(DRIVE_SPEED,  -12,  -12, 5);
+
+        encoderDrive(DRIVE_SPEED,  htick,  -htick, 5);
+//        encoderDrive(TURN_SPEED,   78, -78, 5);
+//        encoderDrive(TURN_SPEED,   -22, 22, 5);
+//        encoderDrive(DRIVE_SPEED,  12,  12, 5);
+//        encoderDrive(TURN_SPEED,   24, -24, 5);
+//        encoderDrive(DRIVE_SPEED,  -12,  -12, 5);
 //        encoderDrive(DRIVE_SPEED, -24, -24, 4.0);  // S3: Reverse 24 Inches with 4 Sec timeout
 
         dashboardTelemetry.addData("Path", "Complete");

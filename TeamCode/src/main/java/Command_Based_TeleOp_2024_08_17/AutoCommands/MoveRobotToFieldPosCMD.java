@@ -57,7 +57,8 @@ public class MoveRobotToFieldPosCMD extends CommandBase {
         hPosController = new CircularPIDController(
                 Constants.AutoConstants.turnkP);
 
-
+        xPosController.setTolerance(0.05);
+        yPosController.setTolerance(0.05);
         m_xPosSetpoint = xPosSetpoint_Inches;
         m_yPosSetpoint = yPosSetpoint_Inches;
         m_hPosSetpoint = hPosSetpoint_Degrees;
@@ -99,8 +100,7 @@ public class MoveRobotToFieldPosCMD extends CommandBase {
         yOutput = robotRelativeOutput.getY();
 
 
-        xOutput *= -1; // this because its multiplied by -1 in the setMotorSpeeds() for Tele-op
-        //and this code built for a setMotorSpeeds() that doesn't do any thing to it
+
         m_MecanumDriveBaseSubsystem.setMotorSpeeds(xOutput,yOutput,hOutput);
     }
     @Override

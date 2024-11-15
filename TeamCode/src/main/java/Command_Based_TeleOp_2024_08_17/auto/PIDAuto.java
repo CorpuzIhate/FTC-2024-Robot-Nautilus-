@@ -116,9 +116,8 @@ public class PIDAuto extends LinearOpMode {
         while (opModeIsActive()){
 
 
-            robotRelative = fieldVelocityToRobotVelocity(new Vector2d(fieldx,fieldy), fieldh) ;
-            robotRelative_2 = fieldVelocityToRobotVelocity_V2(new Vector2d(fieldx_2, fieldy_2),
-                    fieldh_2);
+            robotRelative = fieldVelocityToRobotVelocity_V2(new Vector2d(fieldx,fieldy), fieldh) ;
+
 
             dashboardTelemetry.addData("Field Centric test X", robotRelative.getX() );
             dashboardTelemetry.addData("Field Centric test y", robotRelative.getY() );

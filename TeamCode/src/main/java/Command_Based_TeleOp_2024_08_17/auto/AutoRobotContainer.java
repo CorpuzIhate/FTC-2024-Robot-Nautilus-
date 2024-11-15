@@ -56,12 +56,14 @@ public class AutoRobotContainer extends CommandOpMode {
 
         shoulderMotor = new Motor(hardwareMap,"shoulder_motor");
         shoulderMotor.setRunMode(Motor.RunMode.RawPower);
+        shoulderMotor.resetEncoder();
 
 //philip was here :)
 
         elbowMotor = new Motor(hardwareMap,"elbow_motor");
         elbowMotor.setRunMode(Motor.RunMode.RawPower);
         elbowMotor.setInverted(true);
+        elbowMotor.resetEncoder();
 
 
         ContinousVacuumServo = new CRServo(hardwareMap, "Vacuum_Servo");
@@ -90,17 +92,18 @@ public class AutoRobotContainer extends CommandOpMode {
 
         schedule(new SequentialCommandGroup(
 
-                new InstantCommand(() ->{
-                    shoulderSub.setSetpoint(100);
-                    elbowSub.setSetpoint(100);
-                }),
+
                 new PowerVacuumCMD(vacuumSubsystem,
                         1,
                         ContinousVacuumServo,
                         telemetryManagerSub.getTelemetryObject(),
                         vacuumSensor,
                         3
-                        )
+                        ),
+            new InstantCommand(() ->{
+                shoulderSub.setSetpoint(Constants.ShoulderSetpoints.highBasketShoulderPos);
+                elbowSub.setSetpoint(Constants.ElbowSetpoints.highBasketElbowPos);
+            })
 //                  new MoveRobotEncoderXYCMD( 24,
 //                          24,
 //                          3,

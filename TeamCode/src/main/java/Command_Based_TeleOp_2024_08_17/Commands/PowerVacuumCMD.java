@@ -42,14 +42,18 @@ public class PowerVacuumCMD extends CommandBase {
     public void execute(){
         m_ContinousVacuumServo.set(m_power);
         m_dashboardTelemetry.addData("distace_Between_sample(CM)", m_vacuumSensor.getDistance(DistanceUnit.CM));
+        m_dashboardTelemetry.addData("m_VacuumRunTime_Seconds", m_VacuumRunTime_Seconds);
+        m_dashboardTelemetry.addData("timer", runtime.seconds());
     }
     @Override
     public boolean isFinished() {
         if(m_VacuumRunTime_Seconds == 0){
+
             return  false;
         }
         if(  m_VacuumRunTime_Seconds <= runtime.seconds())
         {
+            m_ContinousVacuumServo.set(0);
             return  true;
         }
         return false;

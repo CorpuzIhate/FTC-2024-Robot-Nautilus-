@@ -9,11 +9,13 @@ import com.arcrobotics.ftclib.hardware.motors.CRServo;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.hardware.ColorRangeSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 import Command_Based_TeleOp_2024_08_17.Commands.MoveArmJointCMD;
+import Command_Based_TeleOp_2024_08_17.Commands.PowerVacuumCMD;
 import Command_Based_TeleOp_2024_08_17.Commands.TelemetryManagerCMD;
 import Command_Based_TeleOp_2024_08_17.Constants;
 import Command_Based_TeleOp_2024_08_17.Subsystems.MecanumDriveBaseSubsystem;
@@ -30,9 +32,10 @@ public class AutoRobotContainer extends CommandOpMode {
     public Motor backRight;
 
     Motor shoulderMotor;
-
     Motor elbowMotor;
+
     CRServo ContinousVacuumServo;
+    public ColorRangeSensor vacuumSensor;
 
     public SparkFunOTOS Otos;
 
@@ -63,6 +66,8 @@ public class AutoRobotContainer extends CommandOpMode {
 
         ContinousVacuumServo = new CRServo(hardwareMap, "Vacuum_Servo");
         ContinousVacuumServo.setRunMode(Motor.RunMode.RawPower);
+        vacuumSensor = hardwareMap.get(ColorRangeSensor.class, "Vaccum_Distance_Sensor");
+
 
         frontLeft.setRunMode(Motor.RunMode.RawPower);
         frontRight.setRunMode(Motor.RunMode.RawPower);
@@ -88,8 +93,14 @@ public class AutoRobotContainer extends CommandOpMode {
                 new InstantCommand(() ->{
                     shoulderSub.setSetpoint(100);
                     elbowSub.setSetpoint(100);
-                })
-
+                }),
+                new PowerVacuumCMD(vacuumSubsystem,
+                        1,
+                        ContinousVacuumServo,
+                        telemetryManagerSub.getTelemetryObject(),
+                        vacuumSensor,
+                        3
+                        )
 //                  new MoveRobotEncoderXYCMD( 24,
 //                          24,
 //                          3,

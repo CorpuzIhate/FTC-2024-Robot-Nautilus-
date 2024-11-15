@@ -1,86 +1,51 @@
-package Command_Based_TeleOp_2024_08_17;
-
+package Command_Based_TeleOp_2024_08_17.auto;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.PerpetualCommand;
-import com.arcrobotics.ftclib.command.button.Button;
-import com.arcrobotics.ftclib.command.button.GamepadButton;
+import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.controller.PIDFController;
-import com.arcrobotics.ftclib.gamepad.GamepadEx;
-import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.arcrobotics.ftclib.hardware.motors.CRServo;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
-import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.ColorRangeSensor;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 import Command_Based_TeleOp_2024_08_17.Commands.MoveArmJointCMD;
-import Command_Based_TeleOp_2024_08_17.Commands.PowerVacuumCMD;
-import Command_Based_TeleOp_2024_08_17.Commands.TeleOpJoystickRobotCentricCMD;
 import Command_Based_TeleOp_2024_08_17.Commands.TelemetryManagerCMD;
+import Command_Based_TeleOp_2024_08_17.Constants;
 import Command_Based_TeleOp_2024_08_17.Subsystems.MecanumDriveBaseSubsystem;
 
 import Command_Based_TeleOp_2024_08_17.Subsystems.TelemetryManagerSubsystem;
 import Command_Based_TeleOp_2024_08_17.Subsystems.VacuumSubsystem;
 import Command_Based_TeleOp_2024_08_17.Subsystems.armJointSubsystem;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+@Autonomous
+public class AutoRobotContainer extends CommandOpMode {
+    public Motor frontLeft;
+    public Motor frontRight;
+    public Motor backLeft;
+    public Motor backRight;
 
-@TeleOp(name = "Command Base Test")
-public class RobotContainer extends CommandOpMode {
-
-
-
-    boolean isArmClearance;
-
-    double fwdPwr;
-    double strafePwr;
-    double rotationPwr;
-
-    Motor frontLeft;
-    Motor frontRight;
-    Motor backLeft;
-    Motor backRight;
     Motor shoulderMotor;
-;
+
     Motor elbowMotor;
+    CRServo ContinousVacuumServo;
 
-    CRServo continuousVacuumServo;
-
-    private MecanumDriveBaseSubsystem mecanumDriveBaseSub;
-    private TelemetryManagerSubsystem telemetryManagerSub;
+    public SparkFunOTOS Otos;
 
     private armJointSubsystem elbowSub;
     private armJointSubsystem shoulderSub;
+    private MecanumDriveBaseSubsystem mecanumDriveBaseSub;
+    private TelemetryManagerSubsystem telemetryManagerSub;
+    private VacuumSubsystem vacuumSubsystem;
 
-    //TODO refactor Vacuum servos so that they're accessed through the Vacuum sub
-    private  VacuumSubsystem vacuumSubsystem = new VacuumSubsystem();
-    public ColorRangeSensor vacuumSensor;
-
-    public GamepadEx driverOP;
-    public Button vacuumIntakeButton;
-    public Button vacuumOutakeButton;
-    public GamepadButton moveArmFoldUpPos;
-    public GamepadButton moveArmClearancePos;
-    public GamepadButton moveGroundPickUpPos;
-    public GamepadButton moveLowBasketPos;
-
-    public GamepadButton moveHighBasketPos;
-
-    public SparkFunOTOS Otos;
 
 
     @Override
     public void initialize() {
-        fwdPwr = -gamepad1.left_stick_y;
-        strafePwr = -gamepad1.left_stick_x;
-        rotationPwr = -gamepad1.right_stick_x;
-
-//TODO put constant tags into constants
         frontLeft = new Motor(hardwareMap, "front_left");
         frontRight = new Motor(hardwareMap, "front_right");
         backLeft = new Motor(hardwareMap, "back_left");
@@ -95,47 +60,57 @@ public class RobotContainer extends CommandOpMode {
         elbowMotor.setRunMode(Motor.RunMode.RawPower);
         elbowMotor.setInverted(true);
 
-        continuousVacuumServo = new CRServo(hardwareMap, "Vacuum_Servo");
-        continuousVacuumServo.setRunMode(Motor.RunMode.RawPower);
 
-        vacuumSensor = hardwareMap.get(ColorRangeSensor.class, "Vaccum_Distance_Sensor");
+        ContinousVacuumServo = new CRServo(hardwareMap, "Vacuum_Servo");
+        ContinousVacuumServo.setRunMode(Motor.RunMode.RawPower);
 
         frontLeft.setRunMode(Motor.RunMode.RawPower);
         frontRight.setRunMode(Motor.RunMode.RawPower);
         backLeft.setRunMode(Motor.RunMode.RawPower);
         backRight.setRunMode(Motor.RunMode.RawPower);
-
-
-
         backLeft.setInverted(true);
         backRight.setInverted(true);
-        driverOP = new GamepadEx(gamepad1);
-        vacuumIntakeButton = new GamepadButton(driverOP, GamepadKeys.Button.LEFT_BUMPER);
-        vacuumOutakeButton = new GamepadButton(driverOP, GamepadKeys.Button.RIGHT_BUMPER);
-        moveArmFoldUpPos = new GamepadButton(driverOP, GamepadKeys.Button.A);
-        moveLowBasketPos = new GamepadButton(driverOP, GamepadKeys.Button.DPAD_DOWN);
-
-        moveHighBasketPos = new GamepadButton(driverOP, GamepadKeys.Button.Y);
-        moveArmClearancePos = new GamepadButton(driverOP, GamepadKeys.Button.X);
-        moveGroundPickUpPos = new GamepadButton(driverOP, GamepadKeys.Button.B);
-
-
-
-        initSubsystems();
 
         Otos = hardwareMap.get(SparkFunOTOS.class, "sensor_otos");
         configureOtos();
 
-        runCommands();
+        initSubsystems();
+        telemetryManagerSub.setDefaultCommand(new PerpetualCommand(new TelemetryManagerCMD(telemetryManagerSub, Otos)));
+        shoulderSub.setDefaultCommand(new MoveArmJointCMD(telemetryManagerSub.getTelemetryObject(),
+                shoulderSub));
+        elbowSub.setDefaultCommand(new MoveArmJointCMD(telemetryManagerSub.getTelemetryObject(),
+                elbowSub));
+
+
+
+        schedule(new SequentialCommandGroup(
+
+                new InstantCommand(() ->{
+                    shoulderSub.setSetpoint(100);
+                    elbowSub.setSetpoint(100);
+                })
+
+//                  new MoveRobotEncoderXYCMD( 24,
+//                          24,
+//                          3,
+//                          0.5,
+//                          mecanumDriveBaseSub,
+//                          telemetryManagerSub.getTelemetryObject()
+//                  )
+        ));
 
 
     }
+
+
+
+
+
     private void initSubsystems(){
-        mecanumDriveBaseSub = new MecanumDriveBaseSubsystem(
-                frontLeft, frontRight, backLeft, backRight,Otos);
+        mecanumDriveBaseSub = new MecanumDriveBaseSubsystem(frontLeft, frontRight
+                ,backRight, backLeft, Otos);
         telemetryManagerSub = new TelemetryManagerSubsystem();
-
-
+        VacuumSubsystem vacuumSubsystem = new VacuumSubsystem();
 
         shoulderSub = new armJointSubsystem(
                 shoulderMotor,
@@ -153,10 +128,10 @@ public class RobotContainer extends CommandOpMode {
         elbowSub = new armJointSubsystem(
                 elbowMotor,
                 new PIDFController(
-                Constants.ElbowPIDConstants.kP,
-                Constants.ElbowPIDConstants.kI,
-                Constants.ElbowPIDConstants.kD,
-                Constants.ElbowPIDConstants.kF),
+                        Constants.ElbowPIDConstants.kP,
+                        Constants.ElbowPIDConstants.kI,
+                        Constants.ElbowPIDConstants.kD,
+                        Constants.ElbowPIDConstants.kF),
                 "elbow",
                 0.5,
                 0.5,
@@ -165,71 +140,8 @@ public class RobotContainer extends CommandOpMode {
 
         );
 
-
     }
-    private void runCommands(){
-        telemetryManagerSub.setDefaultCommand(new PerpetualCommand(new TelemetryManagerCMD(telemetryManagerSub, Otos)));
 
-        mecanumDriveBaseSub.setDefaultCommand(new TeleOpJoystickRobotCentricCMD(mecanumDriveBaseSub,
-                telemetryManagerSub.getTelemetryObject(), driverOP::getLeftY, driverOP::getRightX, driverOP::getLeftX));
-
-        shoulderSub.setDefaultCommand(new MoveArmJointCMD(telemetryManagerSub.getTelemetryObject(),
-                shoulderSub));
-        elbowSub.setDefaultCommand(new MoveArmJointCMD(telemetryManagerSub.getTelemetryObject(),
-                elbowSub));
-
-
-        moveHighBasketPos.whenPressed(new InstantCommand(() -> {
-
-            shoulderSub.setSetpoint(Constants.ShoulderSetpoints.highBasketShoulderPos);
-            elbowSub.setSetpoint(Constants.ElbowSetpoints.highBasketElbowPos);
-
-                }));
-
-        moveLowBasketPos.whenPressed(new InstantCommand(() -> {
-
-            shoulderSub.setSetpoint(Constants.ShoulderSetpoints.middleShoulderPos);
-            elbowSub.setSetpoint(Constants.ElbowSetpoints.middleElbowPos);
-                }));
-
-        moveArmFoldUpPos.whenPressed(new InstantCommand(() -> {
-
-            shoulderSub.setSetpoint(300);
-            elbowSub.setSetpoint(100);
-        }));
-        moveArmClearancePos.whenPressed(new InstantCommand(() -> {
-            isArmClearance = true;
-            shoulderSub.setSetpoint(Constants.ShoulderSetpoints.shoulderClearancePos);
-            elbowSub.setSetpoint(Constants.ElbowSetpoints.elbowClearancePos);
-        }));
-
-        moveGroundPickUpPos.whenPressed(new InstantCommand(() -> {
-            if(isArmClearance) {
-                isArmClearance = false;
-                shoulderSub.setSetpoint(Constants.ShoulderSetpoints.shoulderPickUpPos);
-                elbowSub.setSetpoint(Constants.ElbowSetpoints.elbowPickUpPos);
-            }
-        }));
-        shoulderSub.setDefaultCommand(new MoveArmJointCMD(
-                telemetryManagerSub.getTelemetryObject(),
-                shoulderSub
-        ));
-        elbowSub.setDefaultCommand(new MoveArmJointCMD(
-                telemetryManagerSub.getTelemetryObject(),
-                elbowSub
-        ));
-//testing
-
-        vacuumIntakeButton.whileHeld(new PowerVacuumCMD(vacuumSubsystem, 1,
-                        continuousVacuumServo,telemetryManagerSub.getTelemetryObject() ,vacuumSensor))
-                .whenReleased(new PowerVacuumCMD(vacuumSubsystem, 0,
-                        continuousVacuumServo,telemetryManagerSub.getTelemetryObject() ,vacuumSensor));
-
-        vacuumOutakeButton.whileHeld(new PowerVacuumCMD(vacuumSubsystem, -1,
-                        continuousVacuumServo,telemetryManagerSub.getTelemetryObject() ,vacuumSensor))
-                .whenReleased(new PowerVacuumCMD(vacuumSubsystem, 0,
-                        continuousVacuumServo,telemetryManagerSub.getTelemetryObject() ,vacuumSensor));
-        }
     private void configureOtos(){
         // Set the desired units for linear and angular measurements. Can be either
         // meters or inches for linear, and radians or degrees for angular. If not
@@ -271,8 +183,8 @@ public class RobotContainer extends CommandOpMode {
         // multiple speeds to get an average, then set the linear scalar to the
         // inverse of the error. For example, if you move the robot 100 inches and
         // the sensor reports 103 inches, set the linear scalar to 100/103 = 0.971
-        Otos.setLinearScalar(0.9);
-        Otos.setAngularScalar(0.9);
+        Otos.setLinearScalar(1.01);
+        Otos.setAngularScalar(1.07);
 
         // The IMU on the OTOS includes a gyroscope and accelerometer, which could
         // have an offset. Note that as of firmware version 1.0, the calibration
@@ -302,8 +214,8 @@ public class RobotContainer extends CommandOpMode {
         SparkFunOTOS.Version fwVersion = new SparkFunOTOS.Version();
         Otos.getVersionInfo(hwVersion, fwVersion);
 
-    }
 
+    }
 
 
 }

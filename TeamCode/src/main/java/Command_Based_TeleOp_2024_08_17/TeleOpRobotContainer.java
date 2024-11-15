@@ -30,7 +30,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 @TeleOp(name = "Command Base Test")
-public class TeleopRobotContainer extends CommandOpMode {
+public class TeleOpRobotContainer extends CommandOpMode {
 
 
 
@@ -220,14 +220,14 @@ public class TeleopRobotContainer extends CommandOpMode {
 //testing
 
         vacuumIntakeButton.whileHeld(new PowerVacuumCMD(vacuumSubsystem, 1,
-                        continuousVacuumServo,telemetryManagerSub.getTelemetryObject() ,vacuumSensor))
+                        continuousVacuumServo,telemetryManagerSub.getTelemetryObject() ,vacuumSensor,0))
                 .whenReleased(new PowerVacuumCMD(vacuumSubsystem, 0,
-                        continuousVacuumServo,telemetryManagerSub.getTelemetryObject() ,vacuumSensor));
+                        continuousVacuumServo,telemetryManagerSub.getTelemetryObject() ,vacuumSensor,0));
 
         vacuumOutakeButton.whileHeld(new PowerVacuumCMD(vacuumSubsystem, -1,
-                        continuousVacuumServo,telemetryManagerSub.getTelemetryObject() ,vacuumSensor))
+                        continuousVacuumServo,telemetryManagerSub.getTelemetryObject() ,vacuumSensor,0))
                 .whenReleased(new PowerVacuumCMD(vacuumSubsystem, 0,
-                        continuousVacuumServo,telemetryManagerSub.getTelemetryObject() ,vacuumSensor));
+                        continuousVacuumServo,telemetryManagerSub.getTelemetryObject() ,vacuumSensor,0));
         }
     private void configureOtos(){
         // Set the desired units for linear and angular measurements. Can be either

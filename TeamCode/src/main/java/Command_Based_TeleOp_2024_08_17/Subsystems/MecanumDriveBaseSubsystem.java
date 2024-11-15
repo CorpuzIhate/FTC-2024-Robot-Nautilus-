@@ -82,7 +82,9 @@ public class MecanumDriveBaseSubsystem extends SubsystemBase {
     }
     public SparkFunOTOS.Pose2D getPosed2D(){
 
-        return m_OTOS.getPosition();
+
+        // y is now forward and back, x is now left and Right
+        return new SparkFunOTOS.Pose2D (m_OTOS.getPosition().y,m_OTOS.getPosition().x, m_OTOS.getPosition().h);
 
     }
     public SparkFunOTOS.Pose2D convertSoosCentricPosToRobotCentricPos(SparkFunOTOS.Pose2D soosPos){

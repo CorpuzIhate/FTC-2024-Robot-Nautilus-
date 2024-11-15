@@ -45,13 +45,16 @@ public class TeleOpJoystickRobotCentricCMD extends CommandBase {
     public  void execute(){
         double[] motorSpeeds = new double[4];
 
+        m_dashboardTelemetry.addData("x_Pos", m_MecanumSub.getPosed2D().x);
+        m_dashboardTelemetry.addData("y_Pos", m_MecanumSub.getPosed2D().y);
+        m_dashboardTelemetry.addData("h_Pos", m_MecanumSub.getPosed2D().h);
         //smooth inputs
         double smoothForwardPower =
                 m_MecanumSub.smoothJoystickInputs(m_forwardPower.getAsDouble());
         double smoothStrafePower =
                 m_MecanumSub.smoothJoystickInputs(m_strafePower.getAsDouble());
         double smoothRotationPower =
-                m_MecanumSub.smoothJoystickInputs(m_rotationPower.getAsDouble()) * 0.7;
+                m_MecanumSub.smoothJoystickInputs(m_rotationPower.getAsDouble()) * 0.5;
 
         m_MecanumSub.setMotorSpeeds(smoothForwardPower,smoothStrafePower,smoothRotationPower);
 

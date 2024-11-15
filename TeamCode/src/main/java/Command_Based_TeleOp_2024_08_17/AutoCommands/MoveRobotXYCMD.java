@@ -54,6 +54,7 @@ public class MoveRobotXYCMD extends CommandBase {
     public  void  initialize(){
         xPos = m_MecanumDriveBaseSubsystem.getPosed2D().x;
         yPos = m_MecanumDriveBaseSubsystem.getPosed2D().y;
+
     }
 
     @Override
@@ -66,7 +67,7 @@ public class MoveRobotXYCMD extends CommandBase {
 
             xOutput = xPosController.calculate(xPos,m_xPosSetpoint);
             yOutput = yPosController.calculate(yPos,m_yPosSetpoint);
-            m_MecanumDriveBaseSubsystem.setMotorSpeeds(xOutput,yOutput, 0);
+            m_MecanumDriveBaseSubsystem.setMotorSpeeds(-yOutput,xOutput, 0);
 
     }
     @Override

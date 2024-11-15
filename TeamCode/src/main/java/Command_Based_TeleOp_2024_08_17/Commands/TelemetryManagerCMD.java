@@ -9,12 +9,12 @@ import Command_Based_TeleOp_2024_08_17.Subsystems.TelemetryManagerSubsystem;
 
 public class TelemetryManagerCMD extends CommandBase {
     private final TelemetryManagerSubsystem m_TelemetryManagerSubsystem;
-    private SparkFunOTOS.Pose2D pos;
-    private final SparkFunOTOS m_otos;
 
-    public TelemetryManagerCMD(TelemetryManagerSubsystem telemetryManagerSubsystem,SparkFunOTOS otos ) {
+
+
+    public TelemetryManagerCMD(TelemetryManagerSubsystem telemetryManagerSubsystem ) {
         m_TelemetryManagerSubsystem = telemetryManagerSubsystem;
-        m_otos = otos;
+
         addRequirements(telemetryManagerSubsystem);
     }
 
@@ -26,12 +26,7 @@ public class TelemetryManagerCMD extends CommandBase {
     }
         @Override
         public void execute() {
-        pos = m_otos.getPosition();
 
-
-        m_TelemetryManagerSubsystem.getTelemetryObject().addData("X pos",pos.x );
-        m_TelemetryManagerSubsystem.getTelemetryObject().addData("Y pos",pos.y);
-        m_TelemetryManagerSubsystem.getTelemetryObject().addData("H pos",pos.h );
         m_TelemetryManagerSubsystem.getTelemetryObject().update();
         }
 

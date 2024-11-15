@@ -2,6 +2,7 @@ package Command_Based_TeleOp_2024_08_17.auto;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.InstantCommand;
+import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.PerpetualCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.controller.PIDFController;
@@ -14,6 +15,8 @@ import com.qualcomm.robotcore.hardware.ColorRangeSensor;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
+import Command_Based_TeleOp_2024_08_17.AutoCommands.MoveRobotHCMD;
+import Command_Based_TeleOp_2024_08_17.AutoCommands.MoveRobotXYCMD;
 import Command_Based_TeleOp_2024_08_17.Commands.MoveArmJointCMD;
 import Command_Based_TeleOp_2024_08_17.Commands.PowerVacuumCMD;
 import Command_Based_TeleOp_2024_08_17.Commands.TelemetryManagerCMD;
@@ -82,7 +85,7 @@ public class AutoRobotContainer extends CommandOpMode {
         configureOtos();
 
         initSubsystems();
-        telemetryManagerSub.setDefaultCommand(new PerpetualCommand(new TelemetryManagerCMD(telemetryManagerSub, Otos)));
+        telemetryManagerSub.setDefaultCommand(new PerpetualCommand(new TelemetryManagerCMD(telemetryManagerSub)));
         shoulderSub.setDefaultCommand(new MoveArmJointCMD(telemetryManagerSub.getTelemetryObject(),
                 shoulderSub));
         elbowSub.setDefaultCommand(new MoveArmJointCMD(telemetryManagerSub.getTelemetryObject(),
@@ -92,18 +95,28 @@ public class AutoRobotContainer extends CommandOpMode {
 
         schedule(new SequentialCommandGroup(
 
+                new MoveRobotXYCMD( 0,-56,
+                          mecanumDriveBaseSub,
+                          telemetryManagerSub.getTelemetryObject()),
+                new InstantCommand(() -> {
+                    shoulderSub.setSetpoint(Constants.ShoulderSetpoints.highBasketShoulderPos);
+                    elbowSub.setSetpoint(Constants.ElbowSetpoints.highBasketElbowPos);
+                })
+                )
 
-                new PowerVacuumCMD(vacuumSubsystem,
-                        1,
-                        ContinousVacuumServo,
-                        telemetryManagerSub.getTelemetryObject(),
-                        vacuumSensor,
-                        3
-                        ),
-            new InstantCommand(() ->{
-                shoulderSub.setSetpoint(Constants.ShoulderSetpoints.highBasketShoulderPos);
-                elbowSub.setSetpoint(Constants.ElbowSetpoints.highBasketElbowPos);
-            })
+
+
+//                new PowerVacuumCMD(vacuumSubsystem,
+//                        1,
+//                        ContinousVacuumServo,
+//                        telemetryManagerSub.getTelemetryObject(),
+//                        vacuumSensor,
+//                        3
+//                        ),
+//            new InstantCommand(() ->{
+//                shoulderSub.setSetpoint(Constants.ShoulderSetpoints.highBasketShoulderPos);
+//                elbowSub.setSetpoint(Constants.ElbowSetpoints.highBasketElbowPos);
+//            })
 //                  new MoveRobotEncoderXYCMD( 24,
 //                          24,
 //                          3,
@@ -111,7 +124,7 @@ public class AutoRobotContainer extends CommandOpMode {
 //                          mecanumDriveBaseSub,
 //                          telemetryManagerSub.getTelemetryObject()
 //                  )
-        ));
+        );
 
 
     }

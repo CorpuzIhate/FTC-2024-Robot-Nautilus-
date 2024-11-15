@@ -119,11 +119,11 @@ public class TeleOpRobotContainer extends CommandOpMode {
         moveGroundPickUpPos = new GamepadButton(driverOP, GamepadKeys.Button.B);
 
 
-
-        initSubsystems();
-
         Otos = hardwareMap.get(SparkFunOTOS.class, "sensor_otos");
         configureOtos();
+        initSubsystems();
+
+
 
         runCommands();
 
@@ -167,7 +167,7 @@ public class TeleOpRobotContainer extends CommandOpMode {
 
     }
     private void runCommands(){
-        telemetryManagerSub.setDefaultCommand(new PerpetualCommand(new TelemetryManagerCMD(telemetryManagerSub, Otos)));
+        telemetryManagerSub.setDefaultCommand(new PerpetualCommand(new TelemetryManagerCMD(telemetryManagerSub)));
 
         mecanumDriveBaseSub.setDefaultCommand(new TeleOpJoystickRobotCentricCMD(mecanumDriveBaseSub,
                 telemetryManagerSub.getTelemetryObject(), driverOP::getLeftY, driverOP::getRightX, driverOP::getLeftX));

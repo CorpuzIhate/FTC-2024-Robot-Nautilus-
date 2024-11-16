@@ -106,24 +106,7 @@ public class AutoRobotContainer extends CommandOpMode {
 
 
 
-//                new PowerVacuumCMD(vacuumSubsystem,
-//                        1,
-//                        ContinousVacuumServo,
-//                        telemetryManagerSub.getTelemetryObject(),
-//                        vacuumSensor,
-//                        3
-//                        ),
-//            new InstantCommand(() ->{
-//                shoulderSub.setSetpoint(Constants.ShoulderSetpoints.highBasketShoulderPos);
-//                elbowSub.setSetpoint(Constants.ElbowSetpoints.highBasketElbowPos);
-//            })
-//                  new MoveRobotEncoderXYCMD( 24,
-//                          24,
-//                          3,
-//                          0.5,
-//                          mecanumDriveBaseSub,
-//                          telemetryManagerSub.getTelemetryObject()
-//                  )
+
         );
 
 

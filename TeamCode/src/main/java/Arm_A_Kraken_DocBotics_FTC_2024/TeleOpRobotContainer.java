@@ -1,4 +1,4 @@
-package Command_Based_TeleOp_2024_08_17;
+package Arm_A_Kraken_DocBotics_FTC_2024;
 
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
@@ -16,20 +16,20 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorRangeSensor;
 
 
-import Command_Based_TeleOp_2024_08_17.Commands.MoveArmJointCMD;
-import Command_Based_TeleOp_2024_08_17.Commands.PowerVacuumCMD;
-import Command_Based_TeleOp_2024_08_17.Commands.TeleOpJoystickRobotCentricCMD;
-import Command_Based_TeleOp_2024_08_17.Commands.TelemetryManagerCMD;
-import Command_Based_TeleOp_2024_08_17.Subsystems.MecanumDriveBaseSubsystem;
+import Arm_A_Kraken_DocBotics_FTC_2024.Commands.MoveArmJointCMD;
+import Arm_A_Kraken_DocBotics_FTC_2024.Commands.PowerVacuumCMD;
+import Arm_A_Kraken_DocBotics_FTC_2024.Commands.TeleOpJoystickRobotCentricCMD;
+import Arm_A_Kraken_DocBotics_FTC_2024.Commands.TelemetryManagerCMD;
+import Arm_A_Kraken_DocBotics_FTC_2024.Subsystems.MecanumDriveBaseSubsystem;
 
-import Command_Based_TeleOp_2024_08_17.Subsystems.TelemetryManagerSubsystem;
-import Command_Based_TeleOp_2024_08_17.Subsystems.VacuumSubsystem;
-import Command_Based_TeleOp_2024_08_17.Subsystems.armJointSubsystem;
+import Arm_A_Kraken_DocBotics_FTC_2024.Subsystems.TelemetryManagerSubsystem;
+import Arm_A_Kraken_DocBotics_FTC_2024.Subsystems.VacuumSubsystem;
+import Arm_A_Kraken_DocBotics_FTC_2024.Subsystems.armJointSubsystem;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-@TeleOp(name = "Command Base Test")
+@TeleOp(name = "TeleOp RobotContainer")
 public class TeleOpRobotContainer extends CommandOpMode {
 
 
@@ -109,126 +109,17 @@ public class TeleOpRobotContainer extends CommandOpMode {
         backLeft.setInverted(true);
         backRight.setInverted(true);
         driverOP = new GamepadEx(gamepad1);
-        vacuumIntakeButton = new GamepadButton(driverOP, GamepadKeys.Button.LEFT_BUMPER);
-        vacuumOutakeButton = new GamepadButton(driverOP, GamepadKeys.Button.RIGHT_BUMPER);
-        moveArmFoldUpPos = new GamepadButton(driverOP, GamepadKeys.Button.A);
-        moveLowBasketPos = new GamepadButton(driverOP, GamepadKeys.Button.DPAD_DOWN);
 
-        moveHighBasketPos = new GamepadButton(driverOP, GamepadKeys.Button.Y);
-        moveArmClearancePos = new GamepadButton(driverOP, GamepadKeys.Button.X);
-        moveGroundPickUpPos = new GamepadButton(driverOP, GamepadKeys.Button.B);
 
 
         Otos = hardwareMap.get(SparkFunOTOS.class, "sensor_otos");
         configureOtos();
         initSubsystems();
-
-
-
         runCommands();
+        configureBindings();
 
 
     }
-    private void initSubsystems(){
-        mecanumDriveBaseSub = new MecanumDriveBaseSubsystem(
-                frontLeft, frontRight, backLeft, backRight,Otos);
-        telemetryManagerSub = new TelemetryManagerSubsystem();
-
-
-
-        shoulderSub = new armJointSubsystem(
-                shoulderMotor,
-                new PIDFController(
-                        Constants.ShoulderPIDConstants.kP,
-                        Constants.ShoulderPIDConstants.kI,
-                        Constants.ShoulderPIDConstants.kD,
-                        Constants.ShoulderPIDConstants.kF),
-                "shoulder",
-                0.5,
-                0.5,
-                300
-        );
-
-        elbowSub = new armJointSubsystem(
-                elbowMotor,
-                new PIDFController(
-                Constants.ElbowPIDConstants.kP,
-                Constants.ElbowPIDConstants.kI,
-                Constants.ElbowPIDConstants.kD,
-                Constants.ElbowPIDConstants.kF),
-                "elbow",
-                0.5,
-                0.5,
-                100
-
-
-        );
-
-
-    }
-    private void runCommands(){
-        telemetryManagerSub.setDefaultCommand(new PerpetualCommand(new TelemetryManagerCMD(telemetryManagerSub)));
-
-        mecanumDriveBaseSub.setDefaultCommand(new TeleOpJoystickRobotCentricCMD(mecanumDriveBaseSub,
-                telemetryManagerSub.getTelemetryObject(), driverOP::getLeftY, driverOP::getRightX, driverOP::getLeftX));
-
-        shoulderSub.setDefaultCommand(new MoveArmJointCMD(telemetryManagerSub.getTelemetryObject(),
-                shoulderSub));
-        elbowSub.setDefaultCommand(new MoveArmJointCMD(telemetryManagerSub.getTelemetryObject(),
-                elbowSub));
-
-
-        moveHighBasketPos.whenPressed(new InstantCommand(() -> {
-
-            shoulderSub.setSetpoint(Constants.ShoulderSetpoints.highBasketShoulderPos);
-            elbowSub.setSetpoint(Constants.ElbowSetpoints.highBasketElbowPos);
-
-                }));
-
-        moveLowBasketPos.whenPressed(new InstantCommand(() -> {
-
-            shoulderSub.setSetpoint(Constants.ShoulderSetpoints.middleShoulderPos);
-            elbowSub.setSetpoint(Constants.ElbowSetpoints.middleElbowPos);
-                }));
-
-        moveArmFoldUpPos.whenPressed(new InstantCommand(() -> {
-
-            shoulderSub.setSetpoint(300);
-            elbowSub.setSetpoint(100);
-        }));
-        moveArmClearancePos.whenPressed(new InstantCommand(() -> {
-            isArmClearance = true;
-            shoulderSub.setSetpoint(Constants.ShoulderSetpoints.shoulderClearancePos);
-            elbowSub.setSetpoint(Constants.ElbowSetpoints.elbowClearancePos);
-        }));
-
-        moveGroundPickUpPos.whenPressed(new InstantCommand(() -> {
-            if(isArmClearance) {
-                isArmClearance = false;
-                shoulderSub.setSetpoint(Constants.ShoulderSetpoints.shoulderPickUpPos);
-                elbowSub.setSetpoint(Constants.ElbowSetpoints.elbowPickUpPos);
-            }
-        }));
-        shoulderSub.setDefaultCommand(new MoveArmJointCMD(
-                telemetryManagerSub.getTelemetryObject(),
-                shoulderSub
-        ));
-        elbowSub.setDefaultCommand(new MoveArmJointCMD(
-                telemetryManagerSub.getTelemetryObject(),
-                elbowSub
-        ));
-//testing
-
-        vacuumIntakeButton.whileHeld(new PowerVacuumCMD(vacuumSubsystem, 1,
-                        continuousVacuumServo,telemetryManagerSub.getTelemetryObject() ,vacuumSensor,0))
-                .whenReleased(new PowerVacuumCMD(vacuumSubsystem, 0,
-                        continuousVacuumServo,telemetryManagerSub.getTelemetryObject() ,vacuumSensor,0));
-
-        vacuumOutakeButton.whileHeld(new PowerVacuumCMD(vacuumSubsystem, -1,
-                        continuousVacuumServo,telemetryManagerSub.getTelemetryObject() ,vacuumSensor,0))
-                .whenReleased(new PowerVacuumCMD(vacuumSubsystem, 0,
-                        continuousVacuumServo,telemetryManagerSub.getTelemetryObject() ,vacuumSensor,0));
-        }
     private void configureOtos(){
         // Set the desired units for linear and angular measurements. Can be either
         // meters or inches for linear, and radians or degrees for angular. If not
@@ -302,8 +193,116 @@ public class TeleOpRobotContainer extends CommandOpMode {
         Otos.getVersionInfo(hwVersion, fwVersion);
 
     }
+    private void initSubsystems(){
+        mecanumDriveBaseSub = new MecanumDriveBaseSubsystem(
+                frontLeft, frontRight, backLeft, backRight,Otos);
+        telemetryManagerSub = new TelemetryManagerSubsystem();
 
 
 
+        shoulderSub = new armJointSubsystem(
+                shoulderMotor,
+                new PIDFController(
+                        Constants.ShoulderPIDConstants.kP,
+                        Constants.ShoulderPIDConstants.kI,
+                        Constants.ShoulderPIDConstants.kD,
+                        Constants.ShoulderPIDConstants.kF),
+                "shoulder",
+                0.5,
+                0.5,
+                300
+        );
+
+        elbowSub = new armJointSubsystem(
+                elbowMotor,
+                new PIDFController(
+                Constants.ElbowPIDConstants.kP,
+                Constants.ElbowPIDConstants.kI,
+                Constants.ElbowPIDConstants.kD,
+                Constants.ElbowPIDConstants.kF),
+                "elbow",
+                0.5,
+                0.5,
+                100
+
+
+        );
+
+
+    }
+    private void runCommands(){
+        telemetryManagerSub.setDefaultCommand(new PerpetualCommand(new TelemetryManagerCMD(telemetryManagerSub)));
+
+        mecanumDriveBaseSub.setDefaultCommand(new TeleOpJoystickRobotCentricCMD(mecanumDriveBaseSub,
+                telemetryManagerSub.getTelemetryObject(), driverOP::getLeftY, driverOP::getRightX, driverOP::getLeftX));
+
+        shoulderSub.setDefaultCommand(new MoveArmJointCMD(telemetryManagerSub.getTelemetryObject(),
+                shoulderSub));
+        elbowSub.setDefaultCommand(new MoveArmJointCMD(telemetryManagerSub.getTelemetryObject(),
+                elbowSub));
+
+        }
+    private void configureBindings(){
+        vacuumIntakeButton = new GamepadButton(driverOP, GamepadKeys.Button.LEFT_BUMPER);
+        vacuumOutakeButton = new GamepadButton(driverOP, GamepadKeys.Button.RIGHT_BUMPER);
+        moveArmFoldUpPos = new GamepadButton(driverOP, GamepadKeys.Button.A);
+        moveLowBasketPos = new GamepadButton(driverOP, GamepadKeys.Button.DPAD_DOWN);
+
+        moveHighBasketPos = new GamepadButton(driverOP, GamepadKeys.Button.Y);
+        moveArmClearancePos = new GamepadButton(driverOP, GamepadKeys.Button.X);
+        moveGroundPickUpPos = new GamepadButton(driverOP, GamepadKeys.Button.B);
+
+        moveHighBasketPos.whenPressed(new InstantCommand(() -> {
+
+            shoulderSub.setSetpoint(Constants.ShoulderSetpoints.highBasketShoulderPos);
+            elbowSub.setSetpoint(Constants.ElbowSetpoints.highBasketElbowPos);
+
+        }));
+
+        moveLowBasketPos.whenPressed(new InstantCommand(() -> {
+
+            shoulderSub.setSetpoint(Constants.ShoulderSetpoints.middleShoulderPos);
+            elbowSub.setSetpoint(Constants.ElbowSetpoints.middleElbowPos);
+        }));
+
+        moveArmFoldUpPos.whenPressed(new InstantCommand(() -> {
+
+            shoulderSub.setSetpoint(300);
+            elbowSub.setSetpoint(100);
+        }));
+        moveArmClearancePos.whenPressed(new InstantCommand(() -> {
+            isArmClearance = true;
+            shoulderSub.setSetpoint(Constants.ShoulderSetpoints.shoulderClearancePos);
+            elbowSub.setSetpoint(Constants.ElbowSetpoints.elbowClearancePos);
+        }));
+
+        moveGroundPickUpPos.whenPressed(new InstantCommand(() -> {
+            if(isArmClearance) {
+                isArmClearance = false;
+                shoulderSub.setSetpoint(Constants.ShoulderSetpoints.shoulderPickUpPos);
+                elbowSub.setSetpoint(Constants.ElbowSetpoints.elbowPickUpPos);
+            }
+        }));
+        shoulderSub.setDefaultCommand(new MoveArmJointCMD(
+                telemetryManagerSub.getTelemetryObject(),
+                shoulderSub
+        ));
+        elbowSub.setDefaultCommand(new MoveArmJointCMD(
+                telemetryManagerSub.getTelemetryObject(),
+                elbowSub
+        ));
+
+
+        vacuumIntakeButton.whileHeld(new PowerVacuumCMD(vacuumSubsystem, 1,
+                        continuousVacuumServo,telemetryManagerSub.getTelemetryObject() ,vacuumSensor,0))
+                .whenReleased(new PowerVacuumCMD(vacuumSubsystem, 0,
+                        continuousVacuumServo,telemetryManagerSub.getTelemetryObject() ,vacuumSensor,0));
+
+        vacuumOutakeButton.whileHeld(new PowerVacuumCMD(vacuumSubsystem, -1,
+                        continuousVacuumServo,telemetryManagerSub.getTelemetryObject() ,vacuumSensor,0))
+                .whenReleased(new PowerVacuumCMD(vacuumSubsystem, 0,
+                        continuousVacuumServo,telemetryManagerSub.getTelemetryObject() ,vacuumSensor,0));
+
+    }
 }
 

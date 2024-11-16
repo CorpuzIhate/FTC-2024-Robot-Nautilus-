@@ -1,4 +1,4 @@
-package Command_Based_TeleOp_2024_08_17;
+package Arm_A_Kraken_DocBotics_FTC_2024;
 
 import com.acmerobotics.dashboard.config.Config;
 

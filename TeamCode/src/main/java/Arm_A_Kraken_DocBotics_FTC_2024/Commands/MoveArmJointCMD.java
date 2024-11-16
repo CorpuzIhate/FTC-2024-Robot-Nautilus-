@@ -1,4 +1,4 @@
-package Command_Based_TeleOp_2024_08_17.Commands;
+package Arm_A_Kraken_DocBotics_FTC_2024.Commands;
 
 
 
@@ -9,7 +9,7 @@ import com.arcrobotics.ftclib.hardware.motors.Motor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-import Command_Based_TeleOp_2024_08_17.Subsystems.armJointSubsystem;
+import Arm_A_Kraken_DocBotics_FTC_2024.Subsystems.armJointSubsystem;
 
 public class MoveArmJointCMD extends CommandBase {
     private final Telemetry m_dashboardTelemetry;

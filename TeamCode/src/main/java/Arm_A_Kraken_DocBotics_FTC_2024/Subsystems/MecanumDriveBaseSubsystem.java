@@ -1,4 +1,4 @@
-package Command_Based_TeleOp_2024_08_17.Subsystems;
+package Arm_A_Kraken_DocBotics_FTC_2024.Subsystems;
 
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
@@ -8,7 +8,7 @@ import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 
 ;
 
-import Command_Based_TeleOp_2024_08_17.Constants;
+import Arm_A_Kraken_DocBotics_FTC_2024.Constants;
 
 
 public class MecanumDriveBaseSubsystem extends SubsystemBase {

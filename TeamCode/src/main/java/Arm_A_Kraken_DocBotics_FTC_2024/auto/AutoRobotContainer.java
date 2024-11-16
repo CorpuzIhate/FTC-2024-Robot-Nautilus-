@@ -1,8 +1,7 @@
-package Command_Based_TeleOp_2024_08_17.auto;
+package Arm_A_Kraken_DocBotics_FTC_2024.auto;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.InstantCommand;
-import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.PerpetualCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.controller.PIDFController;
@@ -15,17 +14,15 @@ import com.qualcomm.robotcore.hardware.ColorRangeSensor;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-import Command_Based_TeleOp_2024_08_17.AutoCommands.MoveRobotHCMD;
-import Command_Based_TeleOp_2024_08_17.AutoCommands.MoveRobotXYCMD;
-import Command_Based_TeleOp_2024_08_17.Commands.MoveArmJointCMD;
-import Command_Based_TeleOp_2024_08_17.Commands.PowerVacuumCMD;
-import Command_Based_TeleOp_2024_08_17.Commands.TelemetryManagerCMD;
-import Command_Based_TeleOp_2024_08_17.Constants;
-import Command_Based_TeleOp_2024_08_17.Subsystems.MecanumDriveBaseSubsystem;
+import Arm_A_Kraken_DocBotics_FTC_2024.AutoCommands.MoveRobotXYCMD;
+import Arm_A_Kraken_DocBotics_FTC_2024.Commands.MoveArmJointCMD;
+import Arm_A_Kraken_DocBotics_FTC_2024.Commands.TelemetryManagerCMD;
+import Arm_A_Kraken_DocBotics_FTC_2024.Constants;
+import Arm_A_Kraken_DocBotics_FTC_2024.Subsystems.MecanumDriveBaseSubsystem;
 
-import Command_Based_TeleOp_2024_08_17.Subsystems.TelemetryManagerSubsystem;
-import Command_Based_TeleOp_2024_08_17.Subsystems.VacuumSubsystem;
-import Command_Based_TeleOp_2024_08_17.Subsystems.armJointSubsystem;
+import Arm_A_Kraken_DocBotics_FTC_2024.Subsystems.TelemetryManagerSubsystem;
+import Arm_A_Kraken_DocBotics_FTC_2024.Subsystems.VacuumSubsystem;
+import Arm_A_Kraken_DocBotics_FTC_2024.Subsystems.armJointSubsystem;
 
 @Autonomous
 public class AutoRobotContainer extends CommandOpMode {

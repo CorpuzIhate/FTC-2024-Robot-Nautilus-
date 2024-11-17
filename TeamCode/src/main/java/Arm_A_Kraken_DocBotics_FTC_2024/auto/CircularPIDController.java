@@ -17,10 +17,10 @@ public class CircularPIDController {
         m_kP = kP;
     }
 
-    public double calculate(double currentAngle,double setpoint) {
+    public double calculate(double currentAngle_degrees,double setpoint_degrees) {
         double output;
 
-        counterClockwiseDistanceToSetpoint = Math.abs(currentAngle- setpoint);
+        counterClockwiseDistanceToSetpoint = Math.abs(currentAngle_degrees- setpoint_degrees);
         clockwiseDistanceToSetpoint = 360 - counterClockwiseDistanceToSetpoint;
 
 

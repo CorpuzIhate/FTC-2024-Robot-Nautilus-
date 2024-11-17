@@ -33,23 +33,12 @@ public class armJointSubsystem extends SubsystemBase {
     }
     public double limitJointSpeed(double currentJointOutput){
         double cappedOutput = currentJointOutput;
-
-        if(currentJointOutput > 0) { //if we're extending outwards, meaning the joint is moving away from
-            //the original position,
-
-            if (currentJointOutput >= m_maxExtensionJointSpeed){
-                cappedOutput = m_maxExtensionJointSpeed ;
-            }
-
+        double maxSpeedLimit = 0.7;
+        if(Math.abs(currentJointOutput) > maxSpeedLimit )
+        {
+            currentJointOutput = maxSpeedLimit;
         }
-        else if (currentJointOutput < 0){
-            //if we're retracting, meaning the joint is moving towards the
-            //original position
-            if (currentJointOutput <= m_maxRetractionJointSpeed){
-                cappedOutput = -m_maxRetractionJointSpeed;
-            }
 
-        }
         return cappedOutput;
 
     }

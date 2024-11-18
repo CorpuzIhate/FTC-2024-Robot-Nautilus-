@@ -12,7 +12,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 @Config
 @TeleOp
-@Disabled
+
 public class DeadArmTest extends OpMode {
     public static double currentSetpoint;
 
@@ -48,8 +48,8 @@ public class DeadArmTest extends OpMode {
     }
     public void loop(){
 
-        dashboardTelemetry.addData("position",shoulderMotor.getCurrentPosition());
-        dashboardTelemetry.addData("position",elbowMotor.getCurrentPosition());
+        dashboardTelemetry.addData("shoulder position",shoulderMotor.getCurrentPosition());
+        dashboardTelemetry.addData(" elbow position",elbowMotor.getCurrentPosition());
 
 
         dashboardTelemetry.update();

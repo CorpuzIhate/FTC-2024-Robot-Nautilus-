@@ -253,20 +253,20 @@ public class TeleOpRobotContainer extends CommandOpMode {
         moveGroundPickUpPos = new GamepadButton(driverOP, GamepadKeys.Button.B);
 
         moveHighBasketPos.whenPressed(new InstantCommand(() -> {
-
+            isArmClearance = false;
             shoulderSub.setSetpoint(Constants.ShoulderSetpoints.highBasketShoulderPos);
             elbowSub.setSetpoint(Constants.ElbowSetpoints.highBasketElbowPos);
 
         }));
 
         moveLowBasketPos.whenPressed(new InstantCommand(() -> {
-
+            isArmClearance = false;
             shoulderSub.setSetpoint(Constants.ShoulderSetpoints.middleShoulderPos);
             elbowSub.setSetpoint(Constants.ElbowSetpoints.middleElbowPos);
         }));
 
         moveArmFoldUpPos.whenPressed(new InstantCommand(() -> {
-
+            isArmClearance = false;
             shoulderSub.setSetpoint(300);
             elbowSub.setSetpoint(100);
         }));
@@ -279,8 +279,8 @@ public class TeleOpRobotContainer extends CommandOpMode {
         moveGroundPickUpPos.whenPressed(new InstantCommand(() -> {
             if(isArmClearance) {
                 isArmClearance = false;
-                shoulderSub.setSetpoint(Constants.ShoulderSetpoints.shoulderPickUpPos);
-                elbowSub.setSetpoint(Constants.ElbowSetpoints.elbowPickUpPos);
+                shoulderSub.setSetpoint(Constants.ShoulderSetpoints.shoulderSubmersiblePickUpPos);
+                elbowSub.setSetpoint(Constants.ElbowSetpoints.elbowSubmersiblePickUpPos);
             }
         }));
         shoulderSub.setDefaultCommand(new MoveArmJointCMD(
@@ -288,6 +288,7 @@ public class TeleOpRobotContainer extends CommandOpMode {
                 shoulderSub
         ));
         elbowSub.setDefaultCommand(new MoveArmJointCMD(
+
                 telemetryManagerSub.getTelemetryObject(),
                 elbowSub
         ));

@@ -210,7 +210,7 @@ public class TeleOpRobotContainer extends CommandOpMode {
                 "shoulder",
                 0.5,
                 0.5,
-                300
+                13.18
         );
 
         elbowSub = new armJointSubsystem(
@@ -223,7 +223,7 @@ public class TeleOpRobotContainer extends CommandOpMode {
                 "elbow",
                 0.5,
                 0.5,
-                100
+                4.39
 
 
         );
@@ -267,8 +267,8 @@ public class TeleOpRobotContainer extends CommandOpMode {
 
         moveArmFoldUpPos.whenPressed(new InstantCommand(() -> {
             isArmClearance = false;
-            shoulderSub.setSetpoint(300);
-            elbowSub.setSetpoint(100);
+            shoulderSub.setSetpoint(13.18);
+            elbowSub.setSetpoint(4.39);
         }));
         moveArmClearancePos.whenPressed(new InstantCommand(() -> {
             isArmClearance = true;

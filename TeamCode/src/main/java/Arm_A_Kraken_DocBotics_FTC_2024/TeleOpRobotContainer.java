@@ -252,7 +252,7 @@ public class TeleOpRobotContainer extends CommandOpMode {
         moveGroundPickUpPos = new GamepadButton(driverOP, GamepadKeys.Button.B);
 
         moveHighBasketPos.whenPressed(new InstantCommand(() -> {
-            if(!armState.equals( "pickUp") ) {
+            if(armState.equals("Clearance") ) {
                 shoulderSub.setSetpoint(Constants.ShoulderSetpoints.highBasketShoulderPos);
                 elbowSub.setSetpoint(Constants.ElbowSetpoints.highBasketElbowPos);
                 armState =  "highBasket";

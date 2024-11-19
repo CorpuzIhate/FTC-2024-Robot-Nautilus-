@@ -10,6 +10,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
+import Arm_A_Kraken_DocBotics_FTC_2024.Constants;
+
 @Config
 @TeleOp
 
@@ -48,8 +50,10 @@ public class DeadArmTest extends OpMode {
     }
     public void loop(){
 
-        dashboardTelemetry.addData("shoulder position",shoulderMotor.getCurrentPosition());
-        dashboardTelemetry.addData(" elbow position",elbowMotor.getCurrentPosition());
+        dashboardTelemetry.addData("shoulder position",shoulderMotor.getCurrentPosition() *
+                Constants.armTicksToDegreesConversionFactor);
+        dashboardTelemetry.addData(" elbow position",elbowMotor.getCurrentPosition()
+         * Constants.armTicksToDegreesConversionFactor);
 
 
         dashboardTelemetry.update();

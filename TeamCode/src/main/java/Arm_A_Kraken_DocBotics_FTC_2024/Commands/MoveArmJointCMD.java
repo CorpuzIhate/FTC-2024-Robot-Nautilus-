@@ -47,9 +47,9 @@ public class MoveArmJointCMD extends CommandBase {
         m_dashboardTelemetry.addData(m_jointSub.getTag() + " kD", jointPID.getD());
         m_dashboardTelemetry.addData(m_jointSub.getTag() + " kF", jointPID.getF());
 
-        m_dashboardTelemetry.addData(m_jointSub.getTag() + " position", jointMotor.getCurrentPosition());
+        m_dashboardTelemetry.addData(m_jointSub.getTag() + " position_degrees", m_jointSub.getEncoderPos_Degrees());
         m_dashboardTelemetry.update();
-        m_dashboardTelemetry.addData(m_jointSub.getTag() + " setpoint", m_jointSub.getSetpoint());
+        m_dashboardTelemetry.addData(m_jointSub.getTag() + " setpoint_degrees", m_jointSub.getSetpoint());
 
 //hi
     }
@@ -57,10 +57,10 @@ public class MoveArmJointCMD extends CommandBase {
     public void execute(){
 
 
-        m_dashboardTelemetry.addData(m_jointSub.getTag() + " position", jointMotor.getCurrentPosition());
-        m_dashboardTelemetry.addData(m_jointSub.getTag() + " setpoint", m_jointSub.getSetpoint());
+        m_dashboardTelemetry.addData(m_jointSub.getTag() + " position_degrees", m_jointSub.getEncoderPos_Degrees());
+        m_dashboardTelemetry.addData(m_jointSub.getTag() + " setpoint_degrees", m_jointSub.getSetpoint());
 
-        jointSpeed = jointPID.calculate(jointMotor.getCurrentPosition(), m_jointSub.getSetpoint());
+        jointSpeed = jointPID.calculate(m_jointSub.getEncoderPos_Degrees(), m_jointSub.getSetpoint());
 
 
         m_dashboardTelemetry.update();

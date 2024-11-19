@@ -4,6 +4,10 @@ import com.acmerobotics.dashboard.config.Config;
 
 @Config
 public final class Constants{
+    private static final double throughBoreTicksperRevolution = 8192;
+    public static final double armTicksToDegreesConversionFactor =
+            360 / throughBoreTicksperRevolution;
+
     public static final class ShoulderPIDConstants{
         public static final double kP = 0.001;
         public static final double kI = 0.000001;
@@ -19,21 +23,21 @@ public final class Constants{
 
     }
     public static final class ShoulderSetpoints{
-        public static final double shoulderClearancePos = 800;
-        public static final double shoulderSubmersiblePickUpPos = 800;
-        public static final double middleShoulderPos = 2660;
+        public static final double shoulderClearancePos = 35.15;
+        public static final double shoulderSubmersiblePickUpPos = 35.15;
+        public static final double middleShoulderPos = 116.89;
 
-        public static final double highBasketShoulderPos = 3300;// hard stop
+        public static final double highBasketShoulderPos = 145.01;// hard stop
         public static final double shoulderClimbInit = 0;
 
 
     }
     public static final class ElbowSetpoints{
-        public static final double elbowClearancePos = 2400;
-        public static final double elbowSubmersiblePickUpPos = 3000;
-        public static final double middleElbowPos = 4000;
+        public static final double elbowClearancePos = 105.46;
+        public static final double elbowSubmersiblePickUpPos = 131.83;
+        public static final double middleElbowPos = 175.78;
 
-        public static final double highBasketElbowPos = 3200;
+        public static final double highBasketElbowPos = 140.625;
 
         public  static final double elbowClimbInit = 0 ;
 

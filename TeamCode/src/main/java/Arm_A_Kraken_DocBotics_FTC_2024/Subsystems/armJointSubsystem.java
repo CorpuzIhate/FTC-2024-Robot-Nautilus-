@@ -4,6 +4,8 @@ import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.controller.PIDFController;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 
+import Arm_A_Kraken_DocBotics_FTC_2024.Constants;
+
 public class armJointSubsystem extends SubsystemBase {
 
     private final Motor m_jointMotor;
@@ -51,6 +53,10 @@ public class armJointSubsystem extends SubsystemBase {
         return m_jointFeedForward;
     }
     public String getTag(){ return m_tag;}
+    public double getEncoderPos_Degrees(){
+        return
+                m_jointMotor.getCurrentPosition() * Constants.armTicksToDegreesConversionFactor;
+    }
 
     public void setSetpoint(double setpoint){ m_setpoint = setpoint;}
 

@@ -5,6 +5,7 @@ import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.geometry.Vector2d;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 ;
 
@@ -14,6 +15,8 @@ import Arm_A_Kraken_DocBotics_FTC_2024.Constants;
 public class MecanumDriveBaseSubsystem extends SubsystemBase {
     public final Motor m_FL, m_FR, m_BR, m_BL;
     private final SparkFunOTOS m_OTOS;
+    private ElapsedTime slewRateTimer = new ElapsedTime();
+    private double previousInput = 0;
 
 
 
@@ -157,6 +160,25 @@ public class MecanumDriveBaseSubsystem extends SubsystemBase {
         desiredRobotRelativeVelocity = new Vector2d(desiredRobotRelativeVelocity_x, desiredRobotRelativeVelocity_y);
         return  desiredRobotRelativeVelocity;
 
+    }
+    public double slewRateLimiter(double joystickInput){
+
+
+        double deltaTime_seconds = slewRateTimer.seconds();
+        double signalDerivative = ( joystickInput - previousInput)  / deltaTime_seconds;
+
+
+        if(signalDerivative > 0.5) // if the joystick signal has greater than 0.5
+            // set the derivative of the signal to 0.5
+        {
+            previousInput = joystickInput;
+            slewRateTimer.reset();
+            //this returns a signal with a derivative = 0.5
+            return  (0.5 * deltaTime_seconds) + previousInput;
+        }
+        previousInput = joystickInput;
+        slewRateTimer.reset();
+        return joystickInput;
     }
 
 

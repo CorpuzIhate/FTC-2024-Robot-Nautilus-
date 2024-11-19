@@ -46,7 +46,7 @@ public class TeleOpRobotContainer extends CommandOpMode {
     Motor shoulderMotor;
     Motor elbowMotor;
 
-    String armState = "foldUp";
+    public static String armState = "foldUp";
     CRServo continuousVacuumServo;
 
     private MecanumDriveBaseSubsystem mecanumDriveBaseSub;
@@ -298,7 +298,7 @@ public class TeleOpRobotContainer extends CommandOpMode {
         moveArmClimbPos.whenPressed(
                 new InstantCommand(() -> {
 
-                    if(armState.equals("armClearance") ) {
+                    if(armState.equals("foldUp") ) {
                         shoulderSub.setSetpoint(Constants.ShoulderSetpoints.shoulderClimbInit);
                         elbowSub.setSetpoint(Constants.ElbowSetpoints.elbowClimbInit);
                         armState =  "climb";

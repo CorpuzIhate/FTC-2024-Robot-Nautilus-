@@ -30,9 +30,9 @@ public final class Constants{
 
     }
     public static final class ElbowSetpoints{
-        public static final double elbowClearancePos = 2400;
+        public static final double elbowClearancePos = 2000;
         public static final double elbowSubmersiblePickUpPos = 3000;
-        public static final double middleElbowPos = 4000;
+        public static final double middleElbowPos = 3600;
 
         public static final double highBasketElbowPos = 3200;
 

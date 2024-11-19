@@ -16,7 +16,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 import Arm_A_Kraken_DocBotics_FTC_2024.AutoCommands.MoveRobotXYCMD;
 import Arm_A_Kraken_DocBotics_FTC_2024.Commands.MoveArmJointCMD;
+import Arm_A_Kraken_DocBotics_FTC_2024.Commands.PowerVacuumCMD;
 import Arm_A_Kraken_DocBotics_FTC_2024.Commands.TelemetryManagerCMD;
+import Arm_A_Kraken_DocBotics_FTC_2024.Commands.waitCMD;
 import Arm_A_Kraken_DocBotics_FTC_2024.Constants;
 import Arm_A_Kraken_DocBotics_FTC_2024.Subsystems.MecanumDriveBaseSubsystem;
 
@@ -95,11 +97,18 @@ public class AutoRobotContainer extends CommandOpMode {
                 new MoveRobotXYCMD( 0,-56,
                           mecanumDriveBaseSub,
                           telemetryManagerSub.getTelemetryObject()),
+                new waitCMD(3),
                 new InstantCommand(() -> {
                     shoulderSub.setSetpoint(Constants.ShoulderSetpoints.highBasketShoulderPos);
                     elbowSub.setSetpoint(Constants.ElbowSetpoints.highBasketElbowPos);
                 })
-                )
+                ),
+                new PowerVacuumCMD(vacuumSubsystem,
+                        1,
+                        ContinousVacuumServo,
+                        telemetryManagerSub.getTelemetryObject(),
+                        vacuumSensor,
+                        3)
 
 
 

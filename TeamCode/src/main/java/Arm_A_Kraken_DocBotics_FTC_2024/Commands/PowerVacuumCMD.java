@@ -17,6 +17,7 @@ public class PowerVacuumCMD extends CommandBase {
     private final Telemetry m_dashboardTelemetry;
     private final ColorRangeSensor m_vacuumSensor;
     private final double m_VacuumRunTime_Seconds;
+
     private final ElapsedTime runtime = new ElapsedTime();
     public PowerVacuumCMD(VacuumSubsystem vacuumSubsystem,
                           double power,

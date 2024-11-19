@@ -25,7 +25,7 @@ public final class Constants{
         public static final double middleShoulderPos = 2660;
 
         public static final double highBasketShoulderPos = 3300;// hard stop
-        public static final double shoulderClimbInit = 0;
+        public static final double shoulderClimbInit = 3300;
 
 
     }
@@ -36,7 +36,7 @@ public final class Constants{
 
         public static final double highBasketElbowPos = 3200;
 
-        public  static final double elbowClimbInit = 0 ;
+        public  static final double elbowClimbInit = 100 ;
 
     };
 

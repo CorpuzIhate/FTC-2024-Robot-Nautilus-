@@ -66,8 +66,8 @@ public class TeleOpRobotContainer extends CommandOpMode {
     public GamepadButton moveArmClearancePos;
     public GamepadButton moveGroundPickUpPos;
     public GamepadButton moveLowBasketPos;
-
     public GamepadButton moveHighBasketPos;
+    public GamepadButton moveArmClimbPos;
 
     public SparkFunOTOS Otos;
 
@@ -251,6 +251,8 @@ public class TeleOpRobotContainer extends CommandOpMode {
         moveArmClearancePos = new GamepadButton(driverOP, GamepadKeys.Button.X);
         moveGroundPickUpPos = new GamepadButton(driverOP, GamepadKeys.Button.B);
 
+        moveArmClimbPos = new GamepadButton(driverOP,GamepadKeys.Button.DPAD_UP );
+
         moveHighBasketPos.whenPressed(new InstantCommand(() -> {
             if(armState.equals("armClearance") ) {
                 shoulderSub.setSetpoint(Constants.ShoulderSetpoints.highBasketShoulderPos);
@@ -293,6 +295,18 @@ public class TeleOpRobotContainer extends CommandOpMode {
 
 
         }));
+        moveArmClimbPos.whenPressed(
+                new InstantCommand(() -> {
+
+                    if(armState.equals("armClearance") ) {
+                        shoulderSub.setSetpoint(Constants.ShoulderSetpoints.shoulderClimbInit);
+                        elbowSub.setSetpoint(Constants.ElbowSetpoints.elbowClimbInit);
+                        armState =  "climb";
+                    }
+                }
+    ));
+
+
 
 
         shoulderSub.setDefaultCommand(new MoveArmJointCMD(

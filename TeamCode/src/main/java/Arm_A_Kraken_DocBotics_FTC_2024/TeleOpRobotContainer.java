@@ -4,6 +4,7 @@ package Arm_A_Kraken_DocBotics_FTC_2024;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.PerpetualCommand;
+import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.button.Button;
 import com.arcrobotics.ftclib.command.button.GamepadButton;
 import com.arcrobotics.ftclib.controller.PIDFController;
@@ -34,8 +35,6 @@ public class TeleOpRobotContainer extends CommandOpMode {
 
 
 
-    boolean isArmClearance;
-
     double fwdPwr;
     double strafePwr;
     double rotationPwr;
@@ -45,9 +44,9 @@ public class TeleOpRobotContainer extends CommandOpMode {
     Motor backLeft;
     Motor backRight;
     Motor shoulderMotor;
-;
     Motor elbowMotor;
 
+    String armState = "foldUp";
     CRServo continuousVacuumServo;
 
     private MecanumDriveBaseSubsystem mecanumDriveBaseSub;
@@ -253,36 +252,49 @@ public class TeleOpRobotContainer extends CommandOpMode {
         moveGroundPickUpPos = new GamepadButton(driverOP, GamepadKeys.Button.B);
 
         moveHighBasketPos.whenPressed(new InstantCommand(() -> {
-            isArmClearance = false;
-            shoulderSub.setSetpoint(Constants.ShoulderSetpoints.highBasketShoulderPos);
-            elbowSub.setSetpoint(Constants.ElbowSetpoints.highBasketElbowPos);
+            if(!armState.equals( "pickUp") ) {
+                shoulderSub.setSetpoint(Constants.ShoulderSetpoints.highBasketShoulderPos);
+                elbowSub.setSetpoint(Constants.ElbowSetpoints.highBasketElbowPos);
+                armState =  "highBasket";
+            }
+
 
         }));
 
         moveLowBasketPos.whenPressed(new InstantCommand(() -> {
-            isArmClearance = false;
+
             shoulderSub.setSetpoint(Constants.ShoulderSetpoints.middleShoulderPos);
             elbowSub.setSetpoint(Constants.ElbowSetpoints.middleElbowPos);
+            armState = " lowBasket";
         }));
 
         moveArmFoldUpPos.whenPressed(new InstantCommand(() -> {
-            isArmClearance = false;
-            shoulderSub.setSetpoint(300);
-            elbowSub.setSetpoint(100);
+
+            if(!armState.equals("highBasket")) {
+                shoulderSub.setSetpoint(300);
+                elbowSub.setSetpoint(100);
+                armState = "foldUp";
+            }
+
         }));
         moveArmClearancePos.whenPressed(new InstantCommand(() -> {
-            isArmClearance = true;
+            armState =  "armClearance";
             shoulderSub.setSetpoint(Constants.ShoulderSetpoints.shoulderClearancePos);
             elbowSub.setSetpoint(Constants.ElbowSetpoints.elbowClearancePos);
         }));
 
         moveGroundPickUpPos.whenPressed(new InstantCommand(() -> {
-            if(isArmClearance) {
-                isArmClearance = false;
-                shoulderSub.setSetpoint(Constants.ShoulderSetpoints.shoulderSubmersiblePickUpPos);
-                elbowSub.setSetpoint(Constants.ElbowSetpoints.elbowSubmersiblePickUpPos);
-            }
+
+                if(armState.equals("armClearance") ) {
+                    shoulderSub.setSetpoint(Constants.ShoulderSetpoints.shoulderSubmersiblePickUpPos);
+                    elbowSub.setSetpoint(Constants.ElbowSetpoints.elbowSubmersiblePickUpPos);
+                    armState =  "pickUp";
+                }
+
+
         }));
+
+
         shoulderSub.setDefaultCommand(new MoveArmJointCMD(
                 telemetryManagerSub.getTelemetryObject(),
                 shoulderSub

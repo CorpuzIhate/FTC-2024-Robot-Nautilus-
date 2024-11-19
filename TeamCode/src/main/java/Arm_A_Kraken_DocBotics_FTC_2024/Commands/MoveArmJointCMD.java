@@ -70,8 +70,8 @@ public class MoveArmJointCMD extends CommandBase {
 
 
         }
-            //jointSpeed = m_jointSub.limitJointSpeed(jointSpeed, m_jointSub.getTag());
-        m_dashboardTelemetry.addData(m_jointSub.getTag() + " output", jointSpeed);
+            jointSpeed = m_jointSub.limitJointSpeed(jointSpeed, m_jointSub.getTag());
+            m_dashboardTelemetry.addData(m_jointSub.getTag() + " output", jointSpeed);
            jointMotor.set(jointSpeed); // error might happen here cuz
             // we just pass the shoulderMotor object through the subsystem hi
 

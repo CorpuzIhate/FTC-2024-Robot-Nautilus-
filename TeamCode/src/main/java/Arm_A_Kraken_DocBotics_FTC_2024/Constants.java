@@ -52,6 +52,7 @@ public final class Constants{
         public static double distanceFromOriginY_INCHES = 5.1875;
     }
     public static final class AutoConstants{
+        public static boolean isAuto;
         public static final double turnkP = 0.01;
         public static final double turnkI = 0;
         public static final double turnkD = 0;
@@ -59,7 +60,7 @@ public final class Constants{
 
         public static final double movekP = 0.06;
         public static final double movekI = 0;
-        public static final double movekD = 0;
+        public static final double movekD = 0.1;
         public static final double movekF = 0;
     }
     public static final class encoderAutoConstants{

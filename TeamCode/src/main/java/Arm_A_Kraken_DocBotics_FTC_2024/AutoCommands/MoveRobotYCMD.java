@@ -7,6 +7,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import Arm_A_Kraken_DocBotics_FTC_2024.Constants;
 import Arm_A_Kraken_DocBotics_FTC_2024.Subsystems.MecanumDriveBaseSubsystem;
+import Arm_A_Kraken_DocBotics_FTC_2024.auto.CircularPIDController;
 
 public class MoveRobotYCMD extends CommandBase {
     private final double m_yPosSetpoint;
@@ -14,10 +15,12 @@ public class MoveRobotYCMD extends CommandBase {
     private final Telemetry m_dashboardTelemetry;
     private final MecanumDriveBaseSubsystem m_MecanumDriveBaseSubsystem;
     public double yOutput;
+    public double hOuput;
 
+    double hpos;
     double yPos;
-    private  PIDFController yPosController;
-    private  PIDFController hPosController;
+    private PIDFController yPosController;
+    private  CircularPIDController hPosController;
 
     public MoveRobotYCMD( double yPosSetpoint,
                          MecanumDriveBaseSubsystem mecanumDriveBaseSubsystem,
@@ -27,7 +30,9 @@ public class MoveRobotYCMD extends CommandBase {
         m_dashboardTelemetry = dashboardTelemetry;
 
 
-
+        hPosController = new CircularPIDController(
+                Constants.AutoConstants.turnkP
+        );
         yPosController = new PIDFController(
                 Constants.AutoConstants.movekP,
                 Constants.AutoConstants.movekI,
@@ -52,6 +57,7 @@ public class MoveRobotYCMD extends CommandBase {
             yPos = m_MecanumDriveBaseSubsystem.getPosed2D().y;
             UpdateAutoTelemetry( m_yPosSetpoint, yPosController );
             yOutput = yPosController.calculate(yPos,m_yPosSetpoint);
+
             m_MecanumDriveBaseSubsystem.setMotorSpeeds(-yOutput,0, 0);
 
     }

@@ -15,6 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 import Arm_A_Kraken_DocBotics_FTC_2024.AutoCommands.MoveRobotXYCMD;
+import Arm_A_Kraken_DocBotics_FTC_2024.AutoCommands.MoveRobotYCMD;
 import Arm_A_Kraken_DocBotics_FTC_2024.Commands.MoveArmJointCMD;
 import Arm_A_Kraken_DocBotics_FTC_2024.Commands.PowerVacuumCMD;
 import Arm_A_Kraken_DocBotics_FTC_2024.Commands.TelemetryManagerCMD;
@@ -51,6 +52,7 @@ public class AutoRobotContainer extends CommandOpMode {
 
     @Override
     public void initialize() {
+        Constants.AutoConstants.isAuto = true;
         frontLeft = new Motor(hardwareMap, "front_left");
         frontRight = new Motor(hardwareMap, "front_right");
         backLeft = new Motor(hardwareMap, "back_left");
@@ -93,15 +95,17 @@ public class AutoRobotContainer extends CommandOpMode {
 
 
         schedule(new SequentialCommandGroup(
-
-                new MoveRobotXYCMD( 0,-56,
-                          mecanumDriveBaseSub,
-                          telemetryManagerSub.getTelemetryObject()),
-                new waitCMD(3),
                 new InstantCommand(() -> {
                     shoulderSub.setSetpoint(Constants.ShoulderSetpoints.highBasketShoulderPos);
                     elbowSub.setSetpoint(Constants.ElbowSetpoints.highBasketElbowPos);
-                })
+                }),
+                new waitCMD((3)),
+
+                new MoveRobotYCMD(-56
+                        ,mecanumDriveBaseSub,
+                        telemetryManagerSub.getTelemetryObject()),
+
+                new waitCMD(3)
                 ),
                 new PowerVacuumCMD(vacuumSubsystem,
                         1,

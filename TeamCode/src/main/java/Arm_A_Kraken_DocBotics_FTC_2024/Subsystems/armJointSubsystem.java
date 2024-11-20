@@ -35,7 +35,7 @@ public class armJointSubsystem extends SubsystemBase {
 
 
     }
-    public double limitJointSpeed(double currentJointSpeed, String tag ){
+    public double limitJointSpeed(double currentJointSpeed, String tag){
         if(Constants.AutoConstants.isAuto){
             return currentJointSpeed;
         }
@@ -44,8 +44,8 @@ public class armJointSubsystem extends SubsystemBase {
         // + for the elbow is down
         // - for the elbow is up
         if( tag.equals("elbow") ) {
-            if( currentJointSpeed > 0.25) {// limits down speed
-                return 0.25 ;
+            if( currentJointSpeed > 0.3) {// limits down speed
+                return 0.3 ;
             }
             else if( currentJointSpeed < -0.7){ // limits up speed
                 return -0.7;
@@ -56,10 +56,10 @@ public class armJointSubsystem extends SubsystemBase {
         // - for the shoulder is down
 //hi
             if (tag.equals("shoulder")) {
-                if (currentJointSpeed > 0.7) {  // limits up speed
-                    return 0.7;
-                } else if (currentJointSpeed < -0.3) { // limits down speed
-                    return -0.3;
+                if (currentJointSpeed > 0.9) {  // limits up speed
+                    return 0.9;
+                } else if (currentJointSpeed < -0.2) { // limits down speed
+                    return -0.2;
                 }
 
             }

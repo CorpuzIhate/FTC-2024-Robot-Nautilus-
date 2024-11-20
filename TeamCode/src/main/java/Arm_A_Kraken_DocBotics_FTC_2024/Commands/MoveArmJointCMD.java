@@ -20,6 +20,7 @@ public class MoveArmJointCMD extends CommandBase {
     private SimpleMotorFeedforward jointFeedForward;
     private  double jointSpeed;
     private boolean shoulderisAtpoint;
+
 ;
 
 

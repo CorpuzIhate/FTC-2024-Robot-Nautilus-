@@ -57,7 +57,10 @@ public class MoveRobotYCMD extends CommandBase {
             yPos = m_MecanumDriveBaseSubsystem.getPosed2D().y;
             UpdateAutoTelemetry( m_yPosSetpoint, yPosController );
             yOutput = yPosController.calculate(yPos,m_yPosSetpoint);
-
+            if(Math.abs(yOutput) > 0.7)
+            {
+                yOutput = 0.7 * Math.signum(0.7);
+            }
             m_MecanumDriveBaseSubsystem.setMotorSpeeds(-yOutput,0, 0);
 
     }

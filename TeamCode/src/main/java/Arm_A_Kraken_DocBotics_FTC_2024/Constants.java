@@ -60,7 +60,7 @@ public final class Constants{
 
         public static final double movekP = 0.06;
         public static final double movekI = 0;
-        public static final double movekD = 0.1;
+        public static final double movekD = 0.01;
         public static final double movekF = 0;
     }
     public static final class encoderAutoConstants{

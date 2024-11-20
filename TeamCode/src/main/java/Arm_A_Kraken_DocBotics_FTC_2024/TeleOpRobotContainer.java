@@ -34,7 +34,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 public class TeleOpRobotContainer extends CommandOpMode {
 
 
-
+    public static boolean isClimbing;
     double fwdPwr;
     double strafePwr;
     double rotationPwr;
@@ -264,10 +264,11 @@ public class TeleOpRobotContainer extends CommandOpMode {
         }));
 
         moveLowBasketPos.whenPressed(new InstantCommand(() -> {
-
-            shoulderSub.setSetpoint(Constants.ShoulderSetpoints.middleShoulderPos);
-            elbowSub.setSetpoint(Constants.ElbowSetpoints.middleElbowPos);
-            armState = " lowBasket";
+            if(!armState.equals("climb")) {
+                shoulderSub.setSetpoint(Constants.ShoulderSetpoints.middleShoulderPos);
+                elbowSub.setSetpoint(Constants.ElbowSetpoints.middleElbowPos);
+                armState = " lowBasket";
+            }
         }));
 
         moveArmFoldUpPos.whenPressed(new InstantCommand(() -> {
@@ -280,6 +281,8 @@ public class TeleOpRobotContainer extends CommandOpMode {
 
         }));
         moveArmClearancePos.whenPressed(new InstantCommand(() -> {
+            isClimbing = false;
+
             armState =  "armClearance";
             shoulderSub.setSetpoint(Constants.ShoulderSetpoints.shoulderClearancePos);
             elbowSub.setSetpoint(Constants.ElbowSetpoints.elbowClearancePos);
@@ -297,7 +300,7 @@ public class TeleOpRobotContainer extends CommandOpMode {
         }));
         moveArmClimbPos.whenPressed(
                 new InstantCommand(() -> {
-
+                    isClimbing = true;
                     if(armState.equals("foldUp") ) {
                         shoulderSub.setSetpoint(Constants.ShoulderSetpoints.shoulderClimbInit);
                         elbowSub.setSetpoint(Constants.ElbowSetpoints.elbowClimbInit);

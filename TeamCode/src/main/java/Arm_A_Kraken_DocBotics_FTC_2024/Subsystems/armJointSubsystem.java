@@ -1,6 +1,7 @@
 package Arm_A_Kraken_DocBotics_FTC_2024.Subsystems;
 
 import static Arm_A_Kraken_DocBotics_FTC_2024.TeleOpRobotContainer.armState;
+import static Arm_A_Kraken_DocBotics_FTC_2024.TeleOpRobotContainer.isClimbing;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.controller.PIDFController;
@@ -55,6 +56,10 @@ public class armJointSubsystem extends SubsystemBase {
         // + for the shoulder is up
         // - for the shoulder is down
 //hi
+        if(isClimbing)
+        {
+            return currentJointSpeed;
+        }
             if (tag.equals("shoulder")) {
                 if (currentJointSpeed > 0.9) {  // limits up speed
                     return 0.9;

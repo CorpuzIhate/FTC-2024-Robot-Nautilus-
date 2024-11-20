@@ -18,12 +18,7 @@ public class AutoPath1 extends AutoRobotContainer{
 
 
 
-                        new MoveRobotEncoderXYCMD(6,
-                                6,
-                                5,
-                                0.5,
-                                mecanumDriveBaseSub,
-                                telemetryManagerSub.getTelemetryObject()),
+
                         new MoveRobotHCMD(90,
                                 mecanumDriveBaseSub,
                                 telemetryManagerSub.getTelemetryObject()))

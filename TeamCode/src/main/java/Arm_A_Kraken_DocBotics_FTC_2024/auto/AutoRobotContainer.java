@@ -54,14 +54,13 @@ public class AutoRobotContainer extends CommandOpMode {
 
         shoulderMotor = new Motor(hardwareMap,"shoulder_motor");
         shoulderMotor.setRunMode(Motor.RunMode.RawPower);
-        shoulderMotor.resetEncoder();
+
 
 //philip was here :)
 
         elbowMotor = new Motor(hardwareMap,"elbow_motor");
         elbowMotor.setRunMode(Motor.RunMode.RawPower);
         elbowMotor.setInverted(true);
-        elbowMotor.resetEncoder();
 
 
         continousVacuumServo = new CRServo(hardwareMap, "Vacuum_Servo");

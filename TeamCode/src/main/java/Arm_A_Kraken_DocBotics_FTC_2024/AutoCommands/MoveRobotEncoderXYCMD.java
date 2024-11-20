@@ -110,9 +110,16 @@ public class MoveRobotEncoderXYCMD extends CommandBase {
 
     @Override
     public boolean isFinished(){
-        if((runtime.seconds() > m_timeoutS) &&
-                 !(frontRight.isBusy() || frontLeft.isBusy() || backLeft.isBusy() || backRight.isBusy()  ))
+        if((runtime.seconds() < m_timeoutS))
         {
+            return false;
+        }
+        if(frontRight.isBusy()  || frontLeft.isBusy() || backLeft.isBusy() || backRight.isBusy())
+        {
+            return false;
+        }
+
+
             frontLeft.setPower(0);
             frontRight.setPower(0);
             backLeft.setPower(0);
@@ -124,10 +131,9 @@ public class MoveRobotEncoderXYCMD extends CommandBase {
             backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             return true;
-        }
 
 
-        return false;
+
     }
 
 

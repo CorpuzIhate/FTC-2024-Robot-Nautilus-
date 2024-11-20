@@ -15,6 +15,7 @@ public class pathAutoLowBasket extends AutoRobotContainer{
         schedule(new SequentialCommandGroup(
 
                         new InstantCommand(() -> {
+
                             shoulderSub.setSetpoint(Constants.ShoulderSetpoints.middleShoulderPos);
                             elbowSub.setSetpoint(Constants.ElbowSetpoints.middleElbowPos);
                         } ),

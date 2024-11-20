@@ -1,9 +1,7 @@
 package Arm_A_Kraken_DocBotics_FTC_2024.auto;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
-import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.PerpetualCommand;
-import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.controller.PIDFController;
 import com.arcrobotics.ftclib.hardware.motors.CRServo;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
@@ -14,12 +12,8 @@ import com.qualcomm.robotcore.hardware.ColorRangeSensor;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-import Arm_A_Kraken_DocBotics_FTC_2024.AutoCommands.MoveRobotXYCMD;
-import Arm_A_Kraken_DocBotics_FTC_2024.AutoCommands.MoveRobotYCMD;
 import Arm_A_Kraken_DocBotics_FTC_2024.Commands.MoveArmJointCMD;
-import Arm_A_Kraken_DocBotics_FTC_2024.Commands.PowerVacuumCMD;
 import Arm_A_Kraken_DocBotics_FTC_2024.Commands.TelemetryManagerCMD;
-import Arm_A_Kraken_DocBotics_FTC_2024.Commands.waitCMD;
 import Arm_A_Kraken_DocBotics_FTC_2024.Constants;
 import Arm_A_Kraken_DocBotics_FTC_2024.Subsystems.MecanumDriveBaseSubsystem;
 
@@ -27,7 +21,7 @@ import Arm_A_Kraken_DocBotics_FTC_2024.Subsystems.TelemetryManagerSubsystem;
 import Arm_A_Kraken_DocBotics_FTC_2024.Subsystems.VacuumSubsystem;
 import Arm_A_Kraken_DocBotics_FTC_2024.Subsystems.armJointSubsystem;
 
-@Autonomous
+
 public class AutoRobotContainer extends CommandOpMode {
     public Motor frontLeft;
     public Motor frontRight;
@@ -37,16 +31,16 @@ public class AutoRobotContainer extends CommandOpMode {
     Motor shoulderMotor;
     Motor elbowMotor;
 
-    CRServo ContinousVacuumServo;
+    CRServo continousVacuumServo;
     public ColorRangeSensor vacuumSensor;
 
     public SparkFunOTOS Otos;
 
-    private armJointSubsystem elbowSub;
-    private armJointSubsystem shoulderSub;
-    private MecanumDriveBaseSubsystem mecanumDriveBaseSub;
-    private TelemetryManagerSubsystem telemetryManagerSub;
-    private VacuumSubsystem vacuumSubsystem;
+    public armJointSubsystem elbowSub;
+    public armJointSubsystem shoulderSub;
+    public MecanumDriveBaseSubsystem mecanumDriveBaseSub;
+    public TelemetryManagerSubsystem telemetryManagerSub;
+    public VacuumSubsystem vacuumSubsystem;
 
 
 
@@ -70,8 +64,8 @@ public class AutoRobotContainer extends CommandOpMode {
         elbowMotor.resetEncoder();
 
 
-        ContinousVacuumServo = new CRServo(hardwareMap, "Vacuum_Servo");
-        ContinousVacuumServo.setRunMode(Motor.RunMode.RawPower);
+        continousVacuumServo = new CRServo(hardwareMap, "Vacuum_Servo");
+        continousVacuumServo.setRunMode(Motor.RunMode.RawPower);
         vacuumSensor = hardwareMap.get(ColorRangeSensor.class, "Vaccum_Distance_Sensor");
 
 
@@ -91,33 +85,10 @@ public class AutoRobotContainer extends CommandOpMode {
                 shoulderSub));
         elbowSub.setDefaultCommand(new MoveArmJointCMD(telemetryManagerSub.getTelemetryObject(),
                 elbowSub));
+        path();
 
 
 
-        schedule(new SequentialCommandGroup(
-                new InstantCommand(() -> {
-                    shoulderSub.setSetpoint(Constants.ShoulderSetpoints.highBasketShoulderPos);
-                    elbowSub.setSetpoint(Constants.ElbowSetpoints.highBasketElbowPos);
-                }),
-                new waitCMD((3)),
-
-                new MoveRobotYCMD(-56
-                        ,mecanumDriveBaseSub,
-                        telemetryManagerSub.getTelemetryObject()),
-
-                new waitCMD(3)
-                ),
-                new PowerVacuumCMD(vacuumSubsystem,
-                        1,
-                        ContinousVacuumServo,
-                        telemetryManagerSub.getTelemetryObject(),
-                        vacuumSensor,
-                        3)
-
-
-
-
-        );
 
 
 
@@ -235,6 +206,9 @@ public class AutoRobotContainer extends CommandOpMode {
         SparkFunOTOS.Version fwVersion = new SparkFunOTOS.Version();
         Otos.getVersionInfo(hwVersion, fwVersion);
 
+
+    }
+    public void path(){
 
     }
 

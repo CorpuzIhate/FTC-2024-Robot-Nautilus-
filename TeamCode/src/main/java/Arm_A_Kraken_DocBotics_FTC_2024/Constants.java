@@ -22,7 +22,7 @@ public final class Constants{
     public static final class ShoulderSetpoints{
         public static final double shoulderClearancePos = 800;
         public static final double shoulderSubmersiblePickUpPos = 800;
-        public static final double middleShoulderPos = 2660;
+        public static final double middleShoulderPos = 2510;
 
         public static final double highBasketShoulderPos = 3300;// hard stop
         public static final double shoulderClimbInit = 3300;

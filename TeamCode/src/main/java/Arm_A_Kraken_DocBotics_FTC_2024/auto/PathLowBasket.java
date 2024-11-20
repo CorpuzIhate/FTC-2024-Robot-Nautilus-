@@ -9,13 +9,12 @@ import Arm_A_Kraken_DocBotics_FTC_2024.Commands.waitCMD;
 import Arm_A_Kraken_DocBotics_FTC_2024.Constants;
 
 @Autonomous
-public class pathAutoLowBasket extends AutoRobotContainer{
+public class PathLowBasket extends AutoRobotContainer{
     @Override
     public void path(){
         schedule(new SequentialCommandGroup(
 
                         new InstantCommand(() -> {
-
                             shoulderSub.setSetpoint(Constants.ShoulderSetpoints.middleShoulderPos);
                             elbowSub.setSetpoint(Constants.ElbowSetpoints.middleElbowPos);
                         } ),

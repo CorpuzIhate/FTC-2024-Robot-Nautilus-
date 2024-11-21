@@ -1,4 +1,4 @@
-package Arm_A_Kraken_DocBotics_FTC_2024.Commands;
+package Nautilus_DocBotics_FTC_2024.Commands;
 
 
 import com.arcrobotics.ftclib.command.CommandBase;
@@ -7,7 +7,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import java.util.function.DoubleSupplier;
 
-import Arm_A_Kraken_DocBotics_FTC_2024.Subsystems.MecanumDriveBaseSubsystem;
+import Nautilus_DocBotics_FTC_2024.Subsystems.MecanumDriveBaseSubsystem;
 
 public class TeleOpJoystickRobotCentricCMD extends CommandBase {
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})

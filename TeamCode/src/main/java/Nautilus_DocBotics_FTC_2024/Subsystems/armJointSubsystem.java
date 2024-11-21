@@ -1,13 +1,12 @@
-package Arm_A_Kraken_DocBotics_FTC_2024.Subsystems;
+package Nautilus_DocBotics_FTC_2024.Subsystems;
 
-import static Arm_A_Kraken_DocBotics_FTC_2024.TeleOpRobotContainer.armState;
-import static Arm_A_Kraken_DocBotics_FTC_2024.TeleOpRobotContainer.isClimbing;
+import static Nautilus_DocBotics_FTC_2024.TeleOpRobotContainer.isClimbing;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.controller.PIDFController;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 
-import Arm_A_Kraken_DocBotics_FTC_2024.Constants;
+import Nautilus_DocBotics_FTC_2024.Constants;
 
 public class armJointSubsystem extends SubsystemBase {
 

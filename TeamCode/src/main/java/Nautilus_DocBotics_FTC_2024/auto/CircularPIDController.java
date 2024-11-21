@@ -1,4 +1,4 @@
-package Arm_A_Kraken_DocBotics_FTC_2024.auto;
+package Nautilus_DocBotics_FTC_2024.auto;
 
 public class CircularPIDController {
     private final double m_kP;

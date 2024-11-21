@@ -1,12 +1,12 @@
-package Arm_A_Kraken_DocBotics_FTC_2024.auto;
+package Nautilus_DocBotics_FTC_2024.auto;
 
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import Arm_A_Kraken_DocBotics_FTC_2024.Commands.PowerVacuumCMD;
-import Arm_A_Kraken_DocBotics_FTC_2024.Commands.waitCMD;
-import Arm_A_Kraken_DocBotics_FTC_2024.Constants;
+import Nautilus_DocBotics_FTC_2024.Commands.PowerVacuumCMD;
+import Nautilus_DocBotics_FTC_2024.Commands.waitCMD;
+import Nautilus_DocBotics_FTC_2024.Constants;
 
 @Autonomous
 public class PathLowBasket extends AutoRobotContainer{

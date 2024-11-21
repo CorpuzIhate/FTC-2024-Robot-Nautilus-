@@ -1,4 +1,4 @@
-package Arm_A_Kraken_DocBotics_FTC_2024;
+package Nautilus_DocBotics_FTC_2024;
 
 import com.acmerobotics.dashboard.config.Config;
 
@@ -71,7 +71,7 @@ public final class Constants{
         public static final double     DRIVE_GEAR_REDUCTION    = 20 ;     // External Gearing.
         public static final double     WHEEL_DIAMETER_INCHES   = 3 ;     // For figuring circumference
         public static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
-                (WHEEL_DIAMETER_INCHES * 3.1415);
+                (WHEEL_DIAMETER_INCHES * Math.PI);
 
     }
 

@@ -1,4 +1,4 @@
-package Arm_A_Kraken_DocBotics_FTC_2024.auto;
+package Nautilus_DocBotics_FTC_2024.auto;
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.PerpetualCommand;
@@ -6,20 +6,19 @@ import com.arcrobotics.ftclib.controller.PIDFController;
 import com.arcrobotics.ftclib.hardware.motors.CRServo;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.ColorRangeSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-import Arm_A_Kraken_DocBotics_FTC_2024.Commands.MoveArmJointCMD;
-import Arm_A_Kraken_DocBotics_FTC_2024.Commands.TelemetryManagerCMD;
-import Arm_A_Kraken_DocBotics_FTC_2024.Constants;
-import Arm_A_Kraken_DocBotics_FTC_2024.Subsystems.MecanumDriveBaseSubsystem;
+import Nautilus_DocBotics_FTC_2024.Commands.MoveArmJointCMD;
+import Nautilus_DocBotics_FTC_2024.Commands.TelemetryManagerCMD;
+import Nautilus_DocBotics_FTC_2024.Constants;
+import Nautilus_DocBotics_FTC_2024.Subsystems.MecanumDriveBaseSubsystem;
 
-import Arm_A_Kraken_DocBotics_FTC_2024.Subsystems.TelemetryManagerSubsystem;
-import Arm_A_Kraken_DocBotics_FTC_2024.Subsystems.VacuumSubsystem;
-import Arm_A_Kraken_DocBotics_FTC_2024.Subsystems.armJointSubsystem;
+import Nautilus_DocBotics_FTC_2024.Subsystems.TelemetryManagerSubsystem;
+import Nautilus_DocBotics_FTC_2024.Subsystems.VacuumSubsystem;
+import Nautilus_DocBotics_FTC_2024.Subsystems.armJointSubsystem;
 
 
 public class AutoRobotContainer extends CommandOpMode {

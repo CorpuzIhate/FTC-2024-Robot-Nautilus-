@@ -1,10 +1,9 @@
-package Arm_A_Kraken_DocBotics_FTC_2024;
+package Nautilus_DocBotics_FTC_2024;
 
 
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.PerpetualCommand;
-import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.button.Button;
 import com.arcrobotics.ftclib.command.button.GamepadButton;
 import com.arcrobotics.ftclib.controller.PIDFController;
@@ -17,15 +16,15 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorRangeSensor;
 
 
-import Arm_A_Kraken_DocBotics_FTC_2024.Commands.MoveArmJointCMD;
-import Arm_A_Kraken_DocBotics_FTC_2024.Commands.PowerVacuumCMD;
-import Arm_A_Kraken_DocBotics_FTC_2024.Commands.TeleOpJoystickRobotCentricCMD;
-import Arm_A_Kraken_DocBotics_FTC_2024.Commands.TelemetryManagerCMD;
-import Arm_A_Kraken_DocBotics_FTC_2024.Subsystems.MecanumDriveBaseSubsystem;
+import Nautilus_DocBotics_FTC_2024.Commands.MoveArmJointCMD;
+import Nautilus_DocBotics_FTC_2024.Commands.PowerVacuumCMD;
+import Nautilus_DocBotics_FTC_2024.Commands.TeleOpJoystickRobotCentricCMD;
+import Nautilus_DocBotics_FTC_2024.Commands.TelemetryManagerCMD;
+import Nautilus_DocBotics_FTC_2024.Subsystems.MecanumDriveBaseSubsystem;
 
-import Arm_A_Kraken_DocBotics_FTC_2024.Subsystems.TelemetryManagerSubsystem;
-import Arm_A_Kraken_DocBotics_FTC_2024.Subsystems.VacuumSubsystem;
-import Arm_A_Kraken_DocBotics_FTC_2024.Subsystems.armJointSubsystem;
+import Nautilus_DocBotics_FTC_2024.Subsystems.TelemetryManagerSubsystem;
+import Nautilus_DocBotics_FTC_2024.Subsystems.VacuumSubsystem;
+import Nautilus_DocBotics_FTC_2024.Subsystems.armJointSubsystem;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;

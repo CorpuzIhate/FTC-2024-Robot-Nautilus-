@@ -1,7 +1,6 @@
-package Arm_A_Kraken_DocBotics_FTC_2024.Commands;
+package Nautilus_DocBotics_FTC_2024.Commands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
-import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class waitCMD extends CommandBase {

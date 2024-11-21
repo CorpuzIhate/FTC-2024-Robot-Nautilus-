@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package Arm_A_Kraken_DocBotics_FTC_2024.SystemsCheck;
+package Nautilus_DocBotics_FTC_2024.SystemsCheck;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 

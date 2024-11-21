@@ -1,12 +1,12 @@
-package Arm_A_Kraken_DocBotics_FTC_2024.AutoCommands;
+package Nautilus_DocBotics_FTC_2024.AutoCommands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.controller.PIDFController;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-import Arm_A_Kraken_DocBotics_FTC_2024.Constants;
-import Arm_A_Kraken_DocBotics_FTC_2024.Subsystems.MecanumDriveBaseSubsystem;
+import Nautilus_DocBotics_FTC_2024.Constants;
+import Nautilus_DocBotics_FTC_2024.Subsystems.MecanumDriveBaseSubsystem;
 
 public class MoveRobotXYCMD extends CommandBase {
     private final double m_xPosSetpoint;

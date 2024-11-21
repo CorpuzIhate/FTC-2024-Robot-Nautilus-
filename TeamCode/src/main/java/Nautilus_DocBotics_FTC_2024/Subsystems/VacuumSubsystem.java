@@ -1,4 +1,4 @@
-package Arm_A_Kraken_DocBotics_FTC_2024.Subsystems;
+package Nautilus_DocBotics_FTC_2024.Subsystems;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 

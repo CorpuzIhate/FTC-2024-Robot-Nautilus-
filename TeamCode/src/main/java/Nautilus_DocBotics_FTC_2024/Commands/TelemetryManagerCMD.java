@@ -1,9 +1,9 @@
-package Arm_A_Kraken_DocBotics_FTC_2024.Commands;
+package Nautilus_DocBotics_FTC_2024.Commands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 
 
-import Arm_A_Kraken_DocBotics_FTC_2024.Subsystems.TelemetryManagerSubsystem;
+import Nautilus_DocBotics_FTC_2024.Subsystems.TelemetryManagerSubsystem;
 
 
 public class TelemetryManagerCMD extends CommandBase {

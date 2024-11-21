@@ -54,6 +54,9 @@ public class armJointSubsystem extends SubsystemBase {
                         //from fold up to high basket, turn off the speed limiter
                         return currentJointSpeed;
                     }
+                    if(previousArmState.equals("armHighBasketClearance")) {
+                        return currentJointSpeed;
+                    }
 
 
                     return 0.3;

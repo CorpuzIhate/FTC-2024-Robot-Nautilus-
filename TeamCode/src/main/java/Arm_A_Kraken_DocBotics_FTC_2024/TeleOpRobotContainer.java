@@ -282,10 +282,20 @@ public class TeleOpRobotContainer extends CommandOpMode {
         }));
         moveArmClearancePos.whenPressed(new InstantCommand(() -> {
             isClimbing = false;
+            if(!armState.equals("highBasket")) {
+                armState = "armClearance";
+                shoulderSub.setSetpoint(Constants.ShoulderSetpoints.shoulderClearancePos);
+                elbowSub.setSetpoint(Constants.ElbowSetpoints.elbowClearancePos);
+            }
+        }));
+        moveArmClearancePos.whenPressed(new InstantCommand(() -> {
+            isClimbing = false;
+            if(armState.equals("highBasket")) {
 
-            armState =  "armClearance";
-            shoulderSub.setSetpoint(Constants.ShoulderSetpoints.shoulderClearancePos);
-            elbowSub.setSetpoint(Constants.ElbowSetpoints.elbowClearancePos);
+                shoulderSub.setSetpoint(Constants.ShoulderSetpoints.shoulderClearancePos);
+                elbowSub.setSetpoint(300);
+                armState = "armHighBasketClearance";
+            }
         }));
 
         moveGroundPickUpPos.whenPressed(new InstantCommand(() -> {

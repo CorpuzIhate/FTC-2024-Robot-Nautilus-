@@ -1,4 +1,4 @@
-package Nautilus_DocBotics_FTC_2024.Commands;
+package Nautilus_DocBotics_FTC_2024.AutoCommands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.qualcomm.robotcore.util.ElapsedTime;

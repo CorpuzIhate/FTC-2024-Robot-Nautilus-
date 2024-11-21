@@ -4,6 +4,9 @@ import com.acmerobotics.dashboard.config.Config;
 
 @Config
 public final class Constants{
+    public static final class VaccuumConstants {
+        public static final double distanceSampleDetected = 5;
+    }
     public static final class ShoulderPIDConstants{
         public static final double kP = 0.002;
         public static final double kI = 0;

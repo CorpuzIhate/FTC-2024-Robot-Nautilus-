@@ -323,14 +323,14 @@ public class TeleOpRobotContainer extends CommandOpMode {
 
 
         vacuumIntakeButton.whileHeld(new PowerVacuumCMD(vacuumSubsystem, 1,
-                        continuousVacuumServo,telemetryManagerSub.getTelemetryObject() ,vacuumSensor,0))
+                        continuousVacuumServo,telemetryManagerSub.getTelemetryObject() ,vacuumSensor))
                 .whenReleased(new PowerVacuumCMD(vacuumSubsystem, 0,
-                        continuousVacuumServo,telemetryManagerSub.getTelemetryObject() ,vacuumSensor,0));
+                        continuousVacuumServo,telemetryManagerSub.getTelemetryObject() ,vacuumSensor));
 
         vacuumOutakeButton.whileHeld(new PowerVacuumCMD(vacuumSubsystem, -1,
-                        continuousVacuumServo,telemetryManagerSub.getTelemetryObject() ,vacuumSensor,0))
+                        continuousVacuumServo,telemetryManagerSub.getTelemetryObject() ,vacuumSensor))
                 .whenReleased(new PowerVacuumCMD(vacuumSubsystem, 0,
-                        continuousVacuumServo,telemetryManagerSub.getTelemetryObject() ,vacuumSensor,0));
+                        continuousVacuumServo,telemetryManagerSub.getTelemetryObject() ,vacuumSensor));
 
     }
 }

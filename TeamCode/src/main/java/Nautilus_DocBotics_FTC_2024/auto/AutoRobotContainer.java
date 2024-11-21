@@ -30,7 +30,7 @@ public class AutoRobotContainer extends CommandOpMode {
     Motor shoulderMotor;
     Motor elbowMotor;
 
-    CRServo continousVacuumServo;
+    public CRServo continousVacuumServo;
     public ColorRangeSensor vacuumSensor;
 
     public SparkFunOTOS Otos;

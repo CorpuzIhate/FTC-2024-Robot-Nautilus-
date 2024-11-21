@@ -11,7 +11,7 @@ import Arm_A_Kraken_DocBotics_FTC_2024.Constants;
 
 
 @Autonomous
-public class PathCloseHighBucket extends AutoRobotContainer {
+public class PathCloseHighBucketSubPark extends AutoRobotContainer {
     @Override
     public void path(){
         schedule(new SequentialCommandGroup(
@@ -28,25 +28,28 @@ public class PathCloseHighBucket extends AutoRobotContainer {
                             shoulderSub.setSetpoint(Constants.ShoulderSetpoints.highBasketShoulderPos);
                             elbowSub.setSetpoint(Constants.ElbowSetpoints.highBasketElbowPos);
                         }),
-                        new WaitCommand(3000),
+                        new WaitCommand(1000),
                         new MoveRobotEncoderXYCMD(25,25,3, 0.5,
                                 mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
                         new PowerVacuumCMD(vacuumSubsystem,1, continousVacuumServo,
-                                telemetryManagerSub.getTelemetryObject(), vacuumSensor, 3)
+                                telemetryManagerSub.getTelemetryObject(), vacuumSensor, 3),
 
-//                         new MoveRobotEncoderXYCMD(-5,-5,3, 0.5,
-//                        mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
-//                        new MoveRobotEncoderXYCMD(30,-30,3, 0.5,
-//                                mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
-//                        new InstantCommand(() ->  {
-//                            shoulderSub.setSetpoint(Constants.ShoulderSetpoints.highBasketShoulderPos);
-//                            elbowSub.setSetpoint(Constants.ElbowSetpoints.highBasketElbowPos);
-//                        }),
-//                       new WaitCommand(3000),
-//
-//                        new MoveRobotEncoderXYCMD(24,24,3, 0.5,
-//                                mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject())
-//
+
+                         new MoveRobotEncoderXYCMD(-25,-25,3, 0.5,
+                        mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
+                        new MoveRobotEncoderXYCMD(30,-30,3, 0.5,
+                                mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
+                        new InstantCommand(() ->  {
+                            shoulderSub.setSetpoint(300);
+                            elbowSub.setSetpoint(100);
+                        }),
+                       new WaitCommand(1000),
+
+                        new MoveRobotEncoderXYCMD(30,30,3, 0.5,
+                                mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject())
+//                new MoveRobotEncoderXYCMD(24,-24,3, 0.5,
+//                        mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject())
+
 
                 )
 

@@ -6,7 +6,6 @@ import com.arcrobotics.ftclib.controller.PIDFController;
 import com.arcrobotics.ftclib.hardware.motors.CRServo;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.ColorRangeSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -46,7 +45,7 @@ public class AutoRobotContainer extends CommandOpMode {
 
     @Override
     public void initialize() {
-        Constants.AutoConstants.isAuto = true;
+        Constants.AutoConstants.isArmJointLimiterOff = true;
         frontLeft = new Motor(hardwareMap, "front_left");
         frontRight = new Motor(hardwareMap, "front_right");
         backLeft = new Motor(hardwareMap, "back_left");

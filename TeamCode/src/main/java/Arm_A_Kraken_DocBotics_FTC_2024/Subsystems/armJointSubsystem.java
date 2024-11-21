@@ -38,7 +38,7 @@ public class armJointSubsystem extends SubsystemBase {
 
     }
     public double limitJointSpeed(double currentJointSpeed, String tag){
-        if(Constants.AutoConstants.isAuto){
+        if(Constants.AutoConstants.isArmJointLimiterOff){
             return currentJointSpeed;
         }
 

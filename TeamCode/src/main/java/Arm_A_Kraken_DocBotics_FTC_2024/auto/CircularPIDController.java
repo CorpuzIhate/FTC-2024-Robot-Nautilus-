@@ -1,6 +1,4 @@
-package Command_Based_TeleOp_2024_08_17.auto;
-
-import android.accounts.OnAccountsUpdateListener;
+package Arm_A_Kraken_DocBotics_FTC_2024.auto;
 
 public class CircularPIDController {
     private final double m_kP;
@@ -19,10 +17,10 @@ public class CircularPIDController {
         m_kP = kP;
     }
 
-    public double calculate(double currentAngle,double setpoint) {
+    public double calculate(double currentAngle_degrees,double setpoint_degrees) {
         double output;
 
-        counterClockwiseDistanceToSetpoint = Math.abs(currentAngle- setpoint);
+        counterClockwiseDistanceToSetpoint = Math.abs(currentAngle_degrees- setpoint_degrees);
         clockwiseDistanceToSetpoint = 360 - counterClockwiseDistanceToSetpoint;
 
 

@@ -1,8 +1,13 @@
-package Command_Based_TeleOp_2024_08_17.Subsystems;
+package Arm_A_Kraken_DocBotics_FTC_2024.Subsystems;
+
+import static Arm_A_Kraken_DocBotics_FTC_2024.TeleOpRobotContainer.armState;
+import static Arm_A_Kraken_DocBotics_FTC_2024.TeleOpRobotContainer.isClimbing;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.controller.PIDFController;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
+
+import Arm_A_Kraken_DocBotics_FTC_2024.Constants;
 
 public class armJointSubsystem extends SubsystemBase {
 
@@ -31,15 +36,42 @@ public class armJointSubsystem extends SubsystemBase {
 
 
     }
-    public double limitJointSpeed(double currentJointOutput){
-        double cappedOutput = currentJointOutput;
-        double maxSpeedLimit = 0.7;
-        if(Math.abs(currentJointOutput) > maxSpeedLimit )
-        {
-            currentJointOutput = maxSpeedLimit;
+    public double limitJointSpeed(double currentJointSpeed, String tag){
+        if(Constants.AutoConstants.isAuto){
+            return currentJointSpeed;
         }
 
-        return cappedOutput;
+
+        // + for the elbow is down
+        // - for the elbow is up
+        if( tag.equals("elbow") ) {
+            if( currentJointSpeed > 0.3) {// limits down speed
+                return 0.3 ;
+            }
+            else if( currentJointSpeed < -0.7){ // limits up speed
+                return -0.7;
+            }
+
+        }
+        // + for the shoulder is up
+        // - for the shoulder is down
+//hi
+        if(isClimbing)
+        {
+            return currentJointSpeed;
+        }
+            if (tag.equals("shoulder")) {
+                if (currentJointSpeed > 0.9) {  // limits up speed
+                    return 0.9;
+                } else if (currentJointSpeed < -0.2) { // limits down speed
+                    return -0.2;
+                }
+
+            }
+
+
+
+        return currentJointSpeed;
 
     }
     public Motor getJointMotor(){

@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package Command_Based_TeleOp_2024_08_17.auto;
+package Arm_A_Kraken_DocBotics_FTC_2024.SystemsCheck;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 
@@ -36,7 +36,6 @@ import com.arcrobotics.ftclib.hardware.motors.CRServo;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -72,7 +71,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 @Autonomous(name="Robot: Auto Drive By Encoder", group="Robot")
 @Config
-public class RobotAutoDriveByEncoder_Linear extends LinearOpMode {
+public class AutoEncoderTest extends LinearOpMode {
 
     /* Declare OpMode members. */
     public static double  htick = 0;

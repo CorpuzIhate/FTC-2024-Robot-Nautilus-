@@ -1,41 +1,42 @@
-package Command_Based_TeleOp_2024_08_17;
+package Arm_A_Kraken_DocBotics_FTC_2024;
 
 import com.acmerobotics.dashboard.config.Config;
 
 @Config
 public final class Constants{
     public static final class ShoulderPIDConstants{
-        public static final double kP = 0.001;
+        public static final double kP = 0.002;
         public static final double kI = 0;
-        public static final double kD = 0;
+        public static final double kD = 0.00005;
         public static final double kF = 0;
 
     }
+    //test
     public static final class ElbowPIDConstants{
-        public static final double kP = 0.001;
+        public static final double kP = 0.002;
         public static final double kI = 0;
-        public static final double kD = 0;
+        public static final double kD = 0.00005;
         public static final double kF = 0;
 
     }
     public static final class ShoulderSetpoints{
         public static final double shoulderClearancePos = 800;
-        public static final double shoulderPickUpPos = 400;
-        public static final double middleShoulderPos = 1700;
+        public static final double shoulderSubmersiblePickUpPos = 800;
+        public static final double middleShoulderPos = 2510;
 
         public static final double highBasketShoulderPos = 3300;// hard stop
-        public static final double shoulderClimbInit = 0;
+        public static final double shoulderClimbInit = 3300;
 
 
     }
     public static final class ElbowSetpoints{
-        public static final double elbowClearancePos = 2400;
-        public static final double elbowPickUpPos = 2300;
-        public static final double middleElbowPos = 2900;
+        public static final double elbowClearancePos = 2100;
+        public static final double elbowSubmersiblePickUpPos = 3050;
+        public static final double middleElbowPos = 3600;
 
         public static final double highBasketElbowPos = 3200;
 
-        public  static final double elbowClimbInit = 0 ;
+        public  static final double elbowClimbInit = 100 ;
 
     };
 
@@ -51,6 +52,7 @@ public final class Constants{
         public static double distanceFromOriginY_INCHES = 5.1875;
     }
     public static final class AutoConstants{
+        public static boolean isAuto;
         public static final double turnkP = 0.01;
         public static final double turnkI = 0;
         public static final double turnkD = 0;
@@ -58,7 +60,7 @@ public final class Constants{
 
         public static final double movekP = 0.06;
         public static final double movekI = 0;
-        public static final double movekD = 0;
+        public static final double movekD = 0.01;
         public static final double movekF = 0;
     }
     public static final class encoderAutoConstants{

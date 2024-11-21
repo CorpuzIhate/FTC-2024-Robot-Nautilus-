@@ -1,4 +1,4 @@
-package Command_Based_TeleOp_2024_08_17.AutoCommands;
+package Arm_A_Kraken_DocBotics_FTC_2024.AutoCommands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.controller.PIDFController;
@@ -7,9 +7,9 @@ import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-import Command_Based_TeleOp_2024_08_17.Constants;
-import Command_Based_TeleOp_2024_08_17.Subsystems.MecanumDriveBaseSubsystem;
-import Command_Based_TeleOp_2024_08_17.auto.CircularPIDController;
+import Arm_A_Kraken_DocBotics_FTC_2024.Constants;
+import Arm_A_Kraken_DocBotics_FTC_2024.Subsystems.MecanumDriveBaseSubsystem;
+import Arm_A_Kraken_DocBotics_FTC_2024.auto.CircularPIDController;
 
 public class MoveRobotToFieldPosCMD extends CommandBase {
     private final double m_xPosSetpoint;
@@ -21,13 +21,14 @@ public class MoveRobotToFieldPosCMD extends CommandBase {
     private final MecanumDriveBaseSubsystem m_MecanumDriveBaseSubsystem;
 
     private SparkFunOTOS.Pose2D soosPos_Inches_Inches_Degrees;
-    private SparkFunOTOS.Pose2D fieldPos_Inches_Inches_Radians;
+    private SparkFunOTOS.Pose2D fieldPos_Inches_Inches_Degrees;
     private Vector2d desiredFieldSpeeds;
     private Vector2d robotRelativeOutput;
 
     private double desiredFieldXSpeed;
     private double desiredFieldYSPeed;
 
+    double soosHeading_radians;
 
     private  double hOutput;
     private  double xOutput;
@@ -63,8 +64,12 @@ public class MoveRobotToFieldPosCMD extends CommandBase {
         m_yPosSetpoint = yPosSetpoint_Inches;
         m_hPosSetpoint = hPosSetpoint_Degrees;
 
+
+
         m_MecanumDriveBaseSubsystem =  mecanumDriveBaseSubsystem;
         m_dashboardTelemetry = dashboardTelemetry;
+
+
     }
 
     @Override
@@ -79,29 +84,32 @@ public class MoveRobotToFieldPosCMD extends CommandBase {
 
         soosPos_Inches_Inches_Degrees = m_MecanumDriveBaseSubsystem.getPosed2D();
 
-        fieldPos_Inches_Inches_Radians = m_MecanumDriveBaseSubsystem.convertSoosCentricPosToRobotCentricPos(soosPos_Inches_Inches_Degrees);
+        fieldPos_Inches_Inches_Degrees = m_MecanumDriveBaseSubsystem.convertSoosCentricPosToRobotCentricPos(soosPos_Inches_Inches_Degrees);
 
 
-        desiredFieldXSpeed = xPosController.calculate(fieldPos_Inches_Inches_Radians.x , m_xPosSetpoint);
-        desiredFieldYSPeed = yPosController.calculate(fieldPos_Inches_Inches_Radians.y, m_yPosSetpoint);
+        desiredFieldXSpeed = xPosController.calculate(fieldPos_Inches_Inches_Degrees.x , m_xPosSetpoint);
+        desiredFieldYSPeed = yPosController.calculate(fieldPos_Inches_Inches_Degrees.y, m_yPosSetpoint);
+
+        soosHeading_radians = Math.toRadians(fieldPos_Inches_Inches_Degrees.h);
 
         desiredFieldSpeeds = new Vector2d(desiredFieldXSpeed, desiredFieldYSPeed);
         robotRelativeOutput = m_MecanumDriveBaseSubsystem.fieldVelocityToRobotVelocity(
                 desiredFieldSpeeds,
-                fieldPos_Inches_Inches_Radians.h
+                soosHeading_radians
+
         );
 
 
 
 
 
-        hOutput = hPosController.calculate(fieldPos_Inches_Inches_Radians.h, m_hPosSetpoint);
+        hOutput = hPosController.calculate(fieldPos_Inches_Inches_Degrees.h, m_hPosSetpoint);
         xOutput = robotRelativeOutput.getX();
         yOutput = robotRelativeOutput.getY();
 
 
 
-        m_MecanumDriveBaseSubsystem.setMotorSpeeds(xOutput,yOutput,hOutput);
+        m_MecanumDriveBaseSubsystem.setMotorSpeeds(yOutput,xOutput,hOutput);
     }
     @Override
     public boolean isFinished(){

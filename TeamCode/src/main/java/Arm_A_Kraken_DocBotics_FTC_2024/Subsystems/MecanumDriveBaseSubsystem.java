@@ -1,19 +1,22 @@
-package Command_Based_TeleOp_2024_08_17.Subsystems;
+package Arm_A_Kraken_DocBotics_FTC_2024.Subsystems;
 
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.geometry.Vector2d;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 ;
 
-import Command_Based_TeleOp_2024_08_17.Constants;
+import Arm_A_Kraken_DocBotics_FTC_2024.Constants;
 
 
 public class MecanumDriveBaseSubsystem extends SubsystemBase {
     public final Motor m_FL, m_FR, m_BR, m_BL;
     private final SparkFunOTOS m_OTOS;
+    private ElapsedTime slewRateTimer = new ElapsedTime();
+    private double previousInput = 0;
 
 
 
@@ -98,7 +101,7 @@ public class MecanumDriveBaseSubsystem extends SubsystemBase {
         Vector2d fieldOriginToSoos;
         Vector2d fieldOriginToRobotCenter;
 
-        double soosHeading_radians;
+        double soosHeading_degrees = soosPos.h;
 
 
 
@@ -111,16 +114,14 @@ public class MecanumDriveBaseSubsystem extends SubsystemBase {
         fieldOriginToSoos = new Vector2d(soosPos.x,soosPos.y);
 
 
-        //soos heading is in degrees
-        soosHeading_radians = Math.toRadians(soosPos.h);
 
         //vector from soos to center of robot
 
         //we rotate the vector from Soos to Origin  by the Soos and subtract it by the vector
         //from origin to soos
-        fieldOriginToRobotCenter = fieldOriginToSoos.minus(centerOfRobotToSoos.rotateBy(soosHeading_radians));
+        fieldOriginToRobotCenter = fieldOriginToSoos.minus(centerOfRobotToSoos.rotateBy(soosHeading_degrees));
 
-        return new SparkFunOTOS.Pose2D(fieldOriginToRobotCenter.getX(), fieldOriginToRobotCenter.getY(),soosHeading_radians);
+        return new SparkFunOTOS.Pose2D(fieldOriginToRobotCenter.getX(), fieldOriginToRobotCenter.getY(),soosHeading_degrees);
     }
 
 
@@ -159,6 +160,26 @@ public class MecanumDriveBaseSubsystem extends SubsystemBase {
         desiredRobotRelativeVelocity = new Vector2d(desiredRobotRelativeVelocity_x, desiredRobotRelativeVelocity_y);
         return  desiredRobotRelativeVelocity;
 
+    }
+    public double slewRateLimiter(double joystickInput){
+
+
+        double deltaTime_seconds = slewRateTimer.seconds();
+        double signalDerivative = ( joystickInput - previousInput)  / deltaTime_seconds;
+
+
+        if(Math.abs(signalDerivative) > 0.5) // if the absolute value of the
+            // joystick signal has greater than 0.5
+            // set the derivative of the signal to 0.5
+        {
+            previousInput = joystickInput;
+            slewRateTimer.reset();
+            //this returns a signal with a derivative = 0.5 and depends on the sign
+            return  (Math.signum(joystickInput) * 0.5 * deltaTime_seconds) + previousInput;
+        }
+        previousInput = joystickInput;
+        slewRateTimer.reset();
+        return joystickInput;
     }
 
 

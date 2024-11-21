@@ -1,4 +1,4 @@
-package Command_Based_TeleOp_2024_08_17.Commands;
+package Arm_A_Kraken_DocBotics_FTC_2024.Commands;
 
 
 import com.arcrobotics.ftclib.command.CommandBase;
@@ -7,7 +7,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import java.util.function.DoubleSupplier;
 
-import Command_Based_TeleOp_2024_08_17.Subsystems.MecanumDriveBaseSubsystem;
+import Arm_A_Kraken_DocBotics_FTC_2024.Subsystems.MecanumDriveBaseSubsystem;
 
 public class TeleOpJoystickRobotCentricCMD extends CommandBase {
     @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
@@ -49,14 +49,18 @@ public class TeleOpJoystickRobotCentricCMD extends CommandBase {
         m_dashboardTelemetry.addData("y_Pos", m_MecanumSub.getPosed2D().y);
         m_dashboardTelemetry.addData("h_Pos", m_MecanumSub.getPosed2D().h);
         //smooth inputs
-        double smoothForwardPower =
-                m_MecanumSub.smoothJoystickInputs(m_forwardPower.getAsDouble());
-        double smoothStrafePower =
-                m_MecanumSub.smoothJoystickInputs(m_strafePower.getAsDouble());
-        double smoothRotationPower =
-                m_MecanumSub.smoothJoystickInputs(m_rotationPower.getAsDouble()) * 0.5;
+//        double smoothForwardPower =
+//                m_MecanumSub.smoothJoystickInputs(m_forwardPower.getAsDouble());
+//        double smoothStrafePower =
+//                m_MecanumSub.smoothJoystickInputs(m_strafePower.getAsDouble());
+//        double smoothRotationPower =
+//                m_MecanumSub.smoothJoystickInputs(m_rotationPower.getAsDouble()) * 0.5;
 
-        m_MecanumSub.setMotorSpeeds(smoothForwardPower,smoothStrafePower,smoothRotationPower);
+        m_MecanumSub.setMotorSpeeds(
+                m_MecanumSub.slewRateLimiter(m_forwardPower.getAsDouble()),
+                m_MecanumSub.slewRateLimiter(m_strafePower.getAsDouble()),
+                m_MecanumSub.slewRateLimiter(m_rotationPower.getAsDouble()));
+
 
 
     }

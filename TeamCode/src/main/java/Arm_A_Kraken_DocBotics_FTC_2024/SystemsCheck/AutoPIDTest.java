@@ -1,4 +1,4 @@
-package Command_Based_TeleOp_2024_08_17.auto;
+package Arm_A_Kraken_DocBotics_FTC_2024.SystemsCheck;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
@@ -15,11 +15,12 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-import Command_Based_TeleOp_2024_08_17.Constants;
+import Arm_A_Kraken_DocBotics_FTC_2024.Constants;
+import Arm_A_Kraken_DocBotics_FTC_2024.auto.CircularPIDController;
 
 @Config
 @Autonomous(name = "PID AUTO")
-public class PIDAuto extends LinearOpMode {
+public class AutoPIDTest extends LinearOpMode {
     public static double KMoveP = 0.06;
     public static double KMoveI = 0;
     public static double KMoveD = 0;
@@ -54,7 +55,7 @@ public class PIDAuto extends LinearOpMode {
 
     private  PIDFController xPosController;
     private  PIDFController yPosController;
-    private  CircularPIDController hPosController;
+    private CircularPIDController hPosController;
 
     private DcMotor frontLeft = null;
     private DcMotor frontRight = null;

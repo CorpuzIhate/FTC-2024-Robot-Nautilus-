@@ -1,4 +1,4 @@
-package Command_Based_TeleOp_2024_08_17.Commands;
+package Arm_A_Kraken_DocBotics_FTC_2024.Commands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 import com.arcrobotics.ftclib.hardware.motors.CRServo;
@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-import Command_Based_TeleOp_2024_08_17.Subsystems.VacuumSubsystem;
+import Arm_A_Kraken_DocBotics_FTC_2024.Subsystems.VacuumSubsystem;
 
 public class PowerVacuumCMD extends CommandBase {
     private final VacuumSubsystem m_vacuumSub;
@@ -17,6 +17,7 @@ public class PowerVacuumCMD extends CommandBase {
     private final Telemetry m_dashboardTelemetry;
     private final ColorRangeSensor m_vacuumSensor;
     private final double m_VacuumRunTime_Seconds;
+
     private final ElapsedTime runtime = new ElapsedTime();
     public PowerVacuumCMD(VacuumSubsystem vacuumSubsystem,
                           double power,

@@ -1,17 +1,15 @@
-package Command_Based_TeleOp_2024_08_17.AutoCommands;
+package Arm_A_Kraken_DocBotics_FTC_2024.AutoCommands;
 
 
 
 import com.arcrobotics.ftclib.command.CommandBase;
-import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-import Command_Based_TeleOp_2024_08_17.Constants;
-import Command_Based_TeleOp_2024_08_17.Subsystems.MecanumDriveBaseSubsystem;
+import Arm_A_Kraken_DocBotics_FTC_2024.Constants;
+import Arm_A_Kraken_DocBotics_FTC_2024.Subsystems.MecanumDriveBaseSubsystem;
 
 public class MoveRobotEncoderXYCMD extends CommandBase {
     private final MecanumDriveBaseSubsystem m_MecanumDriveBaseSubsystem;
@@ -112,24 +110,30 @@ public class MoveRobotEncoderXYCMD extends CommandBase {
 
     @Override
     public boolean isFinished(){
-        if((runtime.seconds() > m_timeoutS) &&
-                 !(frontRight.isBusy() || frontLeft.isBusy() || backLeft.isBusy() || backRight.isBusy()  ))
+        if((runtime.seconds() < m_timeoutS))
         {
+            return false;
+        }
+        if(frontRight.isBusy()  || frontLeft.isBusy() || backLeft.isBusy() || backRight.isBusy())
+        {
+            return false;
+        }
+
+
             frontLeft.setPower(0);
             frontRight.setPower(0);
             backLeft.setPower(0);
             backRight.setPower(0);
 
             // Turn off RUN_TO_POSITION
-            frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            frontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            frontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            backRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            backLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             return true;
-        }
 
 
-        return false;
+
     }
 
 

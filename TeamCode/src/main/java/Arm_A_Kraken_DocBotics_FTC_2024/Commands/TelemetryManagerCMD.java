@@ -1,10 +1,9 @@
-package Command_Based_TeleOp_2024_08_17.Commands;
+package Arm_A_Kraken_DocBotics_FTC_2024.Commands;
 
 import com.arcrobotics.ftclib.command.CommandBase;
-import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
 
 
-import Command_Based_TeleOp_2024_08_17.Subsystems.TelemetryManagerSubsystem;
+import Arm_A_Kraken_DocBotics_FTC_2024.Subsystems.TelemetryManagerSubsystem;
 
 
 public class TelemetryManagerCMD extends CommandBase {

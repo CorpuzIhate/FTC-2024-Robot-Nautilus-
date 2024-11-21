@@ -11,14 +11,14 @@ import Arm_A_Kraken_DocBotics_FTC_2024.Constants;
 
 
 @Autonomous
-public class PathCloseFromHighBucket extends AutoRobotContainer {
+public class PathCloseHighBucket extends AutoRobotContainer {
     @Override
     public void path(){
         schedule(new SequentialCommandGroup(
 
 
                 // starts facing the Submersible
-                        new MoveRobotEncoderXYCMD(24,24,3, 0.5,
+                        new MoveRobotEncoderXYCMD(21,21,3, 0.5,
                                 mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
 
                         new MoveRobotEncoderXYCMD(-30,30,3, 0.5,
@@ -29,10 +29,24 @@ public class PathCloseFromHighBucket extends AutoRobotContainer {
                             elbowSub.setSetpoint(Constants.ElbowSetpoints.highBasketElbowPos);
                         }),
                         new WaitCommand(3000),
-                        new MoveRobotEncoderXYCMD(15,15,3, 0.5,
+                        new MoveRobotEncoderXYCMD(25,25,3, 0.5,
                                 mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
                         new PowerVacuumCMD(vacuumSubsystem,1, continousVacuumServo,
                                 telemetryManagerSub.getTelemetryObject(), vacuumSensor, 3)
+
+//                         new MoveRobotEncoderXYCMD(-5,-5,3, 0.5,
+//                        mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
+//                        new MoveRobotEncoderXYCMD(30,-30,3, 0.5,
+//                                mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
+//                        new InstantCommand(() ->  {
+//                            shoulderSub.setSetpoint(Constants.ShoulderSetpoints.highBasketShoulderPos);
+//                            elbowSub.setSetpoint(Constants.ElbowSetpoints.highBasketElbowPos);
+//                        }),
+//                       new WaitCommand(3000),
+//
+//                        new MoveRobotEncoderXYCMD(24,24,3, 0.5,
+//                                mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject())
+//
 
                 )
 

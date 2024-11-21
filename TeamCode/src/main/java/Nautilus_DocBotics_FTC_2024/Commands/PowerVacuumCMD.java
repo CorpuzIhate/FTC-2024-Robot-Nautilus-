@@ -47,7 +47,8 @@ public class PowerVacuumCMD extends CommandBase {
     }
     @Override
     public boolean isFinished(){
-        if( m_vacuumSensor.getDistance(DistanceUnit.CM) < Constants.VaccuumConstants.distanceSampleDetected){
+        if( m_vacuumSensor.getDistance(DistanceUnit.CM) <
+                Constants.teleOpConstants.distanceSampleDetected){
             return true;
         }
         return false;

@@ -110,8 +110,6 @@ public class AutoRobotContainer extends CommandOpMode {
                         Constants.ShoulderPIDConstants.kD,
                         Constants.ShoulderPIDConstants.kF),
                 "shoulder",
-                0.5,
-                0.5,
                 300
         );
 
@@ -123,8 +121,6 @@ public class AutoRobotContainer extends CommandOpMode {
                         Constants.ElbowPIDConstants.kD,
                         Constants.ElbowPIDConstants.kF),
                 "elbow",
-                0.5,
-                0.5,
                 100
 
 

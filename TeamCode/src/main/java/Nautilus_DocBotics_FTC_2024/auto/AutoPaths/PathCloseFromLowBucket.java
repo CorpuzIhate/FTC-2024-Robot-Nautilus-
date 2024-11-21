@@ -6,18 +6,17 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import Nautilus_DocBotics_FTC_2024.AutoCommands.MoveRobotEncoderXYCMD;
 import Nautilus_DocBotics_FTC_2024.AutoCommands.PowerVacuumAutoCMD;
-import Nautilus_DocBotics_FTC_2024.Commands.PowerVacuumCMD;
 import Nautilus_DocBotics_FTC_2024.Constants;
 import Nautilus_DocBotics_FTC_2024.auto.AutoRobotContainer;
 
 @Autonomous
-public class PathCloseLowBucket extends AutoRobotContainer {
+public class PathCloseFromLowBucket extends AutoRobotContainer {
     @Override
     public void path(){
         schedule(new SequentialCommandGroup(
 
 
-
+// starts facing the Submersible
                         new MoveRobotEncoderXYCMD(24,24,3, 0.5,
                                 mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
 

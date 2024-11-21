@@ -206,7 +206,7 @@ public class TeleOpRobotContainer extends CommandOpMode {
                         Constants.ShoulderPIDConstants.kD,
                         Constants.ShoulderPIDConstants.kF),
                 "shoulder",
-                300
+                Constants.ShoulderSetpoints.shoulderfoldUpPos
         );
 
         elbowSub = new armJointSubsystem(
@@ -217,7 +217,7 @@ public class TeleOpRobotContainer extends CommandOpMode {
                 Constants.ElbowPIDConstants.kD,
                 Constants.ElbowPIDConstants.kF),
                 "elbow",
-                100
+                Constants.ElbowSetpoints.elbowfoldUpPos
 
 
         );
@@ -269,8 +269,8 @@ public class TeleOpRobotContainer extends CommandOpMode {
         moveArmFoldUpPos.whenPressed(new InstantCommand(() -> {
 
             if(!armState.equals("highBasket")) {
-                shoulderSub.setSetpoint(300);
-                elbowSub.setSetpoint(100);
+                shoulderSub.setSetpoint(Constants.ShoulderSetpoints.shoulderfoldUpPos);
+                elbowSub.setSetpoint(Constants.ElbowSetpoints.elbowfoldUpPos);
                 armState = "foldUp";
             }
 

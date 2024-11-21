@@ -30,6 +30,8 @@ public final class Constants{
 
     }
     public static final class ShoulderSetpoints{
+        public static final double shoulderfoldUpPos = 300;
+
         public static final double shoulderClearancePos = 800;
         public static final double shoulderSubmersiblePickUpPos = 800;
         public static final double middleShoulderPos = 2510;
@@ -40,6 +42,7 @@ public final class Constants{
 
     }
     public static final class ElbowSetpoints{
+        public static final double elbowfoldUpPos = 100;
         public static final double elbowClearancePos = 2100;
         public static final double elbowSubmersiblePickUpPos = 3050;
         public static final double middleElbowPos = 3600;

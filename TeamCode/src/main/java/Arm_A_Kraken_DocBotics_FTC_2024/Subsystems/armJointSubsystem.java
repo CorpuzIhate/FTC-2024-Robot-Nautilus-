@@ -100,6 +100,4 @@ public class armJointSubsystem extends SubsystemBase {
 
     public  double getSetpoint(){return m_setpoint;}
 
-
-
 }

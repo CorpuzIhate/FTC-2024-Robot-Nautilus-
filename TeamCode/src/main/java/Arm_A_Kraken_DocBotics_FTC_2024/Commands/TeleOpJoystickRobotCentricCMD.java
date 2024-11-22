@@ -28,6 +28,7 @@ public class TeleOpJoystickRobotCentricCMD extends CommandBase {
     public TeleOpJoystickRobotCentricCMD(MecanumDriveBaseSubsystem mecanumDriveBaseSubsystem,
                                          Telemetry dashboardTelemetry, DoubleSupplier forwardPower,
                                          DoubleSupplier strafePower, DoubleSupplier rotationPower
+
     ) {
         m_dashboardTelemetry = dashboardTelemetry;
         m_MecanumSub = mecanumDriveBaseSubsystem;
@@ -35,6 +36,7 @@ public class TeleOpJoystickRobotCentricCMD extends CommandBase {
         m_forwardPower = forwardPower;
         m_strafePower = strafePower;
         m_rotationPower = rotationPower;
+//  
 
 
 
@@ -56,13 +58,19 @@ public class TeleOpJoystickRobotCentricCMD extends CommandBase {
 //        double smoothRotationPower =
 //                m_MecanumSub.smoothJoystickInputs(m_rotationPower.getAsDouble()) * 0.5;
 
+//        if(m_slowTrigger >0.3) {
+//            m_MecanumSub.setMotorSpeeds(
+//                    m_forwardPower.getAsDouble() * 0.25,
+//                    m_strafePower.getAsDouble() * 0.25,
+//                    m_rotationPower.getAsDouble() * 0.25);
+//            return;
+//        }
 
         m_MecanumSub.setMotorSpeeds(
-                m_MecanumSub.slewRateLimiter(m_forwardPower.getAsDouble()),
-                m_MecanumSub.slewRateLimiter(m_strafePower.getAsDouble()),
-                m_MecanumSub.slewRateLimiter(m_rotationPower.getAsDouble()));
-
-
+                m_forwardPower.getAsDouble(),
+                m_strafePower.getAsDouble(),
+                m_rotationPower.getAsDouble()
+        );
 
     }
     @Override

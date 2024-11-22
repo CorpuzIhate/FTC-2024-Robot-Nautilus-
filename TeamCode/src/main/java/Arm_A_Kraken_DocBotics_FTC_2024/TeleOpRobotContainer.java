@@ -4,12 +4,13 @@ package Arm_A_Kraken_DocBotics_FTC_2024;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.PerpetualCommand;
-import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.button.Button;
 import com.arcrobotics.ftclib.command.button.GamepadButton;
+import com.arcrobotics.ftclib.command.button.Trigger;
 import com.arcrobotics.ftclib.controller.PIDFController;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
+import com.arcrobotics.ftclib.gamepad.TriggerReader;
 import com.arcrobotics.ftclib.hardware.motors.CRServo;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
@@ -35,6 +36,7 @@ public class TeleOpRobotContainer extends CommandOpMode {
 
 
     public static boolean isClimbing;
+
     double fwdPwr;
     double strafePwr;
     double rotationPwr;
@@ -61,6 +63,8 @@ public class TeleOpRobotContainer extends CommandOpMode {
     public ColorRangeSensor vacuumSensor;
 
     public GamepadEx driverOP;
+    public TriggerReader slowModeJoystick;
+
     public Button vacuumIntakeButton;
     public Button vacuumOutakeButton;
     public GamepadButton moveArmFoldUpPos;
@@ -115,8 +119,9 @@ public class TeleOpRobotContainer extends CommandOpMode {
         Otos = hardwareMap.get(SparkFunOTOS.class, "sensor_otos");
         configureOtos();
         initSubsystems();
-        runCommands();
         configureBindings();
+        runCommands();
+
 
 
     }
@@ -232,9 +237,10 @@ public class TeleOpRobotContainer extends CommandOpMode {
     }
     private void runCommands(){
         telemetryManagerSub.setDefaultCommand(new PerpetualCommand(new TelemetryManagerCMD(telemetryManagerSub)));
-
         mecanumDriveBaseSub.setDefaultCommand(new TeleOpJoystickRobotCentricCMD(mecanumDriveBaseSub,
-                telemetryManagerSub.getTelemetryObject(), driverOP::getLeftY, driverOP::getRightX, driverOP::getLeftX));
+                telemetryManagerSub.getTelemetryObject(), driverOP::getLeftY, driverOP::getRightX,
+                driverOP::getLeftX)
+);
 
         shoulderSub.setDefaultCommand(new MoveArmJointCMD(telemetryManagerSub.getTelemetryObject(),
                 shoulderSub));
@@ -254,6 +260,7 @@ public class TeleOpRobotContainer extends CommandOpMode {
 
         moveArmClimbPos = new GamepadButton(driverOP,GamepadKeys.Button.DPAD_UP );
 
+        slowModeJoystick = new TriggerReader(driverOP,GamepadKeys.Trigger.LEFT_TRIGGER);
         moveHighBasketPos.whenPressed(new InstantCommand(() -> {
 
                 shoulderSub.setSetpoint(Constants.ShoulderSetpoints.highBasketShoulderPos);

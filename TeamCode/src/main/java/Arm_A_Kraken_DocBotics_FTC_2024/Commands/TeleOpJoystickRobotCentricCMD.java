@@ -1,6 +1,8 @@
 package Arm_A_Kraken_DocBotics_FTC_2024.Commands;
 
 
+import static Arm_A_Kraken_DocBotics_FTC_2024.TeleOpRobotContainer.isSlowmode;
+
 import com.arcrobotics.ftclib.command.CommandBase;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -16,7 +18,7 @@ public class TeleOpJoystickRobotCentricCMD extends CommandBase {
     private DoubleSupplier m_forwardPower;
     private DoubleSupplier m_strafePower;
     private DoubleSupplier m_rotationPower;
-
+    private double m_slowTrigger;
 
     double frontLeftSpeed;
     double frontRightSpeed;
@@ -27,7 +29,8 @@ public class TeleOpJoystickRobotCentricCMD extends CommandBase {
 
     public TeleOpJoystickRobotCentricCMD(MecanumDriveBaseSubsystem mecanumDriveBaseSubsystem,
                                          Telemetry dashboardTelemetry, DoubleSupplier forwardPower,
-                                         DoubleSupplier strafePower, DoubleSupplier rotationPower
+                                         DoubleSupplier strafePower, DoubleSupplier rotationPower,
+                                         double slowTrigger
 
     ) {
         m_dashboardTelemetry = dashboardTelemetry;
@@ -36,6 +39,8 @@ public class TeleOpJoystickRobotCentricCMD extends CommandBase {
         m_forwardPower = forwardPower;
         m_strafePower = strafePower;
         m_rotationPower = rotationPower;
+
+        m_slowTrigger = slowTrigger;
 //
 
 
@@ -57,20 +62,24 @@ public class TeleOpJoystickRobotCentricCMD extends CommandBase {
 //                m_MecanumSub.smoothJoystickInputs(m_strafePower.getAsDouble());
 //        double smoothRotationPower =
 //                m_MecanumSub.smoothJoystickInputs(m_rotationPower.getAsDouble()) * 0.5;
+        m_dashboardTelemetry.addData("trigger", m_slowTrigger);
+        if(isSlowmode) {
+            m_MecanumSub.setMotorSpeeds(
+                    m_forwardPower.getAsDouble() * 0.25,
+                    m_strafePower.getAsDouble() * 0.25,
+                    m_rotationPower.getAsDouble() * 0.25);
 
-//        if(m_slowTrigger >0.3) {
-//            m_MecanumSub.setMotorSpeeds(
-//                    m_forwardPower.getAsDouble() * 0.25,
-//                    m_strafePower.getAsDouble() * 0.25,
-//                    m_rotationPower.getAsDouble() * 0.25);
-//            return;
-//        }
+        }
+        else{
 
         m_MecanumSub.setMotorSpeeds(
                 m_forwardPower.getAsDouble(),
                 m_strafePower.getAsDouble(),
                 m_rotationPower.getAsDouble()
         );
+
+        }
+
 
     }
     @Override

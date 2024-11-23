@@ -36,7 +36,7 @@ public class TeleOpRobotContainer extends CommandOpMode {
 
 
     public static boolean isClimbing;
-
+    public static boolean isSlowmode;
     double fwdPwr;
     double strafePwr;
     double rotationPwr;
@@ -63,7 +63,7 @@ public class TeleOpRobotContainer extends CommandOpMode {
     public ColorRangeSensor vacuumSensor;
 
     public GamepadEx driverOP;
-    public TriggerReader slowModeJoystick;
+
 
     public Button vacuumIntakeButton;
     public Button vacuumOutakeButton;
@@ -73,6 +73,8 @@ public class TeleOpRobotContainer extends CommandOpMode {
     public GamepadButton moveLowBasketPos;
     public GamepadButton moveHighBasketPos;
     public GamepadButton moveArmClimbPos;
+    public GamepadButton slowModeJoystick;
+
 
     public SparkFunOTOS Otos;
 
@@ -239,7 +241,7 @@ public class TeleOpRobotContainer extends CommandOpMode {
         telemetryManagerSub.setDefaultCommand(new PerpetualCommand(new TelemetryManagerCMD(telemetryManagerSub)));
         mecanumDriveBaseSub.setDefaultCommand(new TeleOpJoystickRobotCentricCMD(mecanumDriveBaseSub,
                 telemetryManagerSub.getTelemetryObject(), driverOP::getLeftY, driverOP::getRightX,
-                driverOP::getLeftX)
+                driverOP::getLeftX , driverOP.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER))
 );
 
         shoulderSub.setDefaultCommand(new MoveArmJointCMD(telemetryManagerSub.getTelemetryObject(),
@@ -260,7 +262,14 @@ public class TeleOpRobotContainer extends CommandOpMode {
 
         moveArmClimbPos = new GamepadButton(driverOP,GamepadKeys.Button.DPAD_UP );
 
-        slowModeJoystick = new TriggerReader(driverOP,GamepadKeys.Trigger.LEFT_TRIGGER);
+        slowModeJoystick = new GamepadButton(driverOP, GamepadKeys.Button.LEFT_STICK_BUTTON);
+
+        slowModeJoystick.whenHeld( new InstantCommand(()
+        -> {
+            isSlowmode = true;
+        }) ).whenReleased( new InstantCommand(() -> {
+            isSlowmode = false;
+        }) );
         moveHighBasketPos.whenPressed(new InstantCommand(() -> {
 
                 shoulderSub.setSetpoint(Constants.ShoulderSetpoints.highBasketShoulderPos);

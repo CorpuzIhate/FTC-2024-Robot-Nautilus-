@@ -1,7 +1,6 @@
 package Arm_A_Kraken_DocBotics_FTC_2024.auto;
 
 import com.arcrobotics.ftclib.command.InstantCommand;
-import com.arcrobotics.ftclib.command.ParallelCommandGroup;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -39,7 +38,6 @@ public class PathClose2HighBasket extends AutoRobotContainer{
 
                 new MoveRobotEncoderXYCMD(-9,-9,3, 0.5,
                         mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
-
                 new MoveRobotEncoderXYCMD(30,-30,3, 0.5,
                         mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
                 new InstantCommand(() ->{
@@ -55,17 +53,14 @@ public class PathClose2HighBasket extends AutoRobotContainer{
                     elbowSub.setSetpoint(Constants.ElbowSetpoints.elbowSubmersiblePickUpPos);
 
                 }),
-                new ParallelCommandGroup(
-                        new MoveRobotEncoderXYCMD(7,7,3, 0.5,
+                new MoveRobotEncoderXYCMD(7,7,3, 0.5,
                         mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
+                new WaitCommand(2000),
+                new PowerVacuumCMD(vacuumSubsystem,-1, continousVacuumServo,
+                        telemetryManagerSub.getTelemetryObject(), vacuumSensor, 3)
 
-                        new PowerVacuumCMD(vacuumSubsystem,-1, continousVacuumServo,
-                                telemetryManagerSub.getTelemetryObject(), vacuumSensor, 3)
-
-                )),
-
-
-                new MoveRobotEncoderXYCMD(-7,-7,3, 0.5,
+                ),
+                new MoveRobotEncoderXYCMD(7,7,3, 0.5,
                         mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
                 new MoveRobotEncoderXYCMD(-30,30,3, 0.5,
                         mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
@@ -77,14 +72,7 @@ public class PathClose2HighBasket extends AutoRobotContainer{
                 new MoveRobotEncoderXYCMD(9,9,3, 0.5,
                         mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
                 new PowerVacuumCMD(vacuumSubsystem,1, continousVacuumServo,
-                        telemetryManagerSub.getTelemetryObject(), vacuumSensor, 3),
-                new MoveRobotEncoderXYCMD(-9,-9,3, 0.5,
-                        mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
-                new InstantCommand(() ->  {
-                    shoulderSub.setSetpoint(100);
-                    elbowSub.setSetpoint(300);
-                })
-
+                        telemetryManagerSub.getTelemetryObject(), vacuumSensor, 3)
 
 
 

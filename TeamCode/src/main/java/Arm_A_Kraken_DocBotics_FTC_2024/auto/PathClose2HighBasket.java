@@ -31,6 +31,7 @@ public class PathClose2HighBasket extends AutoRobotContainer{
                         mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
                 new PowerVacuumCMD(vacuumSubsystem,1, continousVacuumServo,
                         telemetryManagerSub.getTelemetryObject(), vacuumSensor, 3),
+                //drive to high basket and drop off a sample
 
 
 
@@ -52,13 +53,30 @@ public class PathClose2HighBasket extends AutoRobotContainer{
                     elbowSub.setSetpoint(Constants.ElbowSetpoints.elbowSubmersiblePickUpPos);
 
                 }),
-                new MoveRobotEncoderXYCMD(-5,-5,3, 0.5,
+                new MoveRobotEncoderXYCMD(7,7,3, 0.5,
                         mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
                 new WaitCommand(2000),
                 new PowerVacuumCMD(vacuumSubsystem,-1, continousVacuumServo,
                         telemetryManagerSub.getTelemetryObject(), vacuumSensor, 3)
 
-                )
+                ),
+                new MoveRobotEncoderXYCMD(7,7,3, 0.5,
+                        mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
+                new MoveRobotEncoderXYCMD(-30,30,3, 0.5,
+                        mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
+                new InstantCommand(() ->  {
+                    shoulderSub.setSetpoint(Constants.ShoulderSetpoints.highBasketShoulderPos);
+                    elbowSub.setSetpoint(Constants.ElbowSetpoints.highBasketElbowPos);
+                }),
+                new WaitCommand(2000),
+                new MoveRobotEncoderXYCMD(9,9,3, 0.5,
+                        mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
+                new PowerVacuumCMD(vacuumSubsystem,1, continousVacuumServo,
+                        telemetryManagerSub.getTelemetryObject(), vacuumSensor, 3)
+
+
+
+
         );
     };
 }

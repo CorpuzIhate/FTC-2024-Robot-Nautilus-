@@ -4,6 +4,7 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import Arm_A_Kraken_DocBotics_FTC_2024.AutoCommands.MoveRobotEncoderXYCMD;
 import Arm_A_Kraken_DocBotics_FTC_2024.Commands.PowerVacuumCMD;
@@ -29,7 +30,7 @@ public class PathCloseHighBucketSubPark extends AutoRobotContainer {
                             elbowSub.setSetpoint(Constants.ElbowSetpoints.highBasketElbowPos);
                         }),
                         new WaitCommand(1000),
-                        new MoveRobotEncoderXYCMD(25,25,3, 0.5,
+                        new MoveRobotEncoderXYCMD(26,26,3, 0.5,
                                 mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
                         new PowerVacuumCMD(vacuumSubsystem,1, continousVacuumServo,
                                 telemetryManagerSub.getTelemetryObject(), vacuumSensor, 3),

@@ -9,7 +9,7 @@ import Arm_A_Kraken_DocBotics_FTC_2024.AutoCommands.MoveRobotEncoderXYCMD;
 import Arm_A_Kraken_DocBotics_FTC_2024.Commands.PowerVacuumCMD;
 import Arm_A_Kraken_DocBotics_FTC_2024.Constants;
 @Autonomous
-public class PathClose2HighBasket extends AutoRobotContainer{
+public class PathClose2HighBasket_NotWorking extends AutoRobotContainer{
     @Override
     public void path(){
         schedule(new SequentialCommandGroup(

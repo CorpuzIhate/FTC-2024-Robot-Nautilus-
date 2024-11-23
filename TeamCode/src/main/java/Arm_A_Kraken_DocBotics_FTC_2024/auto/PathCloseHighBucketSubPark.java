@@ -45,7 +45,7 @@ public class PathCloseHighBucketSubPark extends AutoRobotContainer {
                         }),
                        new WaitCommand(1000),
 
-                        new MoveRobotEncoderXYCMD(30,30,3, 0.5,
+                        new MoveRobotEncoderXYCMD(29,29,3, 0.5,
                                 mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject())
 //                new MoveRobotEncoderXYCMD(24,-24,3, 0.5,
 //                        mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject())

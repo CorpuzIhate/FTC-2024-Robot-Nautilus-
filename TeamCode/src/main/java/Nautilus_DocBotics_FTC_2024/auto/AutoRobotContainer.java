@@ -45,7 +45,7 @@ public class AutoRobotContainer extends CommandOpMode {
 
     @Override
     public void initialize() {
-        Constants.AutoConstants.isAuto = true;
+        Constants.AutoConstants.isArmJointLimiterOff = true;
         frontLeft = new Motor(hardwareMap, "front_left");
         frontRight = new Motor(hardwareMap, "front_right");
         backLeft = new Motor(hardwareMap, "back_left");

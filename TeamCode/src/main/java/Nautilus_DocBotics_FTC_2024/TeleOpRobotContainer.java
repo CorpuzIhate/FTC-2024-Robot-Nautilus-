@@ -6,9 +6,11 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.PerpetualCommand;
 import com.arcrobotics.ftclib.command.button.Button;
 import com.arcrobotics.ftclib.command.button.GamepadButton;
+import com.arcrobotics.ftclib.command.button.Trigger;
 import com.arcrobotics.ftclib.controller.PIDFController;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
+import com.arcrobotics.ftclib.gamepad.TriggerReader;
 import com.arcrobotics.ftclib.hardware.motors.CRServo;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.hardware.sparkfun.SparkFunOTOS;
@@ -34,6 +36,7 @@ public class TeleOpRobotContainer extends CommandOpMode {
 
 
     public static boolean isClimbing;
+    public static boolean isSlowmode;
     double fwdPwr;
     double strafePwr;
     double rotationPwr;
@@ -46,6 +49,7 @@ public class TeleOpRobotContainer extends CommandOpMode {
     Motor elbowMotor;
 
     public static String armState = "foldUp";
+    public static String previousArmState =  "foldUp";
     CRServo continuousVacuumServo;
 
     private MecanumDriveBaseSubsystem mecanumDriveBaseSub;
@@ -59,6 +63,8 @@ public class TeleOpRobotContainer extends CommandOpMode {
     public ColorRangeSensor vacuumSensor;
 
     public GamepadEx driverOP;
+
+
     public Button vacuumIntakeButton;
     public Button vacuumOutakeButton;
     public GamepadButton moveArmFoldUpPos;
@@ -67,6 +73,8 @@ public class TeleOpRobotContainer extends CommandOpMode {
     public GamepadButton moveLowBasketPos;
     public GamepadButton moveHighBasketPos;
     public GamepadButton moveArmClimbPos;
+    public GamepadButton slowModeJoystick;
+
 
     public SparkFunOTOS Otos;
 
@@ -113,8 +121,9 @@ public class TeleOpRobotContainer extends CommandOpMode {
         Otos = hardwareMap.get(SparkFunOTOS.class, "sensor_otos");
         configureOtos();
         initSubsystems();
-        runCommands();
         configureBindings();
+        runCommands();
+
 
 
     }
@@ -226,9 +235,10 @@ public class TeleOpRobotContainer extends CommandOpMode {
     }
     private void runCommands(){
         telemetryManagerSub.setDefaultCommand(new PerpetualCommand(new TelemetryManagerCMD(telemetryManagerSub)));
-
         mecanumDriveBaseSub.setDefaultCommand(new TeleOpJoystickRobotCentricCMD(mecanumDriveBaseSub,
-                telemetryManagerSub.getTelemetryObject(), driverOP::getLeftY, driverOP::getRightX, driverOP::getLeftX));
+                telemetryManagerSub.getTelemetryObject(), driverOP::getLeftY, driverOP::getRightX,
+                driverOP::getLeftX , driverOP.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER))
+);
 
         shoulderSub.setDefaultCommand(new MoveArmJointCMD(telemetryManagerSub.getTelemetryObject(),
                 shoulderSub));
@@ -248,12 +258,20 @@ public class TeleOpRobotContainer extends CommandOpMode {
 
         moveArmClimbPos = new GamepadButton(driverOP,GamepadKeys.Button.DPAD_UP );
 
+        slowModeJoystick = new GamepadButton(driverOP, GamepadKeys.Button.LEFT_STICK_BUTTON);
+
+        slowModeJoystick.whenHeld( new InstantCommand(()
+        -> {
+            isSlowmode = true;
+        }) ).whenReleased( new InstantCommand(() -> {
+            isSlowmode = false;
+        }) );
         moveHighBasketPos.whenPressed(new InstantCommand(() -> {
-            if(armState.equals("armClearance") ) {
+
                 shoulderSub.setSetpoint(Constants.ShoulderSetpoints.highBasketShoulderPos);
                 elbowSub.setSetpoint(Constants.ElbowSetpoints.highBasketElbowPos);
+                previousArmState = armState;
                 armState =  "highBasket";
-            }
 
 
         }));
@@ -262,6 +280,7 @@ public class TeleOpRobotContainer extends CommandOpMode {
             if(!armState.equals("climb")) {
                 shoulderSub.setSetpoint(Constants.ShoulderSetpoints.middleShoulderPos);
                 elbowSub.setSetpoint(Constants.ElbowSetpoints.middleElbowPos);
+                previousArmState = armState;
                 armState = " lowBasket";
             }
         }));
@@ -271,16 +290,29 @@ public class TeleOpRobotContainer extends CommandOpMode {
             if(!armState.equals("highBasket")) {
                 shoulderSub.setSetpoint(300);
                 elbowSub.setSetpoint(100);
+                previousArmState = armState;
                 armState = "foldUp";
             }
 
         }));
         moveArmClearancePos.whenPressed(new InstantCommand(() -> {
             isClimbing = false;
+            if(!armState.equals("highBasket")) {
+                previousArmState = armState;
+                armState = "armClearance";
+                shoulderSub.setSetpoint(Constants.ShoulderSetpoints.shoulderClearancePos);
+                elbowSub.setSetpoint(Constants.ElbowSetpoints.elbowClearancePos);
+            }
+        }));
+        moveArmClearancePos.whenPressed(new InstantCommand(() -> {
+            isClimbing = false;
+            if(armState.equals("highBasket")) {
 
-            armState =  "armClearance";
-            shoulderSub.setSetpoint(Constants.ShoulderSetpoints.shoulderClearancePos);
-            elbowSub.setSetpoint(Constants.ElbowSetpoints.elbowClearancePos);
+                shoulderSub.setSetpoint(Constants.ShoulderSetpoints.shoulderClearancePos);
+                elbowSub.setSetpoint(300);
+                previousArmState = armState;
+                armState = "armHighBasketClearance";
+            }
         }));
 
         moveGroundPickUpPos.whenPressed(new InstantCommand(() -> {
@@ -288,6 +320,7 @@ public class TeleOpRobotContainer extends CommandOpMode {
                 if(armState.equals("armClearance") ) {
                     shoulderSub.setSetpoint(Constants.ShoulderSetpoints.shoulderSubmersiblePickUpPos);
                     elbowSub.setSetpoint(Constants.ElbowSetpoints.elbowSubmersiblePickUpPos);
+                    previousArmState = armState;
                     armState =  "pickUp";
                 }
 
@@ -299,6 +332,7 @@ public class TeleOpRobotContainer extends CommandOpMode {
                     if(armState.equals("foldUp") ) {
                         shoulderSub.setSetpoint(Constants.ShoulderSetpoints.shoulderClimbInit);
                         elbowSub.setSetpoint(Constants.ElbowSetpoints.elbowClimbInit);
+                        previousArmState = armState;
                         armState =  "climb";
                     }
                 }

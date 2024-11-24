@@ -34,17 +34,17 @@ public final class Constants{
         public static final double shoulderSubmersiblePickUpPos = 800;
         public static final double middleShoulderPos = 2510;
 
-        public static final double highBasketShoulderPos = 3300;// hard stop
+        public static final double highBasketShoulderPos = 3500;
         public static final double shoulderClimbInit = 3300;
 
 
     }
     public static final class ElbowSetpoints{
         public static final double elbowClearancePos = 2100;
-        public static final double elbowSubmersiblePickUpPos = 3050;
+        public static final double elbowSubmersiblePickUpPos = 3150;
         public static final double middleElbowPos = 3600;
 
-        public static final double highBasketElbowPos = 3200;
+        public static final double highBasketElbowPos = 3400;
 
         public  static final double elbowClimbInit = 100 ;
 
@@ -62,7 +62,7 @@ public final class Constants{
         public static double distanceFromOriginY_INCHES = 5.1875;
     }
     public static final class AutoConstants{
-        public static boolean isAuto;
+        public static boolean isArmJointLimiterOff;
         public static final double turnkP = 0.01;
         public static final double turnkI = 0;
         public static final double turnkD = 0;

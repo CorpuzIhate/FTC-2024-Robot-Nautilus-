@@ -1,15 +1,18 @@
-package Arm_A_Kraken_DocBotics_FTC_2024.auto;
+package Nautilus_DocBotics_FTC_2024.auto.AutoPaths;
 
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import Arm_A_Kraken_DocBotics_FTC_2024.AutoCommands.MoveRobotEncoderXYCMD;
-import Arm_A_Kraken_DocBotics_FTC_2024.Commands.PowerVacuumCMD;
-import Arm_A_Kraken_DocBotics_FTC_2024.Constants;
+import Nautilus_DocBotics_FTC_2024.AutoCommands.MoveRobotEncoderXYCMD;
+import Nautilus_DocBotics_FTC_2024.AutoCommands.PowerVacuumAutoCMD;
+import Nautilus_DocBotics_FTC_2024.Commands.PowerVacuumCMD;
+import Nautilus_DocBotics_FTC_2024.Constants;
+import Nautilus_DocBotics_FTC_2024.auto.AutoRobotContainer;
+
 @Autonomous
-public class PathClose2HighBasket_NotWorking extends AutoRobotContainer{
+public class PathClose2HighBasket_NotWorking extends AutoRobotContainer {
     @Override
     public void path(){
         schedule(new SequentialCommandGroup(
@@ -29,7 +32,7 @@ public class PathClose2HighBasket_NotWorking extends AutoRobotContainer{
                 new WaitCommand(1000),
                 new MoveRobotEncoderXYCMD(25,25,3, 0.5,
                         mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
-                new PowerVacuumCMD(vacuumSubsystem,1, continousVacuumServo,
+                new PowerVacuumAutoCMD(vacuumSubsystem,1, continousVacuumServo,
                         telemetryManagerSub.getTelemetryObject(), vacuumSensor, 3),
                 //drive to high basket and drop off a sample
 
@@ -56,7 +59,7 @@ public class PathClose2HighBasket_NotWorking extends AutoRobotContainer{
                 new MoveRobotEncoderXYCMD(7,7,3, 0.5,
                         mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
                 new WaitCommand(2000),
-                new PowerVacuumCMD(vacuumSubsystem,-1, continousVacuumServo,
+                new PowerVacuumAutoCMD(vacuumSubsystem,-1, continousVacuumServo,
                         telemetryManagerSub.getTelemetryObject(), vacuumSensor, 3)
 
                 ),
@@ -71,7 +74,7 @@ public class PathClose2HighBasket_NotWorking extends AutoRobotContainer{
                 new WaitCommand(2000),
                 new MoveRobotEncoderXYCMD(9,9,3, 0.5,
                         mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
-                new PowerVacuumCMD(vacuumSubsystem,1, continousVacuumServo,
+                new PowerVacuumAutoCMD(vacuumSubsystem,1, continousVacuumServo,
                         telemetryManagerSub.getTelemetryObject(), vacuumSensor, 3)
 
 

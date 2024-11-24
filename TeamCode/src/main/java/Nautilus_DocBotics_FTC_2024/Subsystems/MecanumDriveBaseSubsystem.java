@@ -1,4 +1,4 @@
-package Arm_A_Kraken_DocBotics_FTC_2024.Subsystems;
+package Nautilus_DocBotics_FTC_2024.Subsystems;
 
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 ;
 
-import Arm_A_Kraken_DocBotics_FTC_2024.Constants;
+import Nautilus_DocBotics_FTC_2024.Constants;
 
 
 public class MecanumDriveBaseSubsystem extends SubsystemBase {

@@ -1,14 +1,14 @@
-package Arm_A_Kraken_DocBotics_FTC_2024.Subsystems;
+package Nautilus_DocBotics_FTC_2024.Subsystems;
 
-import static Arm_A_Kraken_DocBotics_FTC_2024.TeleOpRobotContainer.armState;
-import static Arm_A_Kraken_DocBotics_FTC_2024.TeleOpRobotContainer.isClimbing;
-import static Arm_A_Kraken_DocBotics_FTC_2024.TeleOpRobotContainer.previousArmState;
+import static Nautilus_DocBotics_FTC_2024.TeleOpRobotContainer.armState;
+import static Nautilus_DocBotics_FTC_2024.TeleOpRobotContainer.isClimbing;
+import static Nautilus_DocBotics_FTC_2024.TeleOpRobotContainer.previousArmState;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 import com.arcrobotics.ftclib.controller.PIDFController;
 import com.arcrobotics.ftclib.hardware.motors.Motor;
 
-import Arm_A_Kraken_DocBotics_FTC_2024.Constants;
+import Nautilus_DocBotics_FTC_2024.Constants;
 
 public class armJointSubsystem extends SubsystemBase {
 
@@ -16,22 +16,19 @@ public class armJointSubsystem extends SubsystemBase {
     private final PIDFController m_jointFeedForward;
     private final String m_tag;
 
-    private final double m_maxExtensionJointSpeed;
-    private final double m_maxRetractionJointSpeed;
+
 
 
     private double m_setpoint = 0;
 
-    public armJointSubsystem(Motor jointMotor, PIDFController jointFeedForward, String tag,
-                             double maxExtensionJointSpeed ,
-                             double maxRetractionJointSpeed_PositiveInput,
+    public armJointSubsystem(Motor jointMotor, PIDFController jointFeedForward,
+                             String tag,
                              double startingPos){
         m_jointMotor = jointMotor;
         m_jointFeedForward = jointFeedForward;
         m_tag = tag;
         m_setpoint = startingPos;
-        m_maxExtensionJointSpeed = maxExtensionJointSpeed;
-        m_maxRetractionJointSpeed = maxRetractionJointSpeed_PositiveInput;
+
 
 
 

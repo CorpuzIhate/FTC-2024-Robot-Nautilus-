@@ -1,7 +1,7 @@
 package Nautilus_DocBotics_FTC_2024.Commands;
 
 
-import static Arm_A_Kraken_DocBotics_FTC_2024.TeleOpRobotContainer.isSlowmode;
+import static Nautilus_DocBotics_FTC_2024.TeleOpRobotContainer.isSlowmode;
 
 import com.arcrobotics.ftclib.command.CommandBase;
 

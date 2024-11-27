@@ -21,7 +21,7 @@ public class PathClose2HighBasket_NotWorking extends AutoRobotContainer {
 
 
                 // starts facing the Submersible
-                new MoveRobotEncoderXYCMD(21,21,1, 0.5,
+                new MoveRobotEncoderXYCMD(21,21,1, 0.75,
                         mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
 
                 new MoveRobotEncoderXYCMD(-30,30,1, 0.5,
@@ -31,29 +31,27 @@ public class PathClose2HighBasket_NotWorking extends AutoRobotContainer {
                     shoulderSub.setSetpoint(Constants.ShoulderSetpoints.highBasketShoulderPos);
                     elbowSub.setSetpoint(Constants.ElbowSetpoints.highBasketElbowPos);
                 }),
-                new WaitCommand(1000),
+                new WaitCommand(300),
                 new MoveRobotEncoderXYCMD(26,26,1, 0.5,
                         mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
                 new PowerVacuumAutoCMD(vacuumSubsystem,1, continousVacuumServo,
-                        telemetryManagerSub.getTelemetryObject(), vacuumSensor, 3),
+                        telemetryManagerSub.getTelemetryObject(), vacuumSensor, 1.5),
                 //shoot sample into high basket
 
 
-
-
-                new MoveRobotEncoderXYCMD(-10,-10,1, 0.5,
+                new MoveRobotEncoderXYCMD(-10,-10,0, 0.5,
                         mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
 
-                new MoveRobotEncoderXYCMD(30,-30,1, 0.5, // turn the robot +90 relative to robot
+                new MoveRobotEncoderXYCMD(30,-30,0.5, 0.5, // turn the robot +90 relative to robot
                         mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
-                        new MoveRobotEncoderXYCMD(-5,-5,1, 0.5,
+                        new MoveRobotEncoderXYCMD(-5,-5,0, 0.5,
                                 mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
 
                         new InstantCommand(() -> {
                     shoulderSub.setSetpoint(Constants.ShoulderSetpoints.shoulderClearancePos);
                     elbowSub.setSetpoint(100);
                 }),
-               new WaitCommand(2000),
+               new WaitCommand(1000),
                         new InstantCommand(() -> {
                    shoulderSub.setSetpoint(Constants.ShoulderSetpoints.shoulderSubmersiblePickUpPos);
                    elbowSub.setSetpoint(Constants.ElbowSetpoints.elbowSubmersiblePickUpPos);

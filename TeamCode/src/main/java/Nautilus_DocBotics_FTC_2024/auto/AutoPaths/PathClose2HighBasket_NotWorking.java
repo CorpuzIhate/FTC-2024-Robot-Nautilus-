@@ -6,6 +6,7 @@ import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import Nautilus_DocBotics_FTC_2024.AutoCommands.MoveRobotDiagonalEncoderCMD;
 import Nautilus_DocBotics_FTC_2024.AutoCommands.MoveRobotEncoderXYCMD;
 import Nautilus_DocBotics_FTC_2024.AutoCommands.PowerVacuumAutoCMD;
 import Nautilus_DocBotics_FTC_2024.Commands.PowerVacuumCMD;
@@ -18,6 +19,14 @@ public class PathClose2HighBasket_NotWorking extends AutoRobotContainer {
     public void path(){
         schedule(
                 new SequentialCommandGroup(
+                new MoveRobotDiagonalEncoderCMD(20,0,0.5,
+                        true,
+                        mecanumDriveBaseSub,
+                        telemetryManagerSub.getTelemetryObject()),
+
+                        // starts facing the Submersible
+                        new MoveRobotEncoderXYCMD(21,21,0, 0.5,
+                                mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
 
 
                 // starts facing the Submersible

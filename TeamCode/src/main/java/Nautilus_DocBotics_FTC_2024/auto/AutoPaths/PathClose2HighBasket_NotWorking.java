@@ -21,10 +21,10 @@ public class PathClose2HighBasket_NotWorking extends AutoRobotContainer {
 
 
                 // starts facing the Submersible
-                new MoveRobotEncoderXYCMD(21,21,1, 0.6,
+                new MoveRobotEncoderXYCMD(21,21,0, 0.5,
                         mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
 
-                new MoveRobotEncoderXYCMD(-30,30,1, 0.5,
+                new MoveRobotEncoderXYCMD(-30,30,0, 0.5,
                         mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
 
                 new InstantCommand(() ->  {
@@ -32,7 +32,7 @@ public class PathClose2HighBasket_NotWorking extends AutoRobotContainer {
                     elbowSub.setSetpoint(Constants.ElbowSetpoints.highBasketElbowPos);
                 }),
                 new WaitCommand(300),
-                new MoveRobotEncoderXYCMD(26,26,1, 0.5,
+                new MoveRobotEncoderXYCMD(26,26,0, 0.5,
                         mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
                 new PowerVacuumAutoCMD(vacuumSubsystem,1, continousVacuumServo,
                         telemetryManagerSub.getTelemetryObject(), vacuumSensor, 1.5),
@@ -42,7 +42,7 @@ public class PathClose2HighBasket_NotWorking extends AutoRobotContainer {
                 new MoveRobotEncoderXYCMD(-12,-12,0, 0.5,
                         mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
 
-                new MoveRobotEncoderXYCMD(30,-30,0.5, 0.5, // turn the robot +90 relative to robot
+                new MoveRobotEncoderXYCMD(30,-30,0, 0.5, // turn the robot +90 relative to robot
                         mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
                         new MoveRobotEncoderXYCMD(-5,-5,0, 0.5,
                                 mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
@@ -76,20 +76,21 @@ public class PathClose2HighBasket_NotWorking extends AutoRobotContainer {
                             elbowSub.setSetpoint(Constants.ElbowSetpoints.highBasketElbowPos);
                         }),
 
-                        new MoveRobotEncoderXYCMD(-8,-8,1, 0.5, // turn the robot +90 relative to robot
+                        new MoveRobotEncoderXYCMD(-8,-8,0, 0.5,
                                 mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()
                         ),
-                        new MoveRobotEncoderXYCMD(-30,30,1, 0.5, // turn the robot +90 relative to robot
+                        new MoveRobotEncoderXYCMD(-30,30,0, 0.5, // turn the robot +90 relative to robot
                                 mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
 
                         //extend arm
-                        new MoveRobotEncoderXYCMD(10,10,1, 0.5, // turn the robot +90 relative to robot
+                        new MoveRobotEncoderXYCMD(15,15,0, 0.5, // turn the robot +90 relative to robot
                                 mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()
                         ),
-                        new PowerVacuumAutoCMD(vacuumSubsystem,-1, continousVacuumServo,
+                        new PowerVacuumAutoCMD(vacuumSubsystem,1, continousVacuumServo,
                         telemetryManagerSub.getTelemetryObject(), vacuumSensor, 4)
 
         )
+
         );
 
 

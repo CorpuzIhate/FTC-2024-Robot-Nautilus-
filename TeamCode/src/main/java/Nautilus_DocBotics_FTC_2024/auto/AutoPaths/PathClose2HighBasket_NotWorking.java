@@ -19,27 +19,22 @@ public class PathClose2HighBasket_NotWorking extends AutoRobotContainer {
     public void path(){
         schedule(
                 new SequentialCommandGroup(
-                new MoveRobotDiagonalEncoderCMD(20,0,0.5,
-                        true,
+                new MoveRobotDiagonalEncoderCMD(21,0,0.5,
+                        false,
                         mecanumDriveBaseSub,
                         telemetryManagerSub.getTelemetryObject()),
 
-                        // starts facing the Submersible
-                        new MoveRobotEncoderXYCMD(21,21,0, 0.5,
-                                mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
 
+                        new InstantCommand(() ->  {
+                            shoulderSub.setSetpoint(Constants.ShoulderSetpoints.highBasketShoulderPos);
+                            elbowSub.setSetpoint(Constants.ElbowSetpoints.highBasketElbowPos);
+                        }),
 
-                // starts facing the Submersible
-                new MoveRobotEncoderXYCMD(21,21,0, 0.5,
-                        mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
 
                 new MoveRobotEncoderXYCMD(-30,30,0, 0.5,
                         mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
 
-                new InstantCommand(() ->  {
-                    shoulderSub.setSetpoint(Constants.ShoulderSetpoints.highBasketShoulderPos);
-                    elbowSub.setSetpoint(Constants.ElbowSetpoints.highBasketElbowPos);
-                }),
+
                 new WaitCommand(300),
                 new MoveRobotEncoderXYCMD(26,26,0, 0.5,
                         mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
@@ -67,8 +62,7 @@ public class PathClose2HighBasket_NotWorking extends AutoRobotContainer {
 
                }),
                         new WaitCommand(2000),
-                        new PowerVacuumAutoCMD(vacuumSubsystem,-1, continousVacuumServo,
-                                telemetryManagerSub.getTelemetryObject(), vacuumSensor, 0.5),
+
                         new ParallelCommandGroup(
                                 new PowerVacuumAutoCMD(vacuumSubsystem,-1, continousVacuumServo,
                                         telemetryManagerSub.getTelemetryObject(), vacuumSensor, 2),
@@ -96,7 +90,10 @@ public class PathClose2HighBasket_NotWorking extends AutoRobotContainer {
                                 mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()
                         ),
                         new PowerVacuumAutoCMD(vacuumSubsystem,1, continousVacuumServo,
-                        telemetryManagerSub.getTelemetryObject(), vacuumSensor, 4)
+                        telemetryManagerSub.getTelemetryObject(), vacuumSensor, 4),
+        new MoveRobotEncoderXYCMD(-15,-15,0, 0.5, // turn the robot +90 relative to robot
+                mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()
+        )
 
         )
 

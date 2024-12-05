@@ -19,7 +19,7 @@ public class PathClose2HighBasket_NotWorking extends AutoRobotContainer {
     public void path(){
         schedule(
                 new SequentialCommandGroup(
-                new MoveRobotDiagonalEncoderCMD(21,0,0.5,
+                new MoveRobotDiagonalEncoderCMD(24,0,0.5,
                         false,
                         mecanumDriveBaseSub,
                         telemetryManagerSub.getTelemetryObject()),
@@ -36,26 +36,26 @@ public class PathClose2HighBasket_NotWorking extends AutoRobotContainer {
 
 
                 new WaitCommand(300),
-                new MoveRobotEncoderXYCMD(26,26,0, 0.5,
+                new MoveRobotEncoderXYCMD(15,15,0, 0.5,
                         mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
                 new PowerVacuumAutoCMD(vacuumSubsystem,1, continousVacuumServo,
                         telemetryManagerSub.getTelemetryObject(), vacuumSensor, 1.5),
                 //shoot sample into high basket
 
 
-                new MoveRobotEncoderXYCMD(-12,-12,0, 0.5,
+                new MoveRobotEncoderXYCMD(-15,-15,0, 0.5,
                         mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
 
                 new MoveRobotEncoderXYCMD(30,-30,0, 0.5, // turn the robot +90 relative to robot
                         mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
-                        new MoveRobotEncoderXYCMD(-5,-5,0, 0.5,
+                        new InstantCommand(() -> {
+                            shoulderSub.setSetpoint(Constants.ShoulderSetpoints.shoulderClearancePos);
+                            elbowSub.setSetpoint(100);
+                        }),
+                        new MoveRobotEncoderXYCMD(-10,-10,0, 0.5,
                                 mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
 
-                        new InstantCommand(() -> {
-                    shoulderSub.setSetpoint(Constants.ShoulderSetpoints.shoulderClearancePos);
-                    elbowSub.setSetpoint(100);
-                }),
-               new WaitCommand(1000),
+
                         new InstantCommand(() -> {
                    shoulderSub.setSetpoint(Constants.ShoulderSetpoints.shoulderSubmersiblePickUpPos);
                    elbowSub.setSetpoint(Constants.ElbowSetpoints.elbowSubmersiblePickUpPos);
@@ -66,7 +66,7 @@ public class PathClose2HighBasket_NotWorking extends AutoRobotContainer {
                         new ParallelCommandGroup(
                                 new PowerVacuumAutoCMD(vacuumSubsystem,-1, continousVacuumServo,
                                         telemetryManagerSub.getTelemetryObject(), vacuumSensor, 2),
-                                new MoveRobotEncoderXYCMD(15,15,1, 0.25,
+                                new MoveRobotEncoderXYCMD(15,15,0, 0.25,
                                 mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject())
 
 
@@ -91,7 +91,7 @@ public class PathClose2HighBasket_NotWorking extends AutoRobotContainer {
                         ),
                         new PowerVacuumAutoCMD(vacuumSubsystem,1, continousVacuumServo,
                         telemetryManagerSub.getTelemetryObject(), vacuumSensor, 4),
-        new MoveRobotEncoderXYCMD(-15,-15,0, 0.5, // turn the robot +90 relative to robot
+        new MoveRobotEncoderXYCMD(-20,-20,0, 1, // turn the robot +90 relative to robot
                 mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()
         )
 

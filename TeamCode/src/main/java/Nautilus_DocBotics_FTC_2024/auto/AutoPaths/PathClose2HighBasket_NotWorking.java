@@ -19,6 +19,7 @@ public class PathClose2HighBasket_NotWorking extends AutoRobotContainer {
     public void path(){
         schedule(
                 new SequentialCommandGroup(
+                        //starts facing the Submersible
                 new MoveRobotDiagonalEncoderCMD(24,0,0.5,
                         false,
                         mecanumDriveBaseSub,
@@ -29,7 +30,7 @@ public class PathClose2HighBasket_NotWorking extends AutoRobotContainer {
                             shoulderSub.setSetpoint(Constants.ShoulderSetpoints.highBasketShoulderPos);
                             elbowSub.setSetpoint(Constants.ElbowSetpoints.highBasketElbowPos);
                         }),
-
+                //robot moves diagonal, extends arm
 
                 new MoveRobotEncoderXYCMD(-30,30,0, 0.5,
                         mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
@@ -40,18 +41,21 @@ public class PathClose2HighBasket_NotWorking extends AutoRobotContainer {
                         mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
                 new PowerVacuumAutoCMD(vacuumSubsystem,1, continousVacuumServo,
                         telemetryManagerSub.getTelemetryObject(), vacuumSensor, 1.5),
-                //shoot sample into high basket
+                //moves forward and inputs sample into high basket
 
 
                 new MoveRobotEncoderXYCMD(-15,-15,0, 0.5,
                         mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
-
-                new MoveRobotEncoderXYCMD(30,-30,0, 0.5, // turn the robot +90 relative to robot
+                        // moves back and turns the robot +90 relative to robot
+                new MoveRobotEncoderXYCMD(30,-30,0, 0.5,
                         mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
+
+                        //robot moves back while arm to clearance position
                         new InstantCommand(() -> {
                             shoulderSub.setSetpoint(Constants.ShoulderSetpoints.shoulderClearancePos);
                             elbowSub.setSetpoint(100);
                         }),
+
                         new MoveRobotEncoderXYCMD(-10,-10,0, 0.5,
                                 mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
 
@@ -72,31 +76,33 @@ public class PathClose2HighBasket_NotWorking extends AutoRobotContainer {
 
 
                                 ),
-
+                // robot goes to pick up position and moves forward to pick up more sample
 
                         new InstantCommand(() -> {
                             shoulderSub.setSetpoint(Constants.ShoulderSetpoints.highBasketShoulderPos);
                             elbowSub.setSetpoint(Constants.ElbowSetpoints.highBasketElbowPos);
                         }),
-
                         new MoveRobotEncoderXYCMD(-8,-8,0, 0.5,
                                 mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()
                         ),
+                        //robot extends arm back up and moves back again
+
                         new MoveRobotEncoderXYCMD(-30,30,0, 0.5, // turn the robot +90 relative to robot
                                 mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
 
-                        //extend arm
-                        new MoveRobotEncoderXYCMD(15,15,0, 0.5, // turn the robot +90 relative to robot
+                        //robot moves forward and input sample into high basket
+                        new MoveRobotEncoderXYCMD(15,15,0, 0.5,
                                 mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()
                         ),
+
                         new PowerVacuumAutoCMD(vacuumSubsystem,1, continousVacuumServo,
                         telemetryManagerSub.getTelemetryObject(), vacuumSensor, 4),
-        new MoveRobotEncoderXYCMD(-20,-20,0, 1, // turn the robot +90 relative to robot
-                mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()
-        )
+                    //robot moves back from basket so that when we enter tele-op, the arm doesn't get caught on the basket
+                    new MoveRobotEncoderXYCMD(-20,-20,0, 1,
+                            mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()
+                    )
 
-        )
-
+                )
         );
 
 

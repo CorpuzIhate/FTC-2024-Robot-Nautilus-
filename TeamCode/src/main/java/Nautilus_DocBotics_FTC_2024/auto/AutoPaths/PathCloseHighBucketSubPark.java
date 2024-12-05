@@ -25,7 +25,7 @@ public class PathCloseHighBucketSubPark extends AutoRobotContainer {
 
                         new MoveRobotEncoderXYCMD(-30,30,3, 0.5,
                                 mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
-
+                        //robot moves forward, turns to basket
                         new InstantCommand(() ->  {
                             shoulderSub.setSetpoint(Constants.ShoulderSetpoints.highBasketShoulderPos);
                             elbowSub.setSetpoint(Constants.ElbowSetpoints.highBasketElbowPos);
@@ -33,14 +33,16 @@ public class PathCloseHighBucketSubPark extends AutoRobotContainer {
                         new WaitCommand(1000),
                         new MoveRobotEncoderXYCMD(26,26,3, 0.5,
                                 mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
+                        //robot extends arm and moves forward
                         new PowerVacuumAutoCMD(vacuumSubsystem,1, continousVacuumServo,
                                 telemetryManagerSub.getTelemetryObject(), vacuumSensor, 3),
-
+                        //robot inputs sample into high-basket
 
                          new MoveRobotEncoderXYCMD(-25,-25,3, 0.5,
                         mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
                         new MoveRobotEncoderXYCMD(30,-30,3, 0.5,
                                 mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
+                        //robot turns 90+, lowers arm
                         new InstantCommand(() ->  {
                             shoulderSub.setSetpoint(300);
                             elbowSub.setSetpoint(100);
@@ -49,8 +51,7 @@ public class PathCloseHighBucketSubPark extends AutoRobotContainer {
 
                         new MoveRobotEncoderXYCMD(29,29,3, 0.5,
                                 mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject())
-//                new MoveRobotEncoderXYCMD(24,-24,3, 0.5,
-//                        mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject())
+                //robot moves forward to park
 
 
                 )

@@ -260,12 +260,9 @@ public class TeleOpRobotContainer extends CommandOpMode {
 
         slowModeJoystick = new GamepadButton(driverOP, GamepadKeys.Button.LEFT_STICK_BUTTON);
 
-        slowModeJoystick.whenHeld( new InstantCommand(()
-        -> {
-            isSlowmode = true;
-        }) ).whenReleased( new InstantCommand(() -> {
-            isSlowmode = false;
-        }) );
+        slowModeJoystick.whenPressed(new InstantCommand(() -> {
+            isSlowmode = !isSlowmode;
+        }));
         moveHighBasketPos.whenPressed(new InstantCommand(() -> {
 
                 shoulderSub.setSetpoint(Constants.ShoulderSetpoints.highBasketShoulderPos);

@@ -71,8 +71,8 @@ public class armJointSubsystem extends SubsystemBase {
             return currentJointSpeed;
         }
             if (tag.equals("shoulder")) {
-                if (currentJointSpeed > 0.5) {  // limits up speed
-                    return 0.5;
+                if (currentJointSpeed > 0.7) {  // limits up speed
+                    return 0.7;
                 } else if (currentJointSpeed < -0.2) { // limits down speed
                     return -0.2;
                 }

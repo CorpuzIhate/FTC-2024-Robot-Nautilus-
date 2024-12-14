@@ -326,12 +326,12 @@ public class TeleOpRobotContainer extends CommandOpMode {
         moveArmClimbPos.whenPressed(
                 new InstantCommand(() -> {
                     isClimbing = true;
-                    if(armState.equals("foldUp") ) {
+
                         shoulderSub.setSetpoint(Constants.ShoulderSetpoints.shoulderClimbInit);
                         elbowSub.setSetpoint(Constants.ElbowSetpoints.elbowClimbInit);
                         previousArmState = armState;
                         armState =  "climb";
-                    }
+
                 }
     ));
 

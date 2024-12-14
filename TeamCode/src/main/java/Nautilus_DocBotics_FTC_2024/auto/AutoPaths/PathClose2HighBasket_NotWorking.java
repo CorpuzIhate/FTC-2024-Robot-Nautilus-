@@ -70,7 +70,7 @@ public class PathClose2HighBasket_NotWorking extends AutoRobotContainer {
                         new ParallelCommandGroup(
                                 new PowerVacuumAutoCMD(vacuumSubsystem,-1, continousVacuumServo,
                                         telemetryManagerSub.getTelemetryObject(), vacuumSensor, 2),
-                                new MoveRobotEncoderXYCMD(15,15,0, 0.25,
+                                new MoveRobotEncoderXYCMD(15,15,0, 0.5,
                                 mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject())
 
 
@@ -99,7 +99,7 @@ public class PathClose2HighBasket_NotWorking extends AutoRobotContainer {
                         ),
 
                         new PowerVacuumAutoCMD(vacuumSubsystem,1, continousVacuumServo,
-                        telemetryManagerSub.getTelemetryObject(), vacuumSensor, 4),
+                        telemetryManagerSub.getTelemetryObject(), vacuumSensor, 2),
                     //robot moves back from basket so that when we enter tele-op, the arm doesn't get caught on the basket
 
                     new MoveRobotEncoderXYCMD(-20,-20,0, 1,

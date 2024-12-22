@@ -170,7 +170,10 @@ public class MecanumDriveBaseSubsystem extends SubsystemBase {
         double deltaTime_seconds = slewRateTimer.seconds();
         double signalDerivative = ( joystickInput - previousInput)  / deltaTime_seconds;
 
-
+        if(Math.abs(joystickInput) < 1E-2){
+            previousInput = 0;
+            return  0;
+        }
         if(Math.abs(signalDerivative) > Constants.teleOpConstants.teleOpSenstiivty) // if the absolute value of the
             // joystick signal has greater than 0.5
             // set the derivative of the signal to 0.5

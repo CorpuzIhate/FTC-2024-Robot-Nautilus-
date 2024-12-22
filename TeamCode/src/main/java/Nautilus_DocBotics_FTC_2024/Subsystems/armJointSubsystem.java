@@ -27,7 +27,7 @@ public class armJointSubsystem extends SubsystemBase {
         m_jointMotor = jointMotor;
         m_jointFeedForward = jointFeedForward;
         m_tag = tag;
-        m_setpoint = startingPos;
+        m_setpoint = jointMotor.getCurrentPosition();
 
 
 

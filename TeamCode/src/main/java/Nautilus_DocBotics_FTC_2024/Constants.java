@@ -8,10 +8,8 @@ public final class Constants{
         public static final double distanceSampleDetected = 5;
         public static final double joystickSensitivity = 0.5;
 
-        public static final double maxUpShoulderSpeed = 0.9;
-        public static final double maxUpElbowSpeed = -0.7;
-        public  static  final  double maxDownShoulderSpeed =-0.2;
-        public static final double maxDownElbowSpeed = 0.3;
+        public static final double teleOpSenstiivty = 0.5;
+
 
     }
     public static final class ShoulderPIDConstants{

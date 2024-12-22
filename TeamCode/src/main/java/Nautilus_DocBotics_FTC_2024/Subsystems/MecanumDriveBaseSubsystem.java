@@ -163,29 +163,26 @@ public class MecanumDriveBaseSubsystem extends SubsystemBase {
         return  desiredRobotRelativeVelocity;
 
     }
-    public double getTest(){
-        return test;
-    }
-    public double getTimer(){ return slewRateTimer.seconds();}
+
     public double slewRateLimiter(double joystickInput ){
-        double output;
+        double slewedOutput;
 
         double deltaTime_seconds = slewRateTimer.seconds();
         double signalDerivative = ( joystickInput - previousInput)  / deltaTime_seconds;
 
 
-        if(Math.abs(signalDerivative) > 1E-6) // if the absolute value of the
+        if(Math.abs(signalDerivative) > Constants.teleOpConstants.teleOpSenstiivty) // if the absolute value of the
             // joystick signal has greater than 0.5
             // set the derivative of the signal to 0.5
         {
 
             //this returns a signal with a derivative = 0.5 and depends on the sign
-            output = (Math.signum(signalDerivative) *  1E-6 * deltaTime_seconds) + previousInput;
-            test = ( output - previousInput)  / deltaTime_seconds;
+            slewedOutput = (Math.signum(signalDerivative) *  Constants.teleOpConstants.teleOpSenstiivty * deltaTime_seconds) + previousInput;
 
-            previousInput = joystickInput; // swithc to output?
+
+            previousInput = slewedOutput;
             slewRateTimer.reset();
-            return output;
+            return slewedOutput;
 
 
         }

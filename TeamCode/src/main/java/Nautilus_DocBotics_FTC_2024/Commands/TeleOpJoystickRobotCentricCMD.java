@@ -68,8 +68,6 @@ public class TeleOpJoystickRobotCentricCMD extends CommandBase {
 
         m_dashboardTelemetry.addData("forwardSignalSlewed",  slewedSignal);
         m_dashboardTelemetry.addData("forwardSignal", m_forwardPower.getAsDouble() );
-        m_dashboardTelemetry.addData("forwardSignalDirivative", m_MecanumSub.getTest());
-        m_dashboardTelemetry.addData("time", m_MecanumSub.getTimer());
         if(isSlowmode) {
             m_MecanumSub.setMotorSpeeds(
                     m_forwardPower.getAsDouble() * 0.25,

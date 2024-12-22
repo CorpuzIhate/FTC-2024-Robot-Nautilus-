@@ -62,7 +62,14 @@ public class TeleOpJoystickRobotCentricCMD extends CommandBase {
 //                m_MecanumSub.smoothJoystickInputs(m_strafePower.getAsDouble());
 //        double smoothRotationPower =
 //                m_MecanumSub.smoothJoystickInputs(m_rotationPower.getAsDouble()) * 0.5;
-        m_dashboardTelemetry.addData("trigger", m_slowTrigger);
+
+       double slewedSignal = m_MecanumSub.slewRateLimiter(
+                m_forwardPower.getAsDouble());
+
+        m_dashboardTelemetry.addData("forwardSignalSlewed",  slewedSignal);
+        m_dashboardTelemetry.addData("forwardSignal", m_forwardPower.getAsDouble() );
+        m_dashboardTelemetry.addData("forwardSignalDirivative", m_MecanumSub.getTest());
+        m_dashboardTelemetry.addData("time", m_MecanumSub.getTimer());
         if(isSlowmode) {
             m_MecanumSub.setMotorSpeeds(
                     m_forwardPower.getAsDouble() * 0.25,
@@ -73,7 +80,7 @@ public class TeleOpJoystickRobotCentricCMD extends CommandBase {
         else{
 
         m_MecanumSub.setMotorSpeeds(
-                m_forwardPower.getAsDouble(),
+                slewedSignal,
                 m_strafePower.getAsDouble(),
                 m_rotationPower.getAsDouble()
         );

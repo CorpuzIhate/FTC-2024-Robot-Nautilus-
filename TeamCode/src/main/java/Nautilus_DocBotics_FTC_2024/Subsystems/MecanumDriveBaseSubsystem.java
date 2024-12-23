@@ -170,17 +170,27 @@ public class MecanumDriveBaseSubsystem extends SubsystemBase {
         double deltaTime_seconds = slewRateTimer.seconds();
         double signalDerivative = ( joystickInput - previousInput)  / deltaTime_seconds;
 
-        if(Math.abs(joystickInput) < 1E-2){
+        if(Math.abs(joystickInput) < 1E-2){ // check if there
+            // is almost no input to the Joystick
             previousInput = 0;
             return  0;
         }
+//
+        if( Math.signum(joystickInput) != Math.signum(previousInput) ){ // check if the robot is turning
+            previousInput = 0;
+            return  0;
+        }
+
+
+
         if(Math.abs(signalDerivative) > Constants.teleOpConstants.teleOpSenstiivty) // if the absolute value of the
-            // joystick signal has greater than 0.5
-            // set the derivative of the signal to 0.5
+            // joystick signal has greater than teleOpSenstiivty
+            // set the derivative of the signal to teleOpSenstiivty
         {
 
-            //this returns a signal with a derivative = 0.5 and depends on the sign
-            slewedOutput = (Math.signum(signalDerivative) *  Constants.teleOpConstants.teleOpSenstiivty * deltaTime_seconds) + previousInput;
+            //this returns a signal with a derivative = teleOpSenstiivty and depends on the sign
+
+            slewedOutput = (Math.signum(joystickInput) *  Constants.teleOpConstants.teleOpSenstiivty * deltaTime_seconds) + previousInput;
 
 
             previousInput = slewedOutput;

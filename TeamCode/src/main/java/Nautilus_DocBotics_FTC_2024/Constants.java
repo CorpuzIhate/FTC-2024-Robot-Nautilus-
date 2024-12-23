@@ -6,9 +6,8 @@ import com.acmerobotics.dashboard.config.Config;
 public final class Constants{
     public static final class teleOpConstants {
         public static final double distanceSampleDetected = 5;
-        public static final double joystickSensitivity = 0.5;
 
-        public static final double teleOpSenstiivty = 0.5;
+        public static final double teleOpSenstiivty = 0.9;
 
 
     }

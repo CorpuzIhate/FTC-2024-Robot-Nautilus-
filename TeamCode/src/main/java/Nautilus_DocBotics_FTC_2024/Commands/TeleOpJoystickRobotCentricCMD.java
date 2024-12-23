@@ -55,32 +55,34 @@ public class TeleOpJoystickRobotCentricCMD extends CommandBase {
         m_dashboardTelemetry.addData("x_Pos", m_MecanumSub.getPosed2D().x);
         m_dashboardTelemetry.addData("y_Pos", m_MecanumSub.getPosed2D().y);
         m_dashboardTelemetry.addData("h_Pos", m_MecanumSub.getPosed2D().h);
-        //smooth inputs
-//        double smoothForwardPower =
-//                m_MecanumSub.smoothJoystickInputs(m_forwardPower.getAsDouble());
-//        double smoothStrafePower =
-//                m_MecanumSub.smoothJoystickInputs(m_strafePower.getAsDouble());
-//        double smoothRotationPower =
-//                m_MecanumSub.smoothJoystickInputs(m_rotationPower.getAsDouble()) * 0.5;
 
-       double slewedSignal = m_MecanumSub.slewRateLimiter(
-                m_forwardPower.getAsDouble());
+        double[] joystickInputs = {
+                m_forwardPower.getAsDouble(),
+                m_strafePower.getAsDouble(),
+                m_rotationPower.getAsDouble()
 
-        m_dashboardTelemetry.addData("forwardSignalSlewed",  slewedSignal);
+        };
+
+       double[] slewedSignal = m_MecanumSub.slewRateLimiter(
+               joystickInputs
+       );
+
+        m_dashboardTelemetry.addData("forwardSignalSlewed",  slewedSignal[0]);
         m_dashboardTelemetry.addData("forwardSignal", m_forwardPower.getAsDouble() );
+
         if(isSlowmode) {
             m_MecanumSub.setMotorSpeeds(
-                    m_forwardPower.getAsDouble() * 0.25,
-                    m_strafePower.getAsDouble() * 0.25,
-                    m_rotationPower.getAsDouble() * 0.25);
+                    joystickInputs[0] * 0.25,
+                    joystickInputs[1]* 0.25,
+                    joystickInputs[2] * 0.25);
 
         }
         else{
 
         m_MecanumSub.setMotorSpeeds(
-                slewedSignal,
-                0,
-                0
+                slewedSignal[0],
+                slewedSignal[1],
+                slewedSignal[2]
         );
 
         }

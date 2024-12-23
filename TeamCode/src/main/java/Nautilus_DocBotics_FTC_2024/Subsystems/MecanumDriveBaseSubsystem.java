@@ -16,7 +16,7 @@ public class MecanumDriveBaseSubsystem extends SubsystemBase {
     public final Motor m_FL, m_FR, m_BR, m_BL;
     private final SparkFunOTOS m_OTOS;
     private ElapsedTime slewRateTimer = new ElapsedTime();
-    private double previousInput = 0;
+    private double[] previousInput = {0,0,0};
     private double test;
 
 
@@ -164,43 +164,50 @@ public class MecanumDriveBaseSubsystem extends SubsystemBase {
 
     }
 
-    public double slewRateLimiter(double joystickInput ){
-        double slewedOutput;
+    public double[] slewRateLimiter(double[] joystickInput ){
+
 
         double deltaTime_seconds = slewRateTimer.seconds();
-        double signalDerivative = ( joystickInput - previousInput)  / deltaTime_seconds;
+        double[] signalDerivative = new double[3];
+        double[] slewedOutput = new double[3];
 
-        if(Math.abs(joystickInput) < 1E-2){ // check if there
-            // is almost no input to the Joystick
-            previousInput *= 0;
-            return  0;
-        }
-
-        if( Math.signum(joystickInput) != Math.signum(previousInput) && previousInput != 0){ // check if the robot is turning
-            previousInput *= -1;
-            return  previousInput;
-        }
+        for(int i = 0; i < 3; i++) {
+            signalDerivative[i] = (joystickInput[i] - previousInput[i]) / deltaTime_seconds;
 
 
+            if (Math.abs(joystickInput[i]) < 1E-2) { // check if there
+                // is almost no input to the Joystick
+                previousInput[i] = 0;
 
-        if(Math.abs(signalDerivative) > Constants.teleOpConstants.teleOpSenstiivty) // if the absolute value of the
+                slewedOutput[i] = 0;
+            }
+
+            if (Math.signum(joystickInput[i]) != Math.signum(previousInput[i]) && previousInput[i] != 0) { // check if the robot is turning
+                previousInput[i] = 0;
+                slewedOutput[i] = previousInput[i];
+            }
+
+
+            if (Math.abs(signalDerivative[i]) > Constants.teleOpConstants.teleOpSenstiivty) // if the absolute value of the
             // joystick signal has greater than teleOpSenstiivty
             // set the derivative of the signal to teleOpSenstiivty
-        {
+            {
 
-            //this returns a signal with a derivative = teleOpSenstiivty and depends on the sign
+                //this returns a signal with a derivative = teleOpSenstiivty and depends on the sign
 
-            slewedOutput = (Math.signum(joystickInput) *  Constants.teleOpConstants.teleOpSenstiivty * deltaTime_seconds) + previousInput;
+                slewedOutput[i] = (Math.signum(joystickInput[i]) * Constants.teleOpConstants.teleOpSenstiivty * deltaTime_seconds)
+                        + previousInput[i];
+
+                previousInput[i] = slewedOutput[i];
+                slewRateTimer.reset();
 
 
-            previousInput = slewedOutput;
+
+            }
             slewRateTimer.reset();
-            return slewedOutput;
-
-
+            slewedOutput[i] =  previousInput[i];
         }
-        slewRateTimer.reset();
-        return previousInput;
+        return slewedOutput;
     }
 
 

@@ -79,8 +79,8 @@ public class TeleOpJoystickRobotCentricCMD extends CommandBase {
 
         m_MecanumSub.setMotorSpeeds(
                 slewedSignal,
-                m_strafePower.getAsDouble(),
-                m_rotationPower.getAsDouble()
+                0,
+                0
         );
 
         }

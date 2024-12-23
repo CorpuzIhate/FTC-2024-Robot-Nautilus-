@@ -172,13 +172,13 @@ public class MecanumDriveBaseSubsystem extends SubsystemBase {
 
         if(Math.abs(joystickInput) < 1E-2){ // check if there
             // is almost no input to the Joystick
-            previousInput = 0;
+            previousInput *= 0;
             return  0;
         }
-//
-        if( Math.signum(joystickInput) != Math.signum(previousInput) ){ // check if the robot is turning
-            previousInput = 0;
-            return  0;
+
+        if( Math.signum(joystickInput) != Math.signum(previousInput) && previousInput != 0){ // check if the robot is turning
+            previousInput *= -1;
+            return  previousInput;
         }
 
 

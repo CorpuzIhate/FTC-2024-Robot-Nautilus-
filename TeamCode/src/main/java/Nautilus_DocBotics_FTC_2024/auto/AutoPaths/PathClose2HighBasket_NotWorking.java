@@ -44,7 +44,7 @@ public class PathClose2HighBasket_NotWorking extends AutoRobotContainer {
                 //moves forward and inputs sample into high basket
 
 
-                new MoveRobotEncoderXYCMD(-16,-16,0, 0.5,
+                new MoveRobotEncoderXYCMD(-14,-14,0, 0.5,
                         mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()),
                         // moves back and turns the robot +90 relative to robot
                 new MoveRobotEncoderXYCMD(30,-30,0, 0.35,
@@ -70,7 +70,7 @@ public class PathClose2HighBasket_NotWorking extends AutoRobotContainer {
                         new ParallelCommandGroup(
                                 new PowerVacuumAutoCMD(vacuumSubsystem,-1, continousVacuumServo,
                                         telemetryManagerSub.getTelemetryObject(), vacuumSensor, 3),
-                                new MoveRobotEncoderXYCMD(25,25,0, 0.5,
+                                new MoveRobotEncoderXYCMD(30,30,0, 0.9,
                                 mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject())
 
 
@@ -85,7 +85,7 @@ public class PathClose2HighBasket_NotWorking extends AutoRobotContainer {
                             shoulderSub.setSetpoint(Constants.ShoulderSetpoints.highBasketShoulderPos);
                             elbowSub.setSetpoint(Constants.ElbowSetpoints.highBasketElbowPos);
                         }),
-                        new MoveRobotEncoderXYCMD(-10,-10,0, 0.5,
+                        new MoveRobotEncoderXYCMD(-15,-15,0, 0.5,
                                 mecanumDriveBaseSub, telemetryManagerSub.getTelemetryObject()
                         ),
                         //robot extends arm back up and moves back again

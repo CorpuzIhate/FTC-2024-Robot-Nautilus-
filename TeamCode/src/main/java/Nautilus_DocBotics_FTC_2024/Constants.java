@@ -7,7 +7,7 @@ public final class Constants{
     public static final class teleOpConstants {
         public static final double distanceSampleDetected = 5;
 
-        public static final double teleOpSenstiivty = 0.9;
+        public static final double teleOpSenstiivty = 2;
 
 
     }
